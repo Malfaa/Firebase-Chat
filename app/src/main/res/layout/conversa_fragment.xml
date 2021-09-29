@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.ChatFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/conversaRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/distancia_recyclerview_mensagem"
+            tools:listitem="@layout/mensagem"
+            app:layout_constraintBottom_toTopOf="@+id/enviarBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/enviarBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="@dimen/edittext_margem_dimen"
+            android:text="@string/enviar"
+            app:cornerRadius="@dimen/raio_cantos_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mensagemEditText"
+            app:layout_constraintTop_toTopOf="@+id/mensagemEditText" />
+
+        <EditText
+            android:id="@+id/mensagemEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/edittext_margem_dimen"
+            android:layout_marginEnd="@dimen/edittext_margem_dimen"
+            android:layout_marginBottom="@dimen/edittext_margem_dimen"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="@string/mensagem_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/enviarBtn"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

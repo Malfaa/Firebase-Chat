@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/horaDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/mensagem_margem_dimensao"
+            android:layout_marginTop="@dimen/hora_margem_dimen"
+            android:text="@string/hora"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="87dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="@dimen/mensagem_margem_dimensao"
+            android:layout_marginEnd="@dimen/mensagem_margem_dimensao"
+            android:layout_marginBottom="@dimen/mensagem_margem_dimensao"
+            app:cardCornerRadius="@dimen/raio_cantos_mensagem"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horaDisplay">
+            <!--android:backgroundTint=""  valor altera de acordo com quem
+        está enviando-->
+            <TextView
+                android:id="@+id/conteudoDaMensagem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/raw_mensagem_margem_dimen"
+                android:layout_marginTop="@dimen/raw_mensagem_margem_dimen"
+                android:layout_marginEnd="@dimen/raw_mensagem_margem_dimen"
+                android:layout_marginBottom="@dimen/raw_mensagem_margem_dimen"
+                android:text="@string/mensagem_hint" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
