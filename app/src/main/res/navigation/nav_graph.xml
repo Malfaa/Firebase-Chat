@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/contatosFragment">
 
+    <fragment
+        android:id="@+id/contatosFragment"
+        android:name="com.malfaa.firebasechat.fragment.ContatosFragment"
+        android:label="ContatosFragment"
+        tools:layout="@layout/menu_conversas_fragment">
+        <action
+            android:id="@+id/action_contatosFragment_to_conversaFragment"
+            app:destination="@id/conversaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/conversaFragment"
+        android:name="com.malfaa.firebasechat.fragment.ConversaFragment"
+        android:label="ConversaFragment"
+        tools:layout="@layout/conversa_fragment"/>
 </navigation>

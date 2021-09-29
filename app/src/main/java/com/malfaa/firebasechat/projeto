@@ -1,9 +1,14 @@
-entender firebase, como receber e enviar mensagens
-fazer o room
-adapter
-preparar os layouts com os frag. e vm's
-como vai se comportar com qual lado tal pessoa fica quando envia a mensagem
-como navegar direto a conversa destinada
-testar com exemplos próprios do room(?)
-adicionar o firebase ao projeto
-firebase att o banco local
+[] entender firebase, como receber e enviar mensagens
+[] primeiro ver se localmente está funcionando, fazer testes locais antes de remoto
+[x] fazer o room
+[] adapter
+[x] preparar os layouts com os frag. e vm's
+[] como linkar duas pessoas para conversarem
+[] como vai se comportar com qual lado tal pessoa fica quando envia a mensagem
+[] como navegar direto a conversa destinada
+[] testar com exemplos próprios do room(?)
+[x] adicionar o firebase ao projeto
+[] firebase att o banco local
+[x] contatos fragment
+[] conversa fragment
+talvez colocar no banco de dados quem ta enviando, assim deslocar para a esquerda ou direita o textbox

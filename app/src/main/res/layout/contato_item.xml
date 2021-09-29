@@ -7,14 +7,14 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/pessoaItem"
+        android:id="@+id/contatoItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <!-- navegar até o item clicado || colocar mais info a
          respeito da ultima mensagem enviada na conversa -->
 
         <TextView
-            android:id="@+id/pessoaItemNome"
+            android:id="@+id/ContatoItemNome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/conversa_item_dimen"
