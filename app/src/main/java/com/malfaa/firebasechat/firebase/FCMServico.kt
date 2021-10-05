@@ -12,6 +12,10 @@ class FCMServico : FirebaseMessagingService() {
         // manage this apps subscriptions on the server side, send the
         // FCM registration token to your app server.
         //sendRegistrationToServer(token)
+        //https://firebase.google.com/docs/cloud-messaging/server?authuser=0
+        //https://firebase.google.com/docs/cloud-messaging/android/client?hl=pt-Br
+        //https://www.youtube.com/watch?v=7e554PnO0u8
+        //https://www.youtube.com/watch?v=0gFgdtTwFQM
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

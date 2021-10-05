@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
-import kotlinx.coroutines.flow.StateFlow
+import com.malfaa.firebasechat.room.entidades.Relacao
 
 @Dao
 interface MeuDao {
     //Contatos
     @Query("SELECT * FROM contatos")
-    fun receberContatos(): LiveData<List<ContatosEntidade>>
+    fun retornarContatos(): LiveData<List<ContatosEntidade>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun novoContato(nome: ContatosEntidade)
@@ -19,7 +19,7 @@ interface MeuDao {
     suspend fun atualizarContato(nome:ContatosEntidade)
 
     @Delete
-    suspend fun removerContato(nome: ContatosEntidade)
+    suspend fun removerContato(nome: ContatosEntidade) // quando deletar o contato, deletar a conversa tbm
 
     //Conversa
     @Query("SELECT * FROM conversa")
@@ -30,4 +30,12 @@ interface MeuDao {
 
     @Delete
     suspend fun deleterMensagem(mensagem: ConversaEntidade)
-}
+
+
+    //-------------------------------------------------------------------------------
+    @Transaction
+    @Query("SELECT * FROM conversa, contatos WHERE contato_id = contato")
+    fun getAllConversaFromContato(): LiveData<List<Relacao>> //alterar aqui
+
+
+}//    @Query("SELECT contato_id, mensagem_id,mensagem, horario, contato_nome FROM conversa, contatos WHERE contato_id = contato")

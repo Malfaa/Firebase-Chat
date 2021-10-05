@@ -1,45 +1,35 @@
 package com.malfaa.firebasechat.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.malfaa.firebasechat.room.MeuDao
-import com.malfaa.firebasechat.room.Repositorio
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ContatosViewModel(private val rep: MeuDao, context: Context) : ViewModel() {
-    //Coroutine ----------------------------------------------------------------------------------
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+class ContatosViewModel(private val meuDao: MeuDao, context: Context) : ViewModel() {
 
-    fun adicionaContato(contato: ContatosEntidade){
-        uiScope.launch {
-            rep.novoContato(contato)
-            onCleared()
-        }
-    }
+    //Coroutine ----------------------------------------------------------------------------------
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     fun removeContato(contato: ContatosEntidade){
         uiScope.launch {
-            rep.removerContato(contato)
+            meuDao.removerContato(contato)
             onCleared()
         }
     }
 
     fun atualizaContato(contato: ContatosEntidade){
         uiScope.launch {
-            rep.atualizarContato(contato)
+            meuDao.atualizarContato(contato)
             onCleared()
         }
-    }
+    } // todo talvez nova janela(?)
 
     //Navigation ----------------------------------------------------------------------------------
     private val _navegarAteAdicionar = MutableLiveData<Boolean>()
@@ -53,8 +43,20 @@ class ContatosViewModel(private val rep: MeuDao, context: Context) : ViewModel()
         _navegarAteAdicionar.value = false
     }
 
+    private val _navegarAteConversa = MutableLiveData<Boolean>()
+    val navegarAteConversa : LiveData<Boolean>
+        get() = _navegarAteConversa
+
+    fun irAteConversa(){
+        _navegarAteConversa.value = true
+    }
+
+    fun voltarDaConversa(){
+        _navegarAteConversa.value = false
+    }
+
     //Adapter ----------------------------------------------------------------------------------
-    val verificaRecyclerView = rep.receberContatos()
+    val verificaRecyclerView = meuDao.retornarContatos()
 
 
     override fun onCleared() {

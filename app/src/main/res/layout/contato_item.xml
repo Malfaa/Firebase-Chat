@@ -4,10 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.malfaa.firebasechat.viewmodel.ContatosViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contatoItem"
+        android:onClick="@{() -> viewModel.irAteConversa()}"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <!-- navegar até o item clicado || colocar mais info a
@@ -17,6 +21,7 @@
             android:id="@+id/ContatoItemNome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.irAteConversa()}"
             android:layout_marginStart="@dimen/conversa_item_dimen"
             android:layout_marginTop="@dimen/conversa_item_dimen"
             android:layout_marginEnd="@dimen/conversa_item_dimen"

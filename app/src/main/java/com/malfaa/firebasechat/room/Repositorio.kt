@@ -3,7 +3,7 @@ package com.malfaa.firebasechat.room
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import kotlinx.coroutines.flow.StateFlow
-
+/*
 class Repositorio(val meuDao: MeuDao): MeuDao {
     override fun receberContatos(): List<ContatosEntidade> {
         TODO("Not yet implemented")
@@ -32,4 +32,4 @@ class Repositorio(val meuDao: MeuDao): MeuDao {
     override suspend fun deleterMensagem(mensagem: ConversaEntidade) {
         TODO("Not yet implemented")
     }
-}
+}*/

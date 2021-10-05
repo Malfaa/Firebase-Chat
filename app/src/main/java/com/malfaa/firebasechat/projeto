@@ -1,7 +1,8 @@
 [] entender firebase, como receber e enviar mensagens
 [] primeiro ver se localmente está funcionando, fazer testes locais antes de remoto
 [x] fazer o room
-[] adapter
+[x] adapter contato
+[] adapter conversa
 [x] preparar os layouts com os frag. e vm's
 [] como linkar duas pessoas para conversarem
 [] como vai se comportar com qual lado tal pessoa fica quando envia a mensagem
@@ -12,3 +13,9 @@
 [x] contatos fragment
 [] conversa fragment
 talvez colocar no banco de dados quem ta enviando, assim deslocar para a esquerda ou direita o textbox
+
+
+RESOLVER PROBLEMA DE MEMORY LEAK - resolvido, causa era o "binding.lifecycleOwner = this",
+referenciava o view errado, causava leak
+
+RESOLVENDO BANCO DE DADOS TESTE, ARRUMAR EM MEUDAO OU RELACAO

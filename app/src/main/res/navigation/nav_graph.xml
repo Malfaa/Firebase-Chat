@@ -9,14 +9,22 @@
         android:id="@+id/contatosFragment"
         android:name="com.malfaa.firebasechat.fragment.ContatosFragment"
         android:label="ContatosFragment"
-        tools:layout="@layout/menu_conversas_fragment">
+        tools:layout="@layout/contatos_fragment">
         <action
             android:id="@+id/action_contatosFragment_to_conversaFragment"
             app:destination="@id/conversaFragment" />
+        <action
+            android:id="@+id/action_contatosFragment_to_adicionaContatoFragment"
+            app:destination="@id/adicionaContatoFragment" />
     </fragment>
     <fragment
         android:id="@+id/conversaFragment"
         android:name="com.malfaa.firebasechat.fragment.ConversaFragment"
         android:label="ConversaFragment"
         tools:layout="@layout/conversa_fragment"/>
+    <fragment
+        android:id="@+id/adicionaContatoFragment"
+        android:name="com.malfaa.firebasechat.fragment.AdicionaContatoFragment"
+        android:label="adiciona_contato_fragment"
+        tools:layout="@layout/adiciona_contato_fragment" />
 </navigation>

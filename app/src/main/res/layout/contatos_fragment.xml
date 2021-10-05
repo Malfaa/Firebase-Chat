@@ -19,6 +19,7 @@
             android:id="@+id/RVContatos"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,14 +34,14 @@
             android:layout_marginBottom="@dimen/float_dimen"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{() -> viewModel.irAteAdicionar()}"
             android:src="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="ContentDescription" />
 
         <!-- OnClick leva até o fragmento com a conversa
-         android:onClick="@{() -> viewModel.navegarAteAdcBt()}"-->
+         android:onClick="@{() -> viewModel.navegarAteAdcBt()}"            android:onClick="@{() -> viewModel.irAteAdicionar()}"
+-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
