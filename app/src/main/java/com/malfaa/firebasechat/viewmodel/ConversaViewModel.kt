@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class ConversaViewModel(private val meuDao: MeuDao, context: Context) : ViewModel() {
 
-    val recebeConversa = meuDao.receberConversa()
+    //val recebeConversa = meuDao.receberConversa()
 
     //Coroutine
     private val viewModelJob = Job()

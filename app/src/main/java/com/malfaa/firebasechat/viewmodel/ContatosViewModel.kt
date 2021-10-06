@@ -56,7 +56,7 @@ class ContatosViewModel(private val meuDao: MeuDao, context: Context) : ViewMode
     }
 
     //Adapter ----------------------------------------------------------------------------------
-    val verificaRecyclerView = meuDao.retornarContatos()
+    //val verificaRecyclerView = meuDao.retornarContatos()
 
 
     override fun onCleared() {

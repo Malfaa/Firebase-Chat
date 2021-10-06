@@ -11,14 +11,11 @@ import kotlinx.coroutines.launch
 class AdicionaContatoViewModel(private val meuDao: MeuDao) : ViewModel() {
 
 
-    //val getAllInfos = meuDao.getAllConversaFromContato()
-
-
     //Coroutine ----------------------------------------------------------------------------------
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    fun recebeContatos() = meuDao.retornarContatos()
+    fun recebeContatos() = uiScope.launch { meuDao.retornarContatos() }
 
     fun adicionaContato(contato: ContatosEntidade){
         uiScope.launch {

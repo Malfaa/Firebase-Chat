@@ -9,6 +9,7 @@ import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 
 @Database(entities = [ContatosEntidade::class, ConversaEntidade::class], version = 1, exportSchema = false)
 abstract class MeuDatabase: RoomDatabase() {
+
     abstract fun meuDao(): MeuDao
 
     private class DatabaseCallback : RoomDatabase.Callback()
@@ -23,7 +24,7 @@ abstract class MeuDatabase: RoomDatabase() {
                     context.applicationContext,
                     MeuDatabase::class.java,
                     "database"
-                ).addCallback(DatabaseCallback()).fallbackToDestructiveMigration().build()
+                ).addCallback(DatabaseCallback()).build()
                 INSTANCE = instance
                 instance
             })

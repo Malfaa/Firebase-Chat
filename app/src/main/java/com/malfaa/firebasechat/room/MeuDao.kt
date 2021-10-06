@@ -10,7 +10,7 @@ import com.malfaa.firebasechat.room.entidades.Relacao
 interface MeuDao {
     //Contatos
     @Query("SELECT * FROM contatos")
-    fun retornarContatos(): LiveData<List<ContatosEntidade>>
+    suspend fun retornarContatos(): List<ContatosEntidade>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun novoContato(nome: ContatosEntidade)
@@ -23,7 +23,7 @@ interface MeuDao {
 
     //Conversa
     @Query("SELECT * FROM conversa")
-    fun receberConversa(): LiveData<List<ConversaEntidade>>
+    suspend fun receberConversa(): List<ConversaEntidade>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun inserirMensagem(mensagem: ConversaEntidade)
@@ -33,9 +33,10 @@ interface MeuDao {
 
 
     //-------------------------------------------------------------------------------
-    @Transaction
     @Query("SELECT * FROM conversa, contatos WHERE contato_id = contato")
-    fun getAllConversaFromContato(): LiveData<List<Relacao>> //alterar aqui
+    suspend fun getAllConversaFromContato(): List<ContatosEntidade> //alterar aqui
 
 
 }//    @Query("SELECT contato_id, mensagem_id,mensagem, horario, contato_nome FROM conversa, contatos WHERE contato_id = contato")
+
+// MUDAR OS SUSPEND LIST PARA LIVEDATA E REMOVER SUSPEND

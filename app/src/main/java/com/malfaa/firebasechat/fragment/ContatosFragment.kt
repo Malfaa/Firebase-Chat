@@ -49,9 +49,9 @@ class ContatosFragment : Fragment() {
         val mAdapter = ContatosAdapter()
         binding.RVContatos.adapter = mAdapter
 
-        viewModel.verificaRecyclerView.observe(viewLifecycleOwner, {
-            mAdapter.submitList(it.toMutableList())
-        })
+//        viewModel.verificaRecyclerView.observe(viewLifecycleOwner, {
+//            mAdapter.submitList(it.toMutableList())
+//        })
 
 
         binding.adicaoNovoContato.setOnClickListener{
