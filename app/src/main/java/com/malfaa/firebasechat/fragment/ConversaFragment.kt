@@ -14,7 +14,7 @@ import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
 
-class ConversaFragment : Fragment(R.layout.conversa_fragment) {
+class ConversaFragment : Fragment() {
 
     private lateinit var viewModel: ConversaViewModel
     private lateinit var binding: ConversaFragmentBinding
@@ -43,6 +43,21 @@ class ConversaFragment : Fragment(R.layout.conversa_fragment) {
         SetupVariaveisIniciais()
 
         val mAdapter = ConversaAdapter()
+        binding.conversaRecyclerView.adapter = mAdapter
+
+        viewModel.recebeConversa.observe(viewLifecycleOwner, {
+            mAdapter.submitList(it.toMutableList())
+        })
+
+
+        //todo pesquisar como receber o ID do contato clicado, talvez usando safeargs e nisso ele recolhe
+        //     o valor. Quando o valor da var contato_id:Long for passado para cá, usar em "adicionandoMensangem"
+        //     logo abaixo.
+//        binding.enviarBtn.setOnClickListener{
+//            viewModel.adicionandoMensagem().apply {
+//
+//            }
+//        }
         
     }
 }

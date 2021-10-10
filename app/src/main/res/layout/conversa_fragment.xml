@@ -20,6 +20,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/distancia_recyclerview_mensagem"
             tools:listitem="@layout/mensagem"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/enviarBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

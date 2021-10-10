@@ -49,10 +49,9 @@ class ContatosFragment : Fragment() {
         val mAdapter = ContatosAdapter()
         binding.RVContatos.adapter = mAdapter
 
-//        viewModel.verificaRecyclerView.observe(viewLifecycleOwner, {
-//            mAdapter.submitList(it.toMutableList())
-//        })
-
+        viewModel.verificaRecyclerView.observe(viewLifecycleOwner, {
+            mAdapter.submitList(it.toMutableList())
+        })
 
         binding.adicaoNovoContato.setOnClickListener{
             findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
@@ -61,9 +60,14 @@ class ContatosFragment : Fragment() {
 
         viewModel.navegarAteConversa.observe(viewLifecycleOwner, {
             this.findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToConversaFragment())
-            viewModel.voltarDaConversa()
+            viewModel.voltarDaConversa() //todo quando clicado aqui, no contato p/ ir até a conversa
+                                         //     o recyclerView irá receber os valores adequandos ao id
+                                         //      utilizado para conversar
         })
     }
 }
 //W/DataBinding: Setting the fragment as the LifecycleOwner might cause memory leaks because
 // views lives shorter than the Fragment. Consider using Fragment's view lifecycle
+// resolve se remover o [binding.lifecycleOwner = this] que gera esses leaks de memória
+
+//viewModel.navegarAteConversa.observe(viewLifecycleOwner, {

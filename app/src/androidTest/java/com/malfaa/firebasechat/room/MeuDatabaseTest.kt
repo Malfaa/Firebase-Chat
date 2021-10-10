@@ -1,10 +1,8 @@
 package com.malfaa.firebasechat.room
 
 import android.content.Context
-import androidx.lifecycle.asFlow
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
@@ -20,6 +18,14 @@ class MeuDatabaseTest : TestCase() {
     private lateinit var database: MeuDatabase
     private lateinit var dao: MeuDao
     private lateinit var vm: AdicionaContatoViewModel
+
+    //--------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------
+    //              ALTERAR O MEUDAO P/ LIST COMUM, SEM SER LIVEDATA = TESTE NÃO BUGA
+    //--------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------
 
     @Before
     public override fun setUp() {
@@ -48,7 +54,10 @@ class MeuDatabaseTest : TestCase() {
 
     @Test
     fun mensagens() = runBlocking{
-        val teste = ConversaEntidade("alo", 0)
+        val contatoTeste = ContatosEntidade("teste")
+        val teste = ConversaEntidade(contatoTeste).apply {
+            mensagem = "teste"
+        }
 
         dao.inserirMensagem(teste)
 
@@ -59,16 +68,19 @@ class MeuDatabaseTest : TestCase() {
 
     @Test
     fun contatoRecebeMensagem() = runBlocking{
-        val conversa = ConversaEntidade("alo", 0)
         val contato = ContatosEntidade("jan")
+        val conversa = ConversaEntidade(contato).apply {
+            mensagem = "testando duas tabelas"
+        }
 
         dao.novoContato(contato)
         dao.inserirMensagem(conversa)
 
-        val item = dao.getAllConversaFromContato()
+        //mmudar aq
+        val item = dao.receberConversa()
 
         assertEquals(item[0], conversa)
-        assertEquals(item[0], contato)
+        assertEquals(item[0].contatosConversaIds, contato)
     }
 }
 //verificar ligacao, estudar melhor método para link entre contato e conversa
