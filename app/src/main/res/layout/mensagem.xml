@@ -4,12 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.malfaa.firebasechat.viewmodel.ConversaViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/pacoteDaMensagem"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <!-- alterei width para match -->
 
         <TextView
             android:id="@+id/horaDisplay"
@@ -18,25 +23,25 @@
             android:layout_marginStart="@dimen/mensagem_margem_dimensao"
             android:layout_marginTop="@dimen/hora_margem_dimen"
             android:text="@string/hora"
+            app:setHorario="@{viewModel.setHorarioMensagem}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/mensagem"
             android:layout_width="87dp"
             android:layout_height="53dp"
             android:layout_marginStart="@dimen/mensagem_margem_dimensao"
-            android:layout_marginEnd="@dimen/mensagem_margem_dimensao"
             android:layout_marginBottom="@dimen/mensagem_margem_dimensao"
             app:cardCornerRadius="@dimen/raio_cantos_mensagem"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/horaDisplay">
             <!--android:backgroundTint=""  valor altera de acordo com quem
         está enviando-->
             <TextView
                 android:id="@+id/conteudoDaMensagem"
-                android:layout_width="wrap_content"
+                android:layout_width="51dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/raw_mensagem_margem_dimen"
                 android:layout_marginTop="@dimen/raw_mensagem_margem_dimen"

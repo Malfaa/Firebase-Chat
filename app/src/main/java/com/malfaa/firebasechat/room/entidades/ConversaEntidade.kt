@@ -13,7 +13,7 @@ data class ConversaEntidade(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "mensagem_id")
-    var id: Long = 0
+    var id: Long = 1
 
     @ColumnInfo(name = "horario")
     var horario: String = ""

@@ -1,6 +1,8 @@
 package com.malfaa.firebasechat.viewmodel
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
@@ -8,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 class ConversaViewModel(private val meuDao: MeuDao, context: Context) : ViewModel() {
 
@@ -22,6 +25,10 @@ class ConversaViewModel(private val meuDao: MeuDao, context: Context) : ViewMode
             meuDao.inserirMensagem(mensagem)
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    val setHorarioMensagem: LocalDateTime = LocalDateTime.now()
+
 
     override fun onCleared() {
         super.onCleared()

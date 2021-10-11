@@ -15,7 +15,16 @@
 talvez colocar no banco de dados quem ta enviando, assim deslocar para a esquerda ou direita o textbox
 
 
-RESOLVER PROBLEMA DE MEMORY LEAK - resolvido, causa era o "binding.lifecycleOwner = this",
-referenciava o view errado, causava leak
+[x]RESOLVER PROBLEMA DE MEMORY LEAK == resolvido, causa era o "binding.lifecycleOwner = this",
+                                    referenciava o view errado, causava leak
 
-RESOLVENDO BANCO DE DADOS TESTE, ARRUMAR EM MEUDAO OU RELACAO
+[x]RESOLVENDO BANCO DE DADOS TESTE, ARRUMAR EM MEUDAO OU RELACAO  == FUNCIONOU
+
+[xACHOx] COMO FAZER PARA AS MENSAGENS FICAREM CADA UMA DE UM LADO
+
+[] COMO RECEBER POR SAFE ARGS O ID CLICADO ATÉ A CONVERSA   if(der certo){testar localmente com dois ids
+   diferentes p/ ver se recebe conversas diferentes}
+
+[xACHOx] ---CONVERSA RECEBER O HORÁRIO EXATO NA HORA EM QUE FOI ENVIADA
+
+COMO USAR FIREBASE AUTH

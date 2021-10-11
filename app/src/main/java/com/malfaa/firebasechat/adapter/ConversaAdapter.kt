@@ -1,8 +1,10 @@
 package com.malfaa.firebasechat.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -49,7 +51,26 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        val mConstraintSet = ConstraintSet()
+
+        if (item.contatosConversaIds.id.toInt() == 0){
+            holder.binding.mensagem.setBackgroundColor(Color.GRAY)
+
+            //--------------------------------------------------------------------------------------_
+            //Troca de lado a mensagem que foi enviada
+            mConstraintSet.clone(holder.binding.pacoteDaMensagem)
+            mConstraintSet.clear(holder.binding.horaDisplay.id, ConstraintSet.START)
+            mConstraintSet.connect(holder.binding.horaDisplay.id, ConstraintSet.END, ConstraintSet.END,0)
+            mConstraintSet.clear(holder.binding.mensagem.id, ConstraintSet.START)
+            mConstraintSet.connect(holder.binding.mensagem.id, ConstraintSet.END, ConstraintSet.END,0)
+            mConstraintSet.applyTo(holder.binding.pacoteDaMensagem)
+
+            //--------------------------------------------------------------------------------------_
+            holder.bind(item)
+        }else{
+            holder.bind(item)
+        }
+
 
     }
 
