@@ -22,9 +22,12 @@ talvez colocar no banco de dados quem ta enviando, assim deslocar para a esquerd
 
 [xACHOx] COMO FAZER PARA AS MENSAGENS FICAREM CADA UMA DE UM LADO
 
-[] COMO RECEBER POR SAFE ARGS O ID CLICADO ATÉ A CONVERSA   if(der certo){testar localmente com dois ids
+[xACHOx] COMO RECEBER POR SAFE ARGS O ID CLICADO ATÉ A CONVERSA   if(der certo){testar localmente com dois ids
    diferentes p/ ver se recebe conversas diferentes}
 
 [xACHOx] ---CONVERSA RECEBER O HORÁRIO EXATO NA HORA EM QUE FOI ENVIADA
+
+[ ] ARRUMAR O ADICIONAR E TESTAR CONTEÚDO ATÉ AGORA
+
 
 COMO USAR FIREBASE AUTH

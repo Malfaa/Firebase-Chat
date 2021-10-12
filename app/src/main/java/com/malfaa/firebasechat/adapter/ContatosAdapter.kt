@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.ContatoItemBinding
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import com.malfaa.firebasechat.setNome
 
 class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>(MenuConversaDiffCallBack()){
 

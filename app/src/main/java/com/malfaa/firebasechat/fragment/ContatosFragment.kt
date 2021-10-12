@@ -59,7 +59,7 @@ class ContatosFragment : Fragment() {
         }
 
         viewModel.navegarAteConversa.observe(viewLifecycleOwner, {
-            this.findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToConversaFragment())
+            this.findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToConversaFragment(mAdapter.getItemId(id))) //teste  aqui NOVO
             viewModel.voltarDaConversa() //todo quando clicado aqui, no contato p/ ir até a conversa
                                          //     o recyclerView irá receber os valores adequandos ao id
                                          //      utilizado para conversar

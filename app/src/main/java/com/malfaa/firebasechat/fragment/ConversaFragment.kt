@@ -20,6 +20,12 @@ class ConversaFragment : Fragment() {
     private lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
 
+    //NOVO
+    fun newInstance(): Bundle? {
+        return arguments
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +47,7 @@ class ConversaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         SetupVariaveisIniciais()
+
 
         val mAdapter = ConversaAdapter()
         binding.conversaRecyclerView.adapter = mAdapter

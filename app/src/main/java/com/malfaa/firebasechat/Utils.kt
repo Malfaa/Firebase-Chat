@@ -1,7 +1,7 @@
 package com.malfaa.firebasechat
 
 import android.annotation.SuppressLint
-import android.os.Build
+import android.text.Editable
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
@@ -26,6 +26,10 @@ fun TextView.setHorario(horario: LocalDateTime){
     text = converteLongParaString(horario)
 }
 
+@BindingAdapter("setNome")
+fun TextView.setNome(nome: String){
+    text = nome
+}
 
 fun NavController.safeNavigate(direction: NavDirections) {
     currentDestination?.getAction(direction.actionId)?.run { navigate(direction) }

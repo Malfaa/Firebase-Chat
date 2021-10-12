@@ -12,10 +12,16 @@
         tools:layout="@layout/contatos_fragment">
         <action
             android:id="@+id/action_contatosFragment_to_conversaFragment"
-            app:destination="@id/conversaFragment" />
+            app:destination="@id/conversaFragment">
+            <argument
+                android:name="contato_id"
+                app:argType="long" />
+        </action>
+
         <action
             android:id="@+id/action_contatosFragment_to_adicionaContatoFragment"
             app:destination="@id/adicionaContatoFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/conversaFragment"

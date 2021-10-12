@@ -1,5 +1,6 @@
 package com.malfaa.firebasechat.room
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
@@ -21,8 +22,13 @@ interface MeuDao {
     suspend fun removerContato(nome: ContatosEntidade) // quando deletar o contato, deletar a conversa tbm
 
     //Conversa
-    @Query("SELECT * FROM conversa")
-    fun receberConversa(): LiveData<List<ConversaEntidade>>
+//    @Query("SELECT * FROM conversa")
+//    fun receberConversa(): LiveData<List<ConversaEntidade>>
+
+    //TESTE NOVO
+    @Query("SELECT * FROM conversa WHERE contato_id = :id")
+    //fun receberConversa(id: Bundle?): LiveData<List<ConversaEntidade>>
+    fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
 
     @Insert
     suspend fun inserirMensagem(mensagem: ConversaEntidade)

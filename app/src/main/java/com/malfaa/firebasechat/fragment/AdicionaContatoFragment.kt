@@ -6,14 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.AdicionaContatoFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
+import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import com.malfaa.firebasechat.setNome
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.AdicionaContatoViewModelFactory
-import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 
 class AdicionaContatoFragment : Fragment() {
 
@@ -36,6 +37,7 @@ class AdicionaContatoFragment : Fragment() {
         val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
         viewModelFactory = AdicionaContatoViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[AdicionaContatoViewModel::class.java]
+        binding.viewModel = viewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +45,17 @@ class AdicionaContatoFragment : Fragment() {
 
         SetupVariaveisIniciais()
 
-        binding.viewModel = viewModel
+        binding.adicionarContato.setOnClickListener{
+            viewModel.adicionaContato(ContatosEntidade(binding.contatoNome.setNome(binding.contatoNome.text.toString()) // AQUI
+                .toString()))
+            binding.contatoNome.setText("")
+            Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
+        }
+
+        /*E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: com.malfaa.firebasechat, PID: 2734
+    java.lang.NullPointerException: Parameter specified as non-null is null: method kotlin.jvm.internal.Intrinsics.checkNotNullParameter, parameter nome
+        at com.malfaa.firebasechat.UtilsKt.setNome(Utils.kt)*/
 
 
     }

@@ -15,6 +15,7 @@ class AdicionaContatoViewModel(private val meuDao: MeuDao) : ViewModel() {
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    //Testa Database
     fun recebeContatos() = uiScope.launch { meuDao.retornarContatos() }
 
     fun adicionaContato(contato: ContatosEntidade){

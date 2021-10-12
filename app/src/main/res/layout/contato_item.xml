@@ -5,32 +5,36 @@
 
     <data>
         <variable
+            name="item"
+            type="com.malfaa.firebasechat.room.entidades.ContatosEntidade" />
+        <variable
             name="viewModel"
             type="com.malfaa.firebasechat.viewmodel.ContatosViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contatoItem"
-        android:onClick="@{() -> viewModel.irAteConversa()}"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <!-- navegar até o item clicado || colocar mais info a
-         respeito da ultima mensagem enviada na conversa -->
+         respeito da ultima mensagem enviada na conversa
+
+         android:onClick="@{() -> viewModel.irAteConversa()}"
+
+         -->
 
         <TextView
             android:id="@+id/ContatoItemNome"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.irAteConversa()}"
-            android:layout_marginStart="@dimen/conversa_item_dimen"
-            android:layout_marginTop="@dimen/conversa_item_dimen"
-            android:layout_marginEnd="@dimen/conversa_item_dimen"
-            android:layout_marginBottom="@dimen/conversa_item_dimen"
+            android:layout_marginStart="@dimen/contato_item_dimen"
+            android:layout_marginTop="@dimen/contato_item_dimen"
+            android:layout_marginBottom="@dimen/contato_item_dimen"
             android:hint="@string/nomeConversa"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:setNome="@{item.nome}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -52,7 +52,7 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         val mConstraintSet = ConstraintSet()
-
+// mudar aqui pra receber o valor correto do id?
         if (item.contatosConversaIds.id.toInt() == 0){
             holder.binding.mensagem.setBackgroundColor(Color.GRAY)
 
