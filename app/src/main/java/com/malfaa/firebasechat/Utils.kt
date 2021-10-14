@@ -1,16 +1,13 @@
 package com.malfaa.firebasechat
 
 import android.annotation.SuppressLint
-import android.text.Editable
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import com.malfaa.firebasechat.room.entidades.ConversaEntidade
+import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.util.*
 
 
 @SuppressLint("SimpleDateFormat")
@@ -27,8 +24,8 @@ fun TextView.setHorario(horario: LocalDateTime){
 }
 
 @BindingAdapter("setNome")
-fun TextView.setNome(nome: String){
-    text = nome
+fun TextView.setNome(item: ContatosEntidade){
+    text = item.nome
 }
 
 fun NavController.safeNavigate(direction: NavDirections) {

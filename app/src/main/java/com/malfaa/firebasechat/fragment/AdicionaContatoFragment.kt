@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.AdicionaContatoFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
@@ -46,10 +47,11 @@ class AdicionaContatoFragment : Fragment() {
         SetupVariaveisIniciais()
 
         binding.adicionarContato.setOnClickListener{
-            viewModel.adicionaContato(ContatosEntidade(binding.contatoNome.setNome(binding.contatoNome.text.toString()) // AQUI
-                .toString()))
-            binding.contatoNome.setText("")
+            viewModel.adicionaContato(ContatosEntidade(binding.contatoNome.text.toString())) // AQUI binding.contatoNome.setNome(binding.contatoNome.text.toString()
+
+            //binding.contatoNome.setText("")
             Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
+            this.findNavController().navigate(AdicionaContatoFragmentDirections.actionAdicionaContatoFragmentToContatosFragment())
         }
 
         /*E/AndroidRuntime: FATAL EXCEPTION: main

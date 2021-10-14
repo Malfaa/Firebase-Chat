@@ -32,5 +32,9 @@
         android:id="@+id/adicionaContatoFragment"
         android:name="com.malfaa.firebasechat.fragment.AdicionaContatoFragment"
         android:label="adiciona_contato_fragment"
-        tools:layout="@layout/adiciona_contato_fragment" />
+        tools:layout="@layout/adiciona_contato_fragment" >
+        <action
+            android:id="@+id/action_adicionaContatoFragment_to_contatosFragment"
+            app:destination="@id/contatosFragment" />
+    </fragment>
 </navigation>

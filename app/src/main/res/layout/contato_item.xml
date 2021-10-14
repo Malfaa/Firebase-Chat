@@ -14,6 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contatoItem"
+        android:background="@color/usage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <!-- navegar até o item clicado || colocar mais info a
@@ -22,19 +23,17 @@
          android:onClick="@{() -> viewModel.irAteConversa()}"
 
          -->
-
         <TextView
-            android:id="@+id/ContatoItemNome"
+            android:id="@+id/contatoItemNome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/contato_item_dimen"
             android:layout_marginTop="@dimen/contato_item_dimen"
             android:layout_marginBottom="@dimen/contato_item_dimen"
-            android:hint="@string/nomeConversa"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setNome="@{item.nome}" />
+            app:setNome="@{item}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

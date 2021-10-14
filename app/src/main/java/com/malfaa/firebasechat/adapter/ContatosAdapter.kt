@@ -1,20 +1,23 @@
 package com.malfaa.firebasechat.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.ContatoItemBinding
+import com.malfaa.firebasechat.fragment.ContatosFragment
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import com.malfaa.firebasechat.setNome
+import kotlin.math.log
 
 class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>(MenuConversaDiffCallBack()){
 
     class ViewHolder private constructor(val binding: ContatoItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(item: ContatosEntidade){
-            binding.ContatoItemNome.text = item.nome
+        fun bind(item : ContatosEntidade){
+            binding.item = item
+            binding.executePendingBindings()
         }
         companion object{
             fun from(parent: ViewGroup):ViewHolder{
@@ -30,7 +33,7 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
             oldItem: ContatosEntidade,
             newItem: ContatosEntidade
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         @SuppressLint("DiffUtilEquals")
@@ -51,6 +54,11 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         val item = getItem(position)
         holder.bind(item)
 
+        holder.binding.contatoItem.setOnClickListener{
+            ContatosFragment.newInstance?.value = true
+            Log.d("testaClick", "contato item foi clicado")
+        }
+        // PRÓXIMA ETAPA É REALIZAR O CLICK NA TELA DE CONTATOS P/ IR ATÉ A CONVERSA
     }
 
 }

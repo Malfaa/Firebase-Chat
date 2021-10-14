@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "contatos")
 data class ContatosEntidade(
-    @ColumnInfo(name = "contato_nome")
     var nome: String
 ){
     @PrimaryKey(autoGenerate = true)
