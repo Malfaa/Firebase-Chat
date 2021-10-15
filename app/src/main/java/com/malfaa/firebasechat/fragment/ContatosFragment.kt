@@ -1,12 +1,12 @@
 package com.malfaa.firebasechat.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.malfaa.firebasechat.R
@@ -18,10 +18,6 @@ import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 
 class ContatosFragment : Fragment() {
-
-    companion object {
-        var newInstance: MutableLiveData<Boolean>? = null
-    }
 
     private lateinit var viewModel: ContatosViewModel
     private lateinit var binding: ContatosFragmentBinding
@@ -62,11 +58,14 @@ class ContatosFragment : Fragment() {
             viewModel.voltarDeAdicionar()
         }
 
-        newInstance?.observe(viewLifecycleOwner, {
-            this.findNavController().safeNavigate(
-                ContatosFragmentDirections.actionContatosFragmentToConversaFragment(
-                    mAdapter.getItemId(id))) //teste  aqui NOVO
-            viewModel.voltarDaConversa()
+        ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
+            Log.d("Teste","Esta sendo chamado o observe")
+            Log.d("Id","${mAdapter.itemCount}")
+            val argumento:Int = mAdapter.itemCount
+            this.findNavController().navigate(
+                ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)) //teste  aqui NOVO //mAdapter.getItemId(id))
+
+            //viewModel.voltarDaConversa()
         })
     }
 }

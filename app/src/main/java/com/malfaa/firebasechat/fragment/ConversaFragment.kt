@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
@@ -21,9 +22,7 @@ class ConversaFragment : Fragment() {
     private lateinit var viewModelFactory: ConversaViewModelFactory
 
     //NOVO
-    fun newInstance(): Bundle? {
-        return arguments
-    }
+    val args = ConversaFragmentArgs.fromBundle(requireArguments())
 
 
     override fun onCreateView(

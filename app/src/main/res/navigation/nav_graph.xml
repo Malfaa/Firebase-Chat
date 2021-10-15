@@ -13,21 +13,23 @@
         <action
             android:id="@+id/action_contatosFragment_to_conversaFragment"
             app:destination="@id/conversaFragment">
-            <argument
-                android:name="contato_id"
-                app:argType="long" />
         </action>
-
         <action
             android:id="@+id/action_contatosFragment_to_adicionaContatoFragment"
             app:destination="@id/adicionaContatoFragment" />
 
     </fragment>
+
     <fragment
         android:id="@+id/conversaFragment"
         android:name="com.malfaa.firebasechat.fragment.ConversaFragment"
         android:label="ConversaFragment"
-        tools:layout="@layout/conversa_fragment"/>
+        tools:layout="@layout/conversa_fragment">
+        <argument
+            android:name="contato_id"
+            app:argType="integer" />
+    </fragment>
+
     <fragment
         android:id="@+id/adicionaContatoFragment"
         android:name="com.malfaa.firebasechat.fragment.AdicionaContatoFragment"
@@ -37,4 +39,5 @@
             android:id="@+id/action_adicionaContatoFragment_to_contatosFragment"
             app:destination="@id/contatosFragment" />
     </fragment>
+
 </navigation>

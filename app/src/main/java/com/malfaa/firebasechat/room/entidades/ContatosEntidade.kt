@@ -10,7 +10,7 @@ data class ContatosEntidade(
 ){
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "contato_id")
-    var id: Long = 0
+    var id: Int = 0
 
     //como salvar o contato assim vindo pelo google funcionaria?
 
