@@ -25,13 +25,12 @@
         android:name="com.malfaa.firebasechat.fragment.ConversaFragment"
         android:label="ConversaFragment"
         tools:layout="@layout/conversa_fragment">
-        <argument
-            android:name="contato_id"
-            app:argType="integer"
-            android:defaultValue="1"/>
         <action
             android:id="@+id/action_conversaFragment_to_contatosFragment"
             app:destination="@id/contatosFragment" />
+        <argument
+            android:name="contato_id"
+            app:argType="integer" />
     </fragment>
 
     <fragment

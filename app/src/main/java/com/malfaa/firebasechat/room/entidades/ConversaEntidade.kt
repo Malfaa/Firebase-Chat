@@ -8,6 +8,8 @@ data class ConversaEntidade(
     val contatosConversaIds : ContatosEntidade
 
 ){
+// TODO: 20/10/2021 talvez colocar um id_user para sinalizar quem enviou/recebeu?
+
     var mensagem: String = ""
 
     @PrimaryKey(autoGenerate = true)

@@ -67,14 +67,13 @@ class ContatosFragment : Fragment() {
 
             val argumento = ContatosAdapter.idItem.id
 
-// PROBLEMA AQUIIIIIIIIIIIIIIIIIIIIIIIIIII  FRAGMENT CONVERSAFRAGMENT HAS NULL ARGUMENTS
-
+            // TODO: 20/10/2021 Layout precisa ser aprimorado
             findNavController().navigate(
-                ContatosFragmentDirections.actionContatosFragmentToConversaFragment()
-                    .setContatoId(argumento)
+                ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
             )
 
             //viewModel.voltarDaConversa()
         })
     }
+
 }

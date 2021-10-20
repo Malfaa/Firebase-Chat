@@ -25,10 +25,13 @@ interface MeuDao {
 //    @Query("SELECT * FROM conversa")
 //    fun receberConversa(): LiveData<List<ConversaEntidade>>
 
-    //TESTE NOVO
     @Query("SELECT * FROM conversa WHERE contato_id = :id")
-    //fun receberConversa(id: Bundle?): LiveData<List<ConversaEntidade>>
     fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
+
+    //dummy
+    @Query("SELECT * FROM conversa")
+    fun teste(): LiveData<List<ConversaEntidade>>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun inserirMensagem(mensagem: ConversaEntidade)

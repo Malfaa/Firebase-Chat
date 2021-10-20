@@ -65,5 +65,4 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         }
         // PRÓXIMA ETAPA É REALIZAR O CLICK NA TELA DE CONTATOS P/ IR ATÉ A CONVERSA
     }
-
 }

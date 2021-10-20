@@ -9,13 +9,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.MensagemBinding
+import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 
 class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
 
+
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: ConversaEntidade){
-            item.mensagem = binding.conteudoDaMensagem.toString()
+            item.mensagem = item.mensagem //teste
             item.horario = binding.horaDisplay.toString()
 
         }
@@ -52,8 +54,9 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         val mConstraintSet = ConstraintSet()
-// mudar aqui pra receber o valor correto do id?
-        if (item.contatosConversaIds.id.toInt() == 0){
+
+        // FIXME: 20/10/2021 esse não funciona
+        if (item.contatosConversaIds.id == 0){
             holder.binding.mensagem.setBackgroundColor(Color.GRAY)
 
             //--------------------------------------------------------------------------------------_
@@ -71,9 +74,8 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
         }else{
             holder.bind(item)
         }
-
-
     }
+// FIXME: 20/10/2021 corrigir lado, string e hora da mensagem
 
 }
 //Colocar no adapter um IF antes de setar no view as configs, assim observando o SEND ele troca os layouts
