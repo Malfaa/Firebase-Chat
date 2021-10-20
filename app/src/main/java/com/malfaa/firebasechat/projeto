@@ -31,3 +31,9 @@ talvez colocar no banco de dados quem ta enviando, assim deslocar para a esquerd
 
 
 COMO USAR FIREBASE AUTH
+
+***
+receber o argumento [x],
+depois passar o argumento para o COnversaFragment, e assim o argumento é
+usado para filtrar no database as mensagens compativeis com o id associado
+***

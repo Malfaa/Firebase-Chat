@@ -30,7 +30,7 @@ interface MeuDao {
     //fun receberConversa(id: Bundle?): LiveData<List<ConversaEntidade>>
     fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun inserirMensagem(mensagem: ConversaEntidade)
 
     @Delete

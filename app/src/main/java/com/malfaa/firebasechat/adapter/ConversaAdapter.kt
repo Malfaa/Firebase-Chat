@@ -58,6 +58,7 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
 
             //--------------------------------------------------------------------------------------_
             //Troca de lado a mensagem que foi enviada
+
             mConstraintSet.clone(holder.binding.pacoteDaMensagem)
             mConstraintSet.clear(holder.binding.horaDisplay.id, ConstraintSet.START)
             mConstraintSet.connect(holder.binding.horaDisplay.id, ConstraintSet.END, ConstraintSet.END,0)

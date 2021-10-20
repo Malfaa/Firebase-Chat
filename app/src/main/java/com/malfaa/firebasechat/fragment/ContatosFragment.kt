@@ -16,6 +16,7 @@ import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
+import kotlin.Exception
 
 class ContatosFragment : Fragment() {
 
@@ -39,6 +40,7 @@ class ContatosFragment : Fragment() {
         viewModelFactory = ContatosViewModelFactory(dataSource, requireContext())
         viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
         binding.viewModel = viewModel
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,17 +62,19 @@ class ContatosFragment : Fragment() {
 
         ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
             Log.d("Teste","Esta sendo chamado o observe")
-            Log.d("Id","${mAdapter.itemCount}")
-            val argumento:Int = mAdapter.itemCount
-            this.findNavController().navigate(
-                ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)) //teste  aqui NOVO //mAdapter.getItemId(id))
+            Log.d("Lista","${mAdapter.currentList}")
+            Log.d("Id","${ContatosAdapter.idItem.id}")
+
+            val argumento = ContatosAdapter.idItem.id
+
+// PROBLEMA AQUIIIIIIIIIIIIIIIIIIIIIIIIIII  FRAGMENT CONVERSAFRAGMENT HAS NULL ARGUMENTS
+
+            findNavController().navigate(
+                ContatosFragmentDirections.actionContatosFragmentToConversaFragment()
+                    .setContatoId(argumento)
+            )
 
             //viewModel.voltarDaConversa()
         })
     }
 }
-//todo quando clicado aqui, no contato p/ ir até a conversa
-//     o recyclerView irá receber os valores adequandos ao id
-//      utilizado para conversar
-
-//viewModel.navegarAteConversa.observe(viewLifecycleOwner, {

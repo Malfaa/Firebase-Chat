@@ -8,7 +8,6 @@ data class ConversaEntidade(
     val contatosConversaIds : ContatosEntidade
 
 ){
-    @ColumnInfo(name = "mensagem")
     var mensagem: String = ""
 
     @PrimaryKey(autoGenerate = true)

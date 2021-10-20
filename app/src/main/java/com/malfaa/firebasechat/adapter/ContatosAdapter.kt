@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.ContatoItemBinding
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import kotlin.properties.Delegates
 
 class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>(MenuConversaDiffCallBack()){
     companion object {
         private val _usuarioDestino = MutableLiveData<Boolean>()
         val usuarioDestino: LiveData<Boolean>
             get() = _usuarioDestino
-
+        lateinit var idItem : ContatosEntidade
     }
 
     class ViewHolder private constructor(val binding: ContatoItemBinding): RecyclerView.ViewHolder(binding.root){
@@ -38,7 +39,7 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
             oldItem: ContatosEntidade,
             newItem: ContatosEntidade
         ): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
 
         @SuppressLint("DiffUtilEquals")
@@ -58,8 +59,8 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-
         holder.binding.contatoItem.setOnClickListener{
+            idItem = item
             _usuarioDestino.value = true
         }
         // PRÓXIMA ETAPA É REALIZAR O CLICK NA TELA DE CONTATOS P/ IR ATÉ A CONVERSA

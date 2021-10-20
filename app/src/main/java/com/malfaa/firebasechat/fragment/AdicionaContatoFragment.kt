@@ -22,12 +22,13 @@ class AdicionaContatoFragment : Fragment() {
     private lateinit var viewModel: AdicionaContatoViewModel
     private lateinit var binding: AdicionaContatoFragmentBinding
     private lateinit var viewModelFactory: AdicionaContatoViewModelFactory
+    var any: Int = 0
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.adiciona_contato_fragment, container, false)
 
         return binding.root
@@ -39,6 +40,7 @@ class AdicionaContatoFragment : Fragment() {
         viewModelFactory = AdicionaContatoViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[AdicionaContatoViewModel::class.java]
         binding.viewModel = viewModel
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +49,9 @@ class AdicionaContatoFragment : Fragment() {
         SetupVariaveisIniciais()
 
         binding.adicionarContato.setOnClickListener{
-            viewModel.adicionaContato(ContatosEntidade(binding.contatoNome.text.toString())) // AQUI binding.contatoNome.setNome(binding.contatoNome.text.toString()
+            viewModel.adicionaContato(ContatosEntidade(any).apply {
+                nome = binding.contatoNome.text.toString() //troquei aqui auhauahuauhauhauhuahuahuha
+            })
 
             //binding.contatoNome.setText("")
             Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
@@ -61,5 +65,8 @@ class AdicionaContatoFragment : Fragment() {
 
 
     }
-
+// binding.adicionarContato.setOnClickListener{
+//            viewModel.adicionaContato(ContatosEntidade(binding.contatoNome.text.toString()).apply {
+//                nome = binding.contatoNome.text.toString()
+//            }) // AQUI binding.contatoNome.setNome(binding.contatoNome.text.toString()
 }
