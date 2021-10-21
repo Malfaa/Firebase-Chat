@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 
 class ConversaViewModel(private val meuDao: MeuDao, context: Context) : ViewModel() {
 
-    ///NOVO
     val recebeConversa = meuDao.receberConversa(ConversaFragment.companionArguments.contatoId)
 
     //Coroutine

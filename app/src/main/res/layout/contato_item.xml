@@ -14,7 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contatoItem"
-        android:background="@color/usage"
+        android:background="@color/contatosCor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <!-- navegar até o item clicado || colocar mais info a

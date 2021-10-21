@@ -63,6 +63,5 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
             idItem = item
             _usuarioDestino.value = true
         }
-        // PRÓXIMA ETAPA É REALIZAR O CLICK NA TELA DE CONTATOS P/ IR ATÉ A CONVERSA
     }
 }

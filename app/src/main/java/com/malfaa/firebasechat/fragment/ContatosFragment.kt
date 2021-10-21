@@ -24,7 +24,6 @@ class ContatosFragment : Fragment() {
     private lateinit var binding: ContatosFragmentBinding
     private lateinit var viewModelFactory: ContatosViewModelFactory
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,23 +56,14 @@ class ContatosFragment : Fragment() {
 
         binding.adicaoNovoContato.setOnClickListener {
             findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
-            viewModel.voltarDeAdicionar()
         }
 
         ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
-            Log.d("Teste","Esta sendo chamado o observe")
-            Log.d("Lista","${mAdapter.currentList}")
-            Log.d("Id","${ContatosAdapter.idItem.id}")
-
             val argumento = ContatosAdapter.idItem.id
-
-            // TODO: 20/10/2021 Layout precisa ser aprimorado
             findNavController().navigate(
                 ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
             )
-
-            //viewModel.voltarDaConversa()
         })
     }
-
+// TODO: 20/10/2021 Layout precisa ser aprimorado
 }

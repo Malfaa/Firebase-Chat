@@ -2,19 +2,18 @@ package com.malfaa.firebasechat.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.MensagemBinding
-import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 
+
 class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
-
-
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: ConversaEntidade){
             item.mensagem = item.mensagem //teste
@@ -53,29 +52,24 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        val mConstraintSet = ConstraintSet()
+        //holder.bind(item)
 
-        // FIXME: 20/10/2021 esse não funciona
-        if (item.contatosConversaIds.id == 0){
-            holder.binding.mensagem.setBackgroundColor(Color.GRAY)
-
-            //--------------------------------------------------------------------------------------_
-            //Troca de lado a mensagem que foi enviada
-
-            mConstraintSet.clone(holder.binding.pacoteDaMensagem)
-            mConstraintSet.clear(holder.binding.horaDisplay.id, ConstraintSet.START)
-            mConstraintSet.connect(holder.binding.horaDisplay.id, ConstraintSet.END, ConstraintSet.END,0)
-            mConstraintSet.clear(holder.binding.mensagem.id, ConstraintSet.START)
-            mConstraintSet.connect(holder.binding.mensagem.id, ConstraintSet.END, ConstraintSet.END,0)
-            mConstraintSet.applyTo(holder.binding.pacoteDaMensagem)
-
-            //--------------------------------------------------------------------------------------_
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.END
+        }
+        if (item.souEu){ // FIXME: 21/10/2021 corrigir troca de lados referente ao sender
+            holder.binding.caixaMensagem.setBackgroundColor(Color.GRAY)
+            holder.binding.horaDisplay.gravity = Gravity.END
+            holder.binding.caixaMensagem.foregroundGravity = Gravity.END
             holder.bind(item)
         }else{
             holder.bind(item)
         }
     }
-// FIXME: 20/10/2021 corrigir lado, string e hora da mensagem
-
+// FIXME: 20/10/2021 corrigir lado, string e hora da mensagem 21/10
+// Mensagens se dando replace corrigido, mudanças nas estruturas meudao e relacionados feitas, prox. correcao de lado/string/ horario das mensagens
 }
 //Colocar no adapter um IF antes de setar no view as configs, assim observando o SEND ele troca os layouts

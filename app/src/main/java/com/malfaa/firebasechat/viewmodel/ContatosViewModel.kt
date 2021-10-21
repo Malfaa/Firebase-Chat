@@ -31,29 +31,6 @@ class ContatosViewModel(private val meuDao: MeuDao, context: Context) : ViewMode
         }
     } // todo talvez nova janela(?)
 
-    //Navigation ----------------------------------------------------------------------------------
-    private val _navegarAteAdicionar = MutableLiveData<Boolean>()
-    val navegarAteAdicionar : LiveData<Boolean>
-        get()= _navegarAteAdicionar
-
-    fun irAteAdicionar(){
-        _navegarAteAdicionar.value = true
-    }
-    fun voltarDeAdicionar(){
-        _navegarAteAdicionar.value = false
-    }
-
-    private val _navegarAteConversa = MutableLiveData<Boolean>()
-    val navegarAteConversa : LiveData<Boolean>
-        get() = _navegarAteConversa
-
-    fun irAteConversa(){
-        _navegarAteConversa.value = true
-    }
-
-    fun voltarDaConversa(){
-        _navegarAteConversa.value = false
-    }
 
     //Adapter ----------------------------------------------------------------------------------
     val verificaRecyclerView = meuDao.retornarContatos()

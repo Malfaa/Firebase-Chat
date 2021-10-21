@@ -21,23 +21,14 @@ interface MeuDao {
     @Delete
     suspend fun removerContato(nome: ContatosEntidade) // quando deletar o contato, deletar a conversa tbm
 
-    //Conversa
-//    @Query("SELECT * FROM conversa")
-//    fun receberConversa(): LiveData<List<ConversaEntidade>>
-
-    @Query("SELECT * FROM conversa WHERE contato_id = :id")
+    @Query("SELECT * FROM conversa WHERE contatosConversaIds = :id") //todo colocar horario como organizacao do display das mensagens(ex:11:56 -> 11:58) ASC
     fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
 
-    //dummy
-    @Query("SELECT * FROM conversa")
-    fun teste(): LiveData<List<ConversaEntidade>>
-
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun inserirMensagem(mensagem: ConversaEntidade)
+    @Insert
+    suspend fun inserirMensagem(id: ConversaEntidade)
 
     @Delete
-    suspend fun deleterMensagem(mensagem: ConversaEntidade)
+    suspend fun deleterMensagem(id: ConversaEntidade)
 
 }
 

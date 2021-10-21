@@ -11,9 +11,11 @@
         <entry key="app/src/main/res/layout/contatos_fragment.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/conversa_fragment.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/conversas_fragment.xml" value="0.34791666666666665" />
-        <entry key="app/src/main/res/layout/mensagem.xml" value="0.34791666666666665" />
+        <entry key="app/src/main/res/layout/mensagem.xml" value="0.25" />
         <entry key="app/src/main/res/layout/mensagem_propria.xml" value="0.34791666666666665" />
+        <entry key="app/src/main/res/layout/mensagem_teste.xml" value="0.45925925925925926" />
         <entry key="app/src/main/res/layout/menu_conversas_fragment.xml" value="0.34791666666666665" />
+        <entry key="app/src/main/res/layout/minha_mensagem.xml" value="0.5" />
         <entry key="app/src/main/res/layout/usuario_conversa.xml" value="0.34791666666666665" />
       </map>
     </option>

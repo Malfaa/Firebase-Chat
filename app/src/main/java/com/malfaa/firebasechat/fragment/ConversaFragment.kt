@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -63,30 +64,15 @@ class ConversaFragment : Fragment() {
             mAdapter.submitList(it.toMutableList())
         })
 
-        try {
-            Log.d("Conversa:", "${args}")
-            Log.d("Conversa ID:", "${args.contatoId}")
-            Log.d("Lista Conversa", "${viewModel.recebeConversa.value}")
-            Log.d("NewInstance:", "${companionArguments}")
-            Log.d("NewInstance Value:", "${companionArguments.contatoId}")
-        }catch (e: Exception){
-            Log.d("Error", "Excecao $e")
-        }
-
         binding.enviarBtn.setOnClickListener{
-            viewModel.adicionandoMensagem(ConversaEntidade(ContatosEntidade(companionArguments.contatoId)).apply {
-                // TODO: 20/10/2021 adicionar um outro id que sinaliza quem é o remetente, assim faz o ajuste da tela em Adapter
+            viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.contatoId).apply {
+                souEu = true
                 mensagem = binding.mensagemEditText.text.toString()
                 Log.d("Mensagem:", mensagem)
             })
             binding.mensagemEditText.setText("")
         }
-        // TODO: 20/10/2021 Consertar o lado da mensagem referente ao remetente
-        // FIXME: 20/10/2021 Consertar backPressedDispatcher
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(false){
-            override fun handleOnBackPressed() {
-                findNavController().navigate(ConversaFragmentDirections.actionConversaFragmentToContatosFragment())
-            }
-        })
+// TODO: 21/10/2021 backPressed
+//fixme tracking =  COnversa entidade mudei contatosConversaIds|| MeuDao mudei inserir e receber|| COnversaFragment viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.contatoId).apply
     }
 }
