@@ -24,10 +24,10 @@
             android:layout_marginStart="@dimen/mensagem_margem_dimensao"
             android:layout_marginTop="@dimen/hora_margem_dimen"
             android:text="@string/hora"
+            app:setHorario="@{viewModel.setHorarioMensagem}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-<!--            app:setHorario="@{viewModel.setHorarioMensagem}"
--->
+
         <androidx.cardview.widget.CardView
             android:id="@+id/caixa_mensagem"
             android:layout_width="87dp"

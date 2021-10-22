@@ -44,20 +44,16 @@ class ConversaFragment : Fragment() {
         return binding.root
     }
 
-    private fun SetupVariaveisIniciais(){
-        val application = requireNotNull(this.activity).application
-        val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
-        viewModelFactory = ConversaViewModelFactory(dataSource, requireContext())
-        viewModel = ViewModelProvider(this, viewModelFactory)[ConversaViewModel::class.java]
-        binding.viewModel = viewModel
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val application = requireNotNull(this.activity).application
+        val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
 
-        SetupVariaveisIniciais()
+        viewModelFactory = ConversaViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory)[ConversaViewModel::class.java]
+        binding.viewModel = viewModel
 
-        val mAdapter = ConversaAdapter()
+        val mAdapter = ConversaAdapter(dataSource)
         binding.conversaRecyclerView.adapter = mAdapter
 
         viewModel.recebeConversa.observe(viewLifecycleOwner, {
@@ -68,7 +64,10 @@ class ConversaFragment : Fragment() {
             viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.contatoId).apply {
                 souEu = true
                 mensagem = binding.mensagemEditText.text.toString()
+                horario = viewModel.setHorarioMensagem.toString()
                 Log.d("Mensagem:", mensagem)
+                Log.d("Horario:", horario)
+
             })
             binding.mensagemEditText.setText("")
         }

@@ -8,18 +8,19 @@ import androidx.navigation.NavDirections
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.util.*
 
 
 @SuppressLint("SimpleDateFormat")
-fun converteLongParaString(horaSistema: LocalDateTime): String {
-    return SimpleDateFormat("Time: 'HH:mm")
+fun converteLongParaString(horaSistema: Long): String {
+    return SimpleDateFormat("HH:mm")
         .format(horaSistema).toString()
 }
 //"EEEE DD-mmm-yyyy' Time: 'HH:mm"
 
 
 @BindingAdapter("setHorario")
-fun TextView.setHorario(horario: LocalDateTime){
+fun TextView.setHorario(horario: Long){
     text = converteLongParaString(horario)
 }
 

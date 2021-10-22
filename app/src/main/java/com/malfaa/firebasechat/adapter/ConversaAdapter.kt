@@ -10,11 +10,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.MensagemBinding
+import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
+import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 
 
-class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
+class ConversaAdapter(meuDao: MeuDao): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
+
+    val dados = ConversaViewModel(meuDao).recebeConversa
+
+
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
+
         fun bind(item: ConversaEntidade){
             item.mensagem = item.mensagem //teste
             item.horario = binding.horaDisplay.toString()
@@ -52,14 +59,12 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        //holder.bind(item)
-
-        val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            gravity = Gravity.END
-        }
+//        val params = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            LinearLayout.LayoutParams.WRAP_CONTENT
+//        ).apply {
+//            gravity = Gravity.END
+//        }
         if (item.souEu){ // FIXME: 21/10/2021 corrigir troca de lados referente ao sender
             holder.binding.caixaMensagem.setBackgroundColor(Color.GRAY)
             holder.binding.horaDisplay.gravity = Gravity.END
@@ -69,7 +74,7 @@ class ConversaAdapter: ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>
             holder.bind(item)
         }
     }
-// FIXME: 20/10/2021 corrigir lado, string e hora da mensagem 21/10
-// Mensagens se dando replace corrigido, mudanças nas estruturas meudao e relacionados feitas, prox. correcao de lado/string/ horario das mensagens
+// FIXME: 20/10/2021 || corrigir lado || string e hora da mensagem 21/10
+// prox. correcao de lado/string/ horario das mensagens
 }
 //Colocar no adapter um IF antes de setar no view as configs, assim observando o SEND ele troca os layouts
