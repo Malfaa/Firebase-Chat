@@ -4,8 +4,9 @@
     <dimen name="conversa_item_dimen">20dp</dimen>
     <dimen name="contato_item_dimen">30dp</dimen>
     <dimen name="raw_mensagem_margem_dimen">16dp</dimen>
-    <dimen name="mensagem_margem_dimensao">10dp</dimen>
-    <dimen name="hora_margem_dimen">8dp</dimen>
+    <dimen name="mensagem_margem_start_dimensao">10dp</dimen>
+    <dimen name="mensagem_margem_bottom_dimensao">20dp</dimen>
+    <dimen name="hora_margem_dimen">12dp</dimen>
     <dimen name="edittext_margem_dimen">12dp</dimen>
     <dimen name="distancia_recyclerview_mensagem">8dp</dimen>
     <dimen name="distancia_hora_chat">2dp</dimen>

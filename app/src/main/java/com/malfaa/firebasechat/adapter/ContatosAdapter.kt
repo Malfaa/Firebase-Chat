@@ -3,20 +3,16 @@ package com.malfaa.firebasechat.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.ContatoItemBinding
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import kotlin.properties.Delegates
 
 class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>(MenuConversaDiffCallBack()){
     companion object {
-        private val _usuarioDestino = MutableLiveData<Boolean>()
-        val usuarioDestino: LiveData<Boolean>
-            get() = _usuarioDestino
+        val usuarioDestino = MutableLiveData<Boolean>()
         lateinit var idItem : ContatosEntidade
     }
 
@@ -61,7 +57,7 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         holder.bind(item)
         holder.binding.contatoItem.setOnClickListener{
             idItem = item
-            _usuarioDestino.value = true
+            usuarioDestino.value = true
         }
     }
 }

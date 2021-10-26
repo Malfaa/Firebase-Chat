@@ -21,8 +21,11 @@ interface MeuDao {
     @Delete
     suspend fun removerContato(nome: ContatosEntidade) // quando deletar o contato, deletar a conversa tbm
 
-    @Query("SELECT * FROM conversa WHERE contatosConversaIds = :id") //todo colocar horario como organizacao do display das mensagens(ex:11:56 -> 11:58) ASC
+    @Query("SELECT * FROM conversa WHERE contatosConversaIds = :id ORDER BY horario ASC") //todo colocar horario como organizacao do display das mensagens(ex:11:56 -> 11:58) ASC
     fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
+
+//    @Query("SELECT * FROM conversa WHERE souEu = :valor")
+//    fun receberConversaDoReceiver(valor: Boolean): LiveData<List<ConversaEntidade>>
 
     @Insert
     suspend fun inserirMensagem(id: ConversaEntidade)

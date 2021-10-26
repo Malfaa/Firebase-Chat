@@ -34,7 +34,7 @@
             android:layout_height="53dp"
             android:background="@color/minhasMensCor"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="@dimen/mensagem_margem_dimensao"
+            android:layout_marginBottom="@dimen/mensagem_margem_start_dimensao"
             app:cardCornerRadius="@dimen/raio_cantos_mensagem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

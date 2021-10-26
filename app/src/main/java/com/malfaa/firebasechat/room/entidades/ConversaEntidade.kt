@@ -12,7 +12,6 @@ data class ConversaEntidade(
 
     var mensagem: String = ""
 
-    @ColumnInfo(name = "horario")
     var horario: String = ""
 
     var souEu: Boolean = false

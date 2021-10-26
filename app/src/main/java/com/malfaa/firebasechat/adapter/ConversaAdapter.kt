@@ -2,6 +2,7 @@ package com.malfaa.firebasechat.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,8 +19,7 @@ import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 
 class ConversaAdapter(meuDao: MeuDao): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
 
-    val dados = ConversaViewModel(meuDao).recebeConversa
-
+    //val dados = ConversaViewModel(meuDao).recebeConversa
 
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
 
@@ -68,15 +68,20 @@ class ConversaAdapter(meuDao: MeuDao): ListAdapter<ConversaEntidade, ConversaAda
             marginEnd = 10
         }
         if (item.souEu){
+            holder.binding.conteudoDaMensagem.text = item.mensagem
+            holder.binding.horaDisplay.text = item.horario
             holder.binding.caixaMensagem.setBackgroundColor(Color.GRAY)
             holder.binding.horaDisplay.layoutParams = params
             holder.binding.caixaMensagem.layoutParams = params
+            //Log.d("Dados", "${dados.value}")
             holder.bind(item)
         }else{
+            holder.binding.conteudoDaMensagem.text = item.mensagem
+            holder.binding.horaDisplay.text = item.horario
+
             holder.bind(item)
         }
     }
-// FIXME: 20/10/2021 || backstack to previous fragment|| string e hora da mensagem 21/10 || corrigir distância entre uma mensagem e outra
-// prox. correcao de lado/string/ horario das mensagens
+// FIXME: 20/10/2021 || string/hora da mensagem 21/10 || corrigir distância entre uma mensagem e outra || google auth
+    // TODO: 26/10/2021 fazer alguma jeito para ser inserido uma mensagem sendo 'souEu' false
 }
-//Colocar no adapter um IF antes de setar no view as configs, assim observando o SEND ele troca os layouts

@@ -16,7 +16,6 @@ import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
-import kotlin.Exception
 
 class ContatosFragment : Fragment() {
 
@@ -59,10 +58,16 @@ class ContatosFragment : Fragment() {
         }
 
         ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
-            val argumento = ContatosAdapter.idItem.id
-            findNavController().navigate(
-                ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
-            )
+            condicao ->
+            if (condicao){
+                val argumento = ContatosAdapter.idItem.id
+                findNavController().navigate(
+                    ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
+                )
+                Log.d("Condicao", "foi até destino")
+            }else{
+                Log.d("Condicao", "Retido")
+            }
         })
     }
 // TODO: 20/10/2021 Layout precisa ser aprimorado
