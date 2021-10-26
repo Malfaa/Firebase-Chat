@@ -29,6 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
+            app:cardPreventCornerOverlap="false"
             android:id="@+id/caixa_mensagem"
             android:layout_width="87dp"
             android:layout_height="53dp"

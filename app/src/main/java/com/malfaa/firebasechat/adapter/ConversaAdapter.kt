@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -59,22 +60,23 @@ class ConversaAdapter(meuDao: MeuDao): ListAdapter<ConversaEntidade, ConversaAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-//        val params = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.MATCH_PARENT,
-//            LinearLayout.LayoutParams.WRAP_CONTENT
-//        ).apply {
-//            gravity = Gravity.END
-//        }
-        if (item.souEu){ // FIXME: 21/10/2021 corrigir troca de lados referente ao sender
+        val params = LinearLayoutCompat.LayoutParams(
+            LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+            LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.END
+            marginEnd = 10
+        }
+        if (item.souEu){
             holder.binding.caixaMensagem.setBackgroundColor(Color.GRAY)
-            holder.binding.horaDisplay.gravity = Gravity.END
-            holder.binding.caixaMensagem.foregroundGravity = Gravity.END
+            holder.binding.horaDisplay.layoutParams = params
+            holder.binding.caixaMensagem.layoutParams = params
             holder.bind(item)
         }else{
             holder.bind(item)
         }
     }
-// FIXME: 20/10/2021 || corrigir lado || string e hora da mensagem 21/10
+// FIXME: 20/10/2021 || backstack to previous fragment|| string e hora da mensagem 21/10 || corrigir distância entre uma mensagem e outra
 // prox. correcao de lado/string/ horario das mensagens
 }
 //Colocar no adapter um IF antes de setar no view as configs, assim observando o SEND ele troca os layouts
