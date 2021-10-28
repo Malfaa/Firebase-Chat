@@ -66,14 +66,15 @@ class ConversaAdapter(meuDao: MeuDao): ListAdapter<ConversaEntidade, ConversaAda
         ).apply {
             gravity = Gravity.END
             marginEnd = 10
+            bottomMargin = 20
+            topMargin = 20
         }
         if (item.souEu){
             holder.binding.conteudoDaMensagem.text = item.mensagem
-            holder.binding.horaDisplay.text = item.horario
             holder.binding.caixaMensagem.setBackgroundColor(Color.GRAY)
             holder.binding.horaDisplay.layoutParams = params
             holder.binding.caixaMensagem.layoutParams = params
-            //Log.d("Dados", "${dados.value}")
+            holder.binding.horaDisplay.text = item.horario
             holder.bind(item)
         }else{
             holder.binding.conteudoDaMensagem.text = item.mensagem

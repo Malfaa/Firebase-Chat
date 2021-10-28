@@ -10,17 +10,15 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
 
-
 @SuppressLint("SimpleDateFormat")
-fun converteLongParaString(horaSistema: Long): String {
-    return SimpleDateFormat("HH:mm")
+fun converteLongParaString(horaSistema: Date): String {
+    return SimpleDateFormat("h:mm a '||' dd.MM.yyyy")
         .format(horaSistema).toString()
 }
 //"EEEE DD-mmm-yyyy' Time: 'HH:mm"
 
-
 @BindingAdapter("setHorario")
-fun TextView.setHorario(horario: Long){
+fun TextView.setHorario(horario: Date){
     text = converteLongParaString(horario)
 }
 
@@ -32,4 +30,3 @@ fun TextView.setNome(item: ContatosEntidade){
 fun NavController.safeNavigate(direction: NavDirections) {
     currentDestination?.getAction(direction.actionId)?.run { navigate(direction) }
 }
-//https://nezspencer.medium.com/navigation-components-a-fix-for-navigation-action-cannot-be-found-in-the-current-destination-95b63e16152e

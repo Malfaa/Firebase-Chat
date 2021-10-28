@@ -7,7 +7,9 @@
         <variable
             name="viewModel"
             type="com.malfaa.firebasechat.viewmodel.ConversaViewModel" />
-
+        <variable
+            name="horario"
+            type="com.malfaa.firebasechat.Data" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -15,7 +17,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!-- alterei width para match -->
 
         <TextView
             android:id="@+id/horaDisplay"
@@ -23,15 +24,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
             android:layout_marginTop="@dimen/hora_margem_dimen"
-            android:text="@string/hora"
-            app:setHorario="@{viewModel.setHorarioMensagem}"
+            android:hint="@string/hora"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+    <!--app:setHorario="@{horario}"-->
         <androidx.cardview.widget.CardView
             app:cardPreventCornerOverlap="false"
             android:id="@+id/caixa_mensagem"
-            android:layout_width="87dp"
+            android:layout_width="wrap_content"
             android:layout_height="53dp"
             android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
             android:layout_marginBottom="@dimen/mensagem_margem_bottom_dimensao"
@@ -43,13 +44,14 @@
         está enviando-->
             <TextView
                 android:id="@+id/conteudoDaMensagem"
-                android:layout_width="51dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="280dp"
                 android:layout_marginStart="@dimen/raw_mensagem_margem_dimen"
                 android:layout_marginTop="@dimen/raw_mensagem_margem_dimen"
                 android:layout_marginEnd="@dimen/raw_mensagem_margem_dimen"
                 android:layout_marginBottom="@dimen/raw_mensagem_margem_dimen"
-                android:text="@string/mensagem_hint" />
+                android:hint="@string/mensagem_hint" />
         </androidx.cardview.widget.CardView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

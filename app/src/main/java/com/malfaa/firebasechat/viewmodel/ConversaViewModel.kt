@@ -1,6 +1,9 @@
 package com.malfaa.firebasechat.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
+import com.malfaa.firebasechat.converteLongParaString
 import com.malfaa.firebasechat.fragment.ConversaFragment
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
@@ -8,7 +11,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.util.*
+import java.util.Calendar
+
 
 class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
@@ -25,7 +31,8 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
     }
 
     // FIXME: 20/10/2021 corrigir horario mensagem
-    val setHorarioMensagem = Date().time
+    val setHorarioMensagem = converteLongParaString(Date())
+    //val asdfa = Date()
 
     override fun onCleared() {
         super.onCleared()
