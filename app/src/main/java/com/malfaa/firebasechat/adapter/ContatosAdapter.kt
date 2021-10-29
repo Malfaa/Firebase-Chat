@@ -14,6 +14,7 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
     companion object {
         val usuarioDestino = MutableLiveData<Boolean>()
         lateinit var idItem : ContatosEntidade
+        val deletarUsuario = MutableLiveData<Boolean>()
     }
 
     class ViewHolder private constructor(val binding: ContatoItemBinding): RecyclerView.ViewHolder(binding.root){
@@ -58,6 +59,11 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         holder.binding.contatoItem.setOnClickListener{
             idItem = item
             usuarioDestino.value = true
+        }
+        holder.binding.contatoItem.setOnLongClickListener {
+            deletarUsuario.value = true
+            idItem = item
+            true
         }
     }
 }

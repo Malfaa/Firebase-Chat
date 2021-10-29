@@ -4,6 +4,7 @@ import androidx.room.*
 
 @Entity(tableName = "conversa")
 data class ConversaEntidade(
+
     val contatosConversaIds : Int
 ) {
     @PrimaryKey(autoGenerate = true)

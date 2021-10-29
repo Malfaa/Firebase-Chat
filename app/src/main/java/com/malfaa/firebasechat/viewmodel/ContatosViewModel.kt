@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ContatosViewModel(private val meuDao: MeuDao, context: Context) : ViewModel() {
+class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     //Coroutine ----------------------------------------------------------------------------------
     private var viewModelJob = Job()
@@ -20,6 +20,7 @@ class ContatosViewModel(private val meuDao: MeuDao, context: Context) : ViewMode
     fun removeContato(contato: ContatosEntidade){
         uiScope.launch {
             meuDao.removerContato(contato)
+            meuDao.removeContato(contato.id)
             onCleared()
         }
     }

@@ -17,15 +17,29 @@ import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 
 
-class ConversaAdapter(meuDao: MeuDao): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
-
-    //val dados = ConversaViewModel(meuDao).recebeConversa
-
+class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: ConversaEntidade){
-            item.mensagem = item.mensagem //teste
-            item.horario = binding.horaDisplay.toString()
+            val params = LinearLayoutCompat.LayoutParams(
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.END
+                marginEnd = 10
+                bottomMargin = 20
+                topMargin = 20
+            }
+            if (item.souEu){
+                binding.conteudoDaMensagem.text = item.mensagem
+                binding.caixaMensagem.setBackgroundColor(Color.GRAY)
+                binding.horaDisplay.layoutParams = params
+                binding.caixaMensagem.layoutParams = params
+                binding.horaDisplay.text = item.horario
+            }else{
+                binding.conteudoDaMensagem.text = item.mensagem
+                binding.horaDisplay.text = item.horario
+            }
 
         }
         companion object{
@@ -60,29 +74,8 @@ class ConversaAdapter(meuDao: MeuDao): ListAdapter<ConversaEntidade, ConversaAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        val params = LinearLayoutCompat.LayoutParams(
-            LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
-            LinearLayoutCompat.LayoutParams.WRAP_CONTENT
-        ).apply {
-            gravity = Gravity.END
-            marginEnd = 10
-            bottomMargin = 20
-            topMargin = 20
-        }
-        if (item.souEu){
-            holder.binding.conteudoDaMensagem.text = item.mensagem
-            holder.binding.caixaMensagem.setBackgroundColor(Color.GRAY)
-            holder.binding.horaDisplay.layoutParams = params
-            holder.binding.caixaMensagem.layoutParams = params
-            holder.binding.horaDisplay.text = item.horario
-            holder.bind(item)
-        }else{
-            holder.binding.conteudoDaMensagem.text = item.mensagem
-            holder.binding.horaDisplay.text = item.horario
-
-            holder.bind(item)
-        }
+        holder.bind(item)
     }
-// FIXME: 20/10/2021 || string/hora da mensagem 21/10 || corrigir distância entre uma mensagem e outra || google auth
+// FIXME: 20/10/2021 || corrigir distância entre uma mensagem e outra || google auth
     // TODO: 26/10/2021 fazer alguma jeito para ser inserido uma mensagem sendo 'souEu' false
 }

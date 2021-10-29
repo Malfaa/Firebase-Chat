@@ -17,11 +17,6 @@ fun converteLongParaString(horaSistema: Date): String {
 }
 //"EEEE DD-mmm-yyyy' Time: 'HH:mm"
 
-@BindingAdapter("setHorario")
-fun TextView.setHorario(horario: Date){
-    text = converteLongParaString(horario)
-}
-
 @BindingAdapter("setNome")
 fun TextView.setNome(item: ContatosEntidade){
     text = item.nome

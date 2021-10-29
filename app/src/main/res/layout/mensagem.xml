@@ -7,9 +7,7 @@
         <variable
             name="viewModel"
             type="com.malfaa.firebasechat.viewmodel.ConversaViewModel" />
-        <variable
-            name="horario"
-            type="com.malfaa.firebasechat.Data" />
+
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -25,10 +23,9 @@
             android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
             android:layout_marginTop="@dimen/hora_margem_dimen"
             android:hint="@string/hora"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    <!--app:setHorario="@{horario}"-->
+
         <androidx.cardview.widget.CardView
             app:cardPreventCornerOverlap="false"
             android:id="@+id/caixa_mensagem"

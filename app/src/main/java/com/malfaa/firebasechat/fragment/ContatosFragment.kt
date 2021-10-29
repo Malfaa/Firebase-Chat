@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,7 +36,7 @@ class ContatosFragment : Fragment() {
     private fun SetupVariaveisIniciais() {
         val application = requireNotNull(this.activity).application
         val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
-        viewModelFactory = ContatosViewModelFactory(dataSource, requireContext())
+        viewModelFactory = ContatosViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
         binding.viewModel = viewModel
 
@@ -57,6 +58,25 @@ class ContatosFragment : Fragment() {
             findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
         }
 
+        ContatosAdapter.deletarUsuario.observe(viewLifecycleOwner, {
+            condicao ->
+            // FIXME: 28/10/2021 ele só apaga aquele contato quando o id recebe pelo navegar até ele, exemplo, se tem duas conversas
+            //  eu navego até o que quero apagar e volto, assim segurando ele guarda no id o valor e assim faz a ação de apagar
+            //PROBLEMA AQUI
+            if (condicao){
+                val idParaDeletar = ContatosAdapter.idItem
+                viewModel.removeContato(idParaDeletar)
+                Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
+                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
+                voltaDeletarValParaNormal()
+                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
+            }else{
+                Log.d("Del", "Sem usuario p/ deletar")
+            }
+            // TODO: 28/10/2021 novo layout que da pop up perguntando se realmente deseja deletar o usuario
+        })
+
+
         ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
             condicao ->
             if (condicao){
@@ -69,6 +89,9 @@ class ContatosFragment : Fragment() {
                 Log.d("Condicao", "Retido")
             }
         })
+    }
+    fun voltaDeletarValParaNormal(){
+        ContatosAdapter.deletarUsuario.value = false
     }
 // TODO: 20/10/2021 Layout precisa ser aprimorado
 }

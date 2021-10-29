@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 
-class ContatosViewModelFactory(private val rep: MeuDao, private val context: Context ): ViewModelProvider.Factory {
+class ContatosViewModelFactory(private val meudao: MeuDao): ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(ContatosViewModel::class.java)){
-            return ContatosViewModel(rep, context) as T
+            return ContatosViewModel(meudao) as T
         }
         throw IllegalArgumentException("Viewmodel desconhecido")
     }
