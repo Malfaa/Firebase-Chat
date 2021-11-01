@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.malfaa.firebasechat.viewmodel.RemoverContatoViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/deletarContato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/confirmarBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/distancia_elementos_globais"
+            android:layout_marginBottom="@dimen/distancia_elementos_globais"
+            android:text="@string/confirmar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cancelarBtn"
+            app:layout_constraintStart_toStartOf="@+id/mensagemAoDeletar" />
+
+        <Button
+            android:id="@+id/cancelarBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/distancia_elementos_globais"
+            android:text="@string/cancelar"
+            app:layout_constraintBaseline_toBaselineOf="@+id/confirmarBtn"
+            app:layout_constraintEnd_toEndOf="@+id/mensagemAoDeletar" />
+
+        <TextView
+            android:id="@+id/mensagemAoDeletar"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginStart="@dimen/distancia_elementos_globais"
+            android:layout_marginTop="@dimen/distancia_elementos_globais"
+            android:layout_marginEnd="@dimen/distancia_elementos_globais"
+            android:layout_marginBottom="@dimen/distancia_elementos_globais"
+            android:maxWidth="200dp"
+            android:text="@string/deletarContato"
+            app:layout_constraintBottom_toTopOf="@+id/confirmarBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

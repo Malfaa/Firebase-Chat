@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
-            android:layout_marginTop="@dimen/hora_margem_dimen"
+            android:layout_marginTop="@dimen/distancia_elementos_globais"
             android:hint="@string/hora"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="53dp"
             android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
-            android:layout_marginBottom="@dimen/mensagem_margem_bottom_dimensao"
+            android:layout_marginBottom="@dimen/distancia_elementos_globais"
             app:cardCornerRadius="@dimen/raio_cantos_mensagem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

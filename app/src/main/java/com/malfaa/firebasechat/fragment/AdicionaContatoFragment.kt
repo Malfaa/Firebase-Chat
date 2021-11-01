@@ -49,13 +49,17 @@ class AdicionaContatoFragment : Fragment() {
         SetupVariaveisIniciais()
 
         binding.adicionarContato.setOnClickListener{
-            viewModel.adicionaContato(ContatosEntidade(any).apply {
-                nome = binding.contatoNome.text.toString() //troquei aqui auhauahuauhauhauhuahuahuha
-            })
+            if(binding.contatoNome.text.isNotEmpty()){
+                viewModel.adicionaContato(ContatosEntidade(any).apply {
+                    nome = binding.contatoNome.text.toString() //troquei aqui auhauahuauhauhauhuahuahuha
+                })
 
-            //binding.contatoNome.setText("")
             Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
             this.findNavController().navigate(AdicionaContatoFragmentDirections.actionAdicionaContatoFragmentToContatosFragment())
+        }else{
+            Toast.makeText(context, "Contato Inválido.\n Tente novamente.", Toast.LENGTH_SHORT).show()
+            binding.contatoNome.text.clear()
+            }
         }
 
         /*E/AndroidRuntime: FATAL EXCEPTION: main

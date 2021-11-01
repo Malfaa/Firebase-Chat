@@ -61,8 +61,8 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
             usuarioDestino.value = true
         }
         holder.binding.contatoItem.setOnLongClickListener {
-            deletarUsuario.value = true
             idItem = item
+            deletarUsuario.value = true
             true
         }
     }

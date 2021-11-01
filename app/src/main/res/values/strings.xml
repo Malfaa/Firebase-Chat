@@ -6,4 +6,8 @@
     <string name="hora">12:00</string>
     <string name="nomeConversa">Nome</string>
     <string name="addressDispo">Endereço</string>
+    <string name="deletarContato">Você deseja deletar este contato?</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="cancelar">Cancelar</string>
+
 </resources>

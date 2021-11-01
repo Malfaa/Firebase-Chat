@@ -1,11 +1,19 @@
 package com.malfaa.firebasechat.fragment
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
+import android.view.Gravity.CENTER
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -60,38 +68,58 @@ class ContatosFragment : Fragment() {
 
         ContatosAdapter.deletarUsuario.observe(viewLifecycleOwner, {
             condicao ->
-            // FIXME: 28/10/2021 ele só apaga aquele contato quando o id recebe pelo navegar até ele, exemplo, se tem duas conversas
-            //  eu navego até o que quero apagar e volto, assim segurando ele guarda no id o valor e assim faz a ação de apagar
-            //PROBLEMA AQUI
             if (condicao){
                 val idParaDeletar = ContatosAdapter.idItem
-                viewModel.removeContato(idParaDeletar)
-                Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
-                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
-                voltaDeletarValParaNormal()
-                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
+                Log.d("Teste", "ta passando")
+                teste()
+//                viewModel.removeContato(idParaDeletar)
+//                Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
+//                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
+//                voltaDeletarValParaNormal()
+//                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
             }else{
                 Log.d("Del", "Sem usuario p/ deletar")
             }
-            // TODO: 28/10/2021 novo layout que da pop up perguntando se realmente deseja deletar o usuario
-        })
+                // TODO: 28/10/2021 novo layout que da pop up perguntando se realmente deseja deletar o usuario
+            })
 
 
-        ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
-            condicao ->
-            if (condicao){
-                val argumento = ContatosAdapter.idItem.id
-                findNavController().navigate(
-                    ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
-                )
-                Log.d("Condicao", "foi até destino")
-            }else{
-                Log.d("Condicao", "Retido")
-            }
-        })
-    }
+            ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
+                    condicao ->
+                if (condicao){
+                    val argumento = ContatosAdapter.idItem.id
+                    findNavController().navigate(
+                        ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
+                    )
+                    Log.d("Condicao", "foi até destino")
+                }else{
+                    Log.d("Condicao", "Retido")
+                }
+            })
+        }
+
     fun voltaDeletarValParaNormal(){
         ContatosAdapter.deletarUsuario.value = false
     }
+
+//    private fun showAlertFilter(): PopupWindow {
+//        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        val view = inflater.inflate(R.layout.confirma_deletar_contato,false)
+//
+//        return PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//    }
+
+    // TODO: 01/11/2021 Ajustar um popup window para poder confirmar a exclusão de um contato
+
+
+    fun teste(){
+        val window = PopupWindow()
+        val view = layoutInflater.inflate(R.layout.remover_contato_fragment, null)
+        window.contentView = view
+
+        window.showAtLocation(view, CENTER, 0, 0)
+        window.isShowing
+    }
+
 // TODO: 20/10/2021 Layout precisa ser aprimorado
 }
