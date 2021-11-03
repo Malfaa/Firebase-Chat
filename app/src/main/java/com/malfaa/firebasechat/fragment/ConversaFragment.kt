@@ -78,7 +78,7 @@ class ConversaFragment : Fragment() {
             binding.mensagemEditText.setText("")
         }
     }
-    fun retornaOrdem(){
+    private fun retornaOrdem(){
         this.findNavController().safeNavigate(ConversaFragmentDirections.actionConversaFragmentToContatosFragment())
         ContatosAdapter.usuarioDestino.value = false
     }

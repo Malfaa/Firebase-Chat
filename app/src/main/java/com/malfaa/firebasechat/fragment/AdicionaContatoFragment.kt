@@ -13,7 +13,6 @@ import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.AdicionaContatoFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import com.malfaa.firebasechat.setNome
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodelfactory.AdicionaContatoViewModelFactory
 
@@ -49,28 +48,17 @@ class AdicionaContatoFragment : Fragment() {
         SetupVariaveisIniciais()
 
         binding.adicionarContato.setOnClickListener{
-            if(binding.contatoNome.text.isNotEmpty()){
+            if(binding.contatoEmail.text.isNotEmpty()){
                 viewModel.adicionaContato(ContatosEntidade(any).apply {
-                    nome = binding.contatoNome.text.toString() //troquei aqui auhauahuauhauhauhuahuahuha
+                    nome = binding.contatoEmail.text.toString()
                 })
-
             Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
             this.findNavController().navigate(AdicionaContatoFragmentDirections.actionAdicionaContatoFragmentToContatosFragment())
         }else{
             Toast.makeText(context, "Contato Inválido.\n Tente novamente.", Toast.LENGTH_SHORT).show()
-            binding.contatoNome.text.clear()
+            binding.contatoEmail.text.clear()
             }
         }
 
-        /*E/AndroidRuntime: FATAL EXCEPTION: main
-    Process: com.malfaa.firebasechat, PID: 2734
-    java.lang.NullPointerException: Parameter specified as non-null is null: method kotlin.jvm.internal.Intrinsics.checkNotNullParameter, parameter nome
-        at com.malfaa.firebasechat.UtilsKt.setNome(Utils.kt)*/
-
-
     }
-// binding.adicionarContato.setOnClickListener{
-//            viewModel.adicionaContato(ContatosEntidade(binding.contatoNome.text.toString()).apply {
-//                nome = binding.contatoNome.text.toString()
-//            }) // AQUI binding.contatoNome.setNome(binding.contatoNome.text.toString()
 }

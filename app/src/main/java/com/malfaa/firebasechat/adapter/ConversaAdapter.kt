@@ -32,10 +32,10 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
             }
             if (item.souEu){
                 binding.conteudoDaMensagem.text = item.mensagem
+                binding.horaDisplay.text = item.horario
                 binding.caixaMensagem.setBackgroundColor(Color.GRAY)
                 binding.horaDisplay.layoutParams = params
                 binding.caixaMensagem.layoutParams = params
-                binding.horaDisplay.text = item.horario
             }else{
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario

@@ -17,12 +17,7 @@
         android:background="@color/contatosCor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!-- navegar até o item clicado || colocar mais info a
-         respeito da ultima mensagem enviada na conversa
 
-         android:onClick="@{() -> viewModel.irAteConversa()}"
-
-         -->
         <TextView
             android:id="@+id/contatoItemNome"
             android:layout_width="0dp"

@@ -18,9 +18,12 @@ class AdicionaContatoViewModel(private val meuDao: MeuDao) : ViewModel() {
     //Testa Database
     fun recebeContatos() = uiScope.launch { meuDao.retornarContatos() }
 
+
+
     fun adicionaContato(contato: ContatosEntidade){
         uiScope.launch {
             meuDao.novoContato(contato)
+            onCleared()
         }
     }
 

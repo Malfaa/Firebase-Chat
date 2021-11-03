@@ -1,8 +1,5 @@
 package com.malfaa.firebasechat.viewmodel
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
@@ -25,12 +22,13 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
         }
     }
 
+    //não sei se atualizar contato faz sentido para esse app
     fun atualizaContato(contato: ContatosEntidade){
         uiScope.launch {
             meuDao.atualizarContato(contato)
             onCleared()
         }
-    } // todo talvez nova janela(?)
+    }
 
 
     //Adapter ----------------------------------------------------------------------------------

@@ -19,16 +19,13 @@ interface MeuDao {
     suspend fun atualizarContato(nome:ContatosEntidade)
 
     @Delete
-    suspend fun removerContato(id: ContatosEntidade) // quando deletar o contato, deletar a conversa tbm
+    suspend fun removerContato(id: ContatosEntidade)
 
     @Query("DELETE FROM conversa WHERE contatosConversaIds = :id")
     suspend fun removeContato(id: Int)
 
     @Query("SELECT * FROM conversa WHERE contatosConversaIds = :id ORDER BY mensagem_id DESC")
     fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
-
-//    @Query("SELECT * FROM conversa WHERE souEu = :valor")
-//    fun receberConversaDoReceiver(valor: Boolean): LiveData<List<ConversaEntidade>>
 
     @Insert
     suspend fun inserirMensagem(id: ConversaEntidade)

@@ -1,28 +1,26 @@
 package com.malfaa.firebasechat.fragment
 
-import android.content.Context
-import android.os.Build
+import android.content.DialogInterface
 import android.os.Bundle
-import android.transition.Slide
 import android.util.Log
-import android.view.Gravity
-import android.view.Gravity.CENTER
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ContatosAdapter
+import com.malfaa.firebasechat.databinding.AdicionaContatoFragmentBinding
 import com.malfaa.firebasechat.databinding.ContatosFragmentBinding
+import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.MeuDatabase
-import com.malfaa.firebasechat.safeNavigate
+import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 
@@ -47,12 +45,15 @@ class ContatosFragment : Fragment() {
         viewModelFactory = ContatosViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
         binding.viewModel = viewModel
-
     }
 
+    private fun retornaDao():MeuDao{
+        val application = requireNotNull(this.activity).application
+        return MeuDatabase.recebaDatabase(application).meuDao()
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         SetupVariaveisIniciais()
 
         val mAdapter = ContatosAdapter()
@@ -63,63 +64,88 @@ class ContatosFragment : Fragment() {
         })
 
         binding.adicaoNovoContato.setOnClickListener {
-            findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
+            //findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
+            alertDialogAdicionarContato()
         }
 
         ContatosAdapter.deletarUsuario.observe(viewLifecycleOwner, {
-            condicao ->
+                condicao ->
             if (condicao){
-                val idParaDeletar = ContatosAdapter.idItem
-                Log.d("Teste", "ta passando")
-                teste()
-//                viewModel.removeContato(idParaDeletar)
-//                Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
-//                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
-//                voltaDeletarValParaNormal()
-//                Log.d("Var Deletar Status: ", "${ContatosAdapter.deletarUsuario.value}")
+                alertDialogDeletarContato()
             }else{
                 Log.d("Del", "Sem usuario p/ deletar")
             }
-                // TODO: 28/10/2021 novo layout que da pop up perguntando se realmente deseja deletar o usuario
-            })
+        })
 
 
-            ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
-                    condicao ->
-                if (condicao){
-                    val argumento = ContatosAdapter.idItem.id
-                    findNavController().navigate(
-                        ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
-                    )
-                    Log.d("Condicao", "foi até destino")
-                }else{
-                    Log.d("Condicao", "Retido")
-                }
-            })
-        }
-
-    fun voltaDeletarValParaNormal(){
-        ContatosAdapter.deletarUsuario.value = false
+        ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
+                condicao ->
+            if (condicao){
+                val argumento = ContatosAdapter.idItem.id
+                findNavController().navigate(
+                    ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
+                )
+                Log.d("Condicao", "foi até destino")
+            }else{
+                Log.d("Condicao", "Retido")
+            }
+        })
     }
 
-//    private fun showAlertFilter(): PopupWindow {
-//        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        val view = inflater.inflate(R.layout.confirma_deletar_contato,false)
-//
-//        return PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//    }
+    private fun voltaDeletarValParaNormal(){
+        ContatosAdapter.deletarUsuario.value = false
+    }
+    private fun alertDialogDeletarContato(){
+        val construtor = AlertDialog.Builder(requireActivity())
+        val idParaDeletar = ContatosAdapter.idItem
 
-    // TODO: 01/11/2021 Ajustar um popup window para poder confirmar a exclusão de um contato
+        construtor.setTitle(R.string.tituloDeletarContato)
+        construtor.setMessage(R.string.mensagemDeletarContato)
+        construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
+            viewModel.removeContato(idParaDeletar)
+            Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
+            voltaDeletarValParaNormal()
+            dialogInterface.cancel()
+        }
+        construtor.setNegativeButton("Cancelar"){
+            dialogInterface:DialogInterface, _: Int ->
+            voltaDeletarValParaNormal()
+            dialogInterface.cancel()
+        }
 
+        val alerta = construtor.create()
+        alerta.show()
+    }
+    private fun alertDialogAdicionarContato(){
+        Log.d("Status", "Função sendo chamada")
+        val construtor = AlertDialog.Builder(requireActivity())
+        var any: Int = 0
+        val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
+        construtor.setTitle(R.string.tituloAdicionarContato)
+        construtor.setView(adicionarContBinding.root)
 
-    fun teste(){
-        val window = PopupWindow()
-        val view = layoutInflater.inflate(R.layout.remover_contato_fragment, null)
-        window.contentView = view
+        construtor.setPositiveButton("Adicionar"){
+            dialogo, _ ->
+            if(adicionarContBinding.contatoEmail.text.isNotEmpty()){
+                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(any).apply {
+                    nome = adicionarContBinding.contatoEmail.text.toString()
+                })
+                dialogo.cancel()
+                Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
 
-        window.showAtLocation(view, CENTER, 0, 0)
-        window.isShowing
+            }else{
+                Toast.makeText(context, "Contato Inválido. Tente novamente.", Toast.LENGTH_SHORT).show()
+                adicionarContBinding.contatoEmail.text.clear()
+            }
+        }
+
+        val alerta = construtor.create()
+        alerta.show()
+
     }
 
 // TODO: 20/10/2021 Layout precisa ser aprimorado
+    // TODO: 03/11/2021 escolher entre usar o novo modo de adicionar contato ou o antigo que é por navegação
+    // TODO: 03/11/2021 ver o que falta ainda para fazer (ex: Firebase, layout no geral, configuracoes)
+    // TODO: 03/11/2021 usar o obsidian, pag inicial será o objetivo com links aos problemas que encontrei e resolvi, bascicamente como um tutorial
 }
