@@ -76,6 +76,4 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
         val item = getItem(position)
         holder.bind(item)
     }
-// FIXME: 20/10/2021 || corrigir distância entre uma mensagem e outra || google auth
-    // TODO: 26/10/2021 fazer alguma jeito para ser inserido uma mensagem sendo 'souEu' false
 }

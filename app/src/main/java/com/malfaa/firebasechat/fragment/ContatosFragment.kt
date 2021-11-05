@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -23,6 +24,10 @@ import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
+import android.content.Intent
+
+
+
 
 class ContatosFragment : Fragment() {
 
@@ -77,6 +82,14 @@ class ContatosFragment : Fragment() {
             }
         })
 
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            Log.d("status", "apertou back")
+            val a = Intent(Intent.ACTION_MAIN)
+            a.addCategory(Intent.CATEGORY_HOME)
+            a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(a)
+        }
+        callback.isEnabled
 
         ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
                 condicao ->
@@ -144,8 +157,7 @@ class ContatosFragment : Fragment() {
 
     }
 
-// TODO: 20/10/2021 Layout precisa ser aprimorado
+    // TODO: 20/10/2021 Layout precisa ser aprimorado
     // TODO: 03/11/2021 escolher entre usar o novo modo de adicionar contato ou o antigo que é por navegação
-    // TODO: 03/11/2021 ver o que falta ainda para fazer (ex: Firebase, layout no geral, configuracoes)
-    // TODO: 03/11/2021 usar o obsidian, pag inicial será o objetivo com links aos problemas que encontrei e resolvi, bascicamente como um tutorial
+    // FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida
 }

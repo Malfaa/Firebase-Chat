@@ -18,6 +18,8 @@
         <entry key="app/src/main/res/layout/menu_conversas_fragment.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/minha_mensagem.xml" value="0.5" />
         <entry key="app/src/main/res/layout/remover_contato_fragment.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/layout/sign_up_fragment.xml" value="0.34791666666666665" />
+        <entry key="app/src/main/res/layout/splash_screen.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/usuario_conversa.xml" value="0.34791666666666665" />
       </map>
     </option>
