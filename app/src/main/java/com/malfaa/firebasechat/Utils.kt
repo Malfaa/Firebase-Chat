@@ -12,9 +12,11 @@ import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 fun converteLongParaString(horaSistema: Date): String {
-    return SimpleDateFormat("h:mm a '||' dd.MM.yyyy")
+    return SimpleDateFormat("h:mm a")//"h:mm a '||' dd.MM.yyyy"
         .format(horaSistema).toString()
 }
+
+// se tal horario é igual a tal, mostrar dia junto com a hora, caso contrário só a hora
 //"EEEE DD-mmm-yyyy' Time: 'HH:mm"
 
 @BindingAdapter("setNome")

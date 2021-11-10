@@ -11,6 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contatos_fragment"
+        android:background="@color/fundo_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragment.ContatosFragment">

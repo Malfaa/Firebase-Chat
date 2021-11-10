@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,24 +23,26 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: ConversaEntidade){
-            val params = LinearLayoutCompat.LayoutParams(
-                LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
-                LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+            val params = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 gravity = Gravity.END
                 marginEnd = 10
                 bottomMargin = 20
-                topMargin = 20
             }
+
+            //val params =
             if (item.souEu){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
-                binding.caixaMensagem.setBackgroundColor(Color.GRAY)
-                binding.horaDisplay.layoutParams = params
-                binding.caixaMensagem.layoutParams = params
+                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#9499B7"))
+                binding.cardViewDoConteudoMensagem.layoutParams = params
+
             }else{
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
+                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#C5CAE9"))
             }
 
         }
@@ -77,3 +81,5 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
         holder.bind(item)
     }
 }
+
+// TODO: 10/11/2021 Figma - arrumar o adicionar e o remover (layout)

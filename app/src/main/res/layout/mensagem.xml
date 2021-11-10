@@ -10,44 +10,50 @@
 
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.cardview.widget.CardView
         android:id="@+id/layout_mensagem"
         android:orientation="vertical"
+        android:backgroundTint="@color/fundo_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/horaDisplay"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewDoConteudoMensagem"
+            app:cardCornerRadius="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
-            android:layout_marginTop="@dimen/distancia_elementos_globais"
-            android:hint="@string/hora"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginBottom="@dimen/distancia_elementos_globais">
 
-        <androidx.cardview.widget.CardView
-            app:cardPreventCornerOverlap="false"
-            android:id="@+id/caixa_mensagem"
-            android:layout_width="wrap_content"
-            android:layout_height="53dp"
-            android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
-            android:layout_marginBottom="@dimen/distancia_elementos_globais"
-            app:cardCornerRadius="@dimen/raio_cantos_mensagem"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horaDisplay">
-            <TextView
-                android:id="@+id/conteudoDaMensagem"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/caixaDaMensagem"
+                android:layout_marginStart="@dimen/edittext_margem_dimen"
+                android:layout_marginEnd="@dimen/edittext_margem_dimen"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxWidth="280dp"
-                android:layout_marginStart="@dimen/raw_mensagem_margem_dimen"
-                android:layout_marginTop="@dimen/raw_mensagem_margem_dimen"
-                android:layout_marginEnd="@dimen/raw_mensagem_margem_dimen"
-                android:layout_marginBottom="@dimen/raw_mensagem_margem_dimen"
-                android:hint="@string/mensagem_hint" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/conteudoDaMensagem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/edittext_margem_dimen"
+                    android:hint="@string/mensagem_hint"
+                    android:maxWidth="280dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/horaDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="6dp"
+                    android:hint="@string/hora"
+                    app:layout_constraintEnd_toEndOf="@+id/conteudoDaMensagem"
+                    app:layout_constraintStart_toStartOf="@+id/conteudoDaMensagem"
+                    app:layout_constraintTop_toBottomOf="@+id/conteudoDaMensagem" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 </layout>

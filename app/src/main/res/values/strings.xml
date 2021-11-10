@@ -12,5 +12,7 @@
     <string name="mensagemDeletarContato">Você deseja deletar este contato?</string>
     <string name="confirmar">Confirmar</string>
     <string name="cancelar">Cancelar</string>
-
+    <string name="inscrever">Inscrever-se</string>
+    <string name="bemvindo">Bem-Vindo</string>
+    <string name="logo">Logo</string>
 </resources>
