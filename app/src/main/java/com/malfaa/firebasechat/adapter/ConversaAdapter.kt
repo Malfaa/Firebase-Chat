@@ -36,13 +36,13 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
             if (item.souEu){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
-                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#9499B7"))
+                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#102027"))
                 binding.cardViewDoConteudoMensagem.layoutParams = params
 
             }else{
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
-                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#C5CAE9"))
+                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#546e7a"))
             }
 
         }

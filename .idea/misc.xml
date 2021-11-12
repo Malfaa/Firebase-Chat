@@ -5,14 +5,15 @@
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.221875" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.3640625" />
+        <entry key="app/src/main/res/drawable/teste.xml" value="0.3640625" />
         <entry key="app/src/main/res/font/font.xml" value="0.378125" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/adiciona_contato_fragment.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/confirma_deletar_contato.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/contato_conversa.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/contato_item.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/contatos_fragment.xml" value="0.34791666666666665" />
-        <entry key="app/src/main/res/layout/conversa_fragment.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/conversa_fragment.xml" value="0.2" />
         <entry key="app/src/main/res/layout/conversas_fragment.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/mensagem.xml" value="0.6002766251728907" />
         <entry key="app/src/main/res/layout/mensagem_propria.xml" value="0.34791666666666665" />
@@ -21,9 +22,11 @@
         <entry key="app/src/main/res/layout/minha_mensagem.xml" value="0.5" />
         <entry key="app/src/main/res/layout/remover_contato_fragment.xml" value="0.20677083333333332" />
         <entry key="app/src/main/res/layout/sign_up_fragment.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/splash_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/splash_screen.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/splash_screen_fragment.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/usuario_conversa.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3640625" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_logo.xml" value="0.3640625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_splash_logo.xml" value="0.3640625" />
       </map>
     </option>

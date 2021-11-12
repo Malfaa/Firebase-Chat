@@ -6,7 +6,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
-import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.*

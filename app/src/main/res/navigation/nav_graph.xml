@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/contatosFragment">
+    app:startDestination="@id/splashScreenFragment">
 
     <fragment
         android:id="@+id/contatosFragment"
@@ -12,8 +12,9 @@
         tools:layout="@layout/contatos_fragment">
         <action
             android:id="@+id/action_contatosFragment_to_conversaFragment"
-            app:destination="@id/conversaFragment">
-        </action>
+            app:destination="@id/conversaFragment"
+            app:enterAnim="@anim/side_slide_direita"
+            app:exitAnim="@anim/side_slide_out_esquerda" />
         <action
             android:id="@+id/action_contatosFragment_to_adicionaContatoFragment"
             app:destination="@id/adicionaContatoFragment" />
@@ -27,20 +28,45 @@
         tools:layout="@layout/conversa_fragment">
         <action
             android:id="@+id/action_conversaFragment_to_contatosFragment"
-            app:destination="@id/contatosFragment" />
+            app:destination="@id/contatosFragment"
+            app:enterAnim="@anim/side_slide_esquerda"
+            app:exitAnim="@anim/side_slide_out_direita" />
         <argument
             android:name="contato_id"
             app:argType="integer" />
     </fragment>
 
     <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.malfaa.firebasechat.fragment.SignUpFragment"
+        android:label="sign_up_fragment"
+        tools:layout="@layout/sign_up_fragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_contatosFragment"
+            app:destination="@id/contatosFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/adicionaContatoFragment"
+        tools:layout="@layout/adiciona_contato_fragment"
         android:name="com.malfaa.firebasechat.fragment.AdicionaContatoFragment"
-        android:label="adiciona_contato_fragment"
-        tools:layout="@layout/adiciona_contato_fragment" >
+        android:label="AdicionaContatoFragment" >
         <action
             android:id="@+id/action_adicionaContatoFragment_to_contatosFragment"
             app:destination="@id/contatosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        tools:layout="@layout/splash_screen_fragment"
+        android:name="com.malfaa.firebasechat.fragment.SplashScreenFragment"
+        android:label="SplashScreenFragment" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_contatosFragment"
+            app:destination="@id/contatosFragment"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
 
 </navigation>

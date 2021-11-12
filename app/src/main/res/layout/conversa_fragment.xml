@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/edittext_margem_dimen"
             android:layout_marginBottom="@dimen/edittext_margem_dimen"
+            android:textColor="@color/white"
             android:text="@string/enviar"
             app:cornerRadius="@dimen/raio_cantos_btn"
             app:layout_constraintBottom_toBottomOf="parent"

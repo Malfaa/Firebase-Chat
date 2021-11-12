@@ -52,11 +52,11 @@ class AdicionaContatoFragment : Fragment() {
                 viewModel.adicionaContato(ContatosEntidade(any).apply {
                     nome = binding.contatoEmail.text.toString()
                 })
-            Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
-            this.findNavController().navigate(AdicionaContatoFragmentDirections.actionAdicionaContatoFragmentToContatosFragment())
-        }else{
-            Toast.makeText(context, "Contato Inválido.\n Tente novamente.", Toast.LENGTH_SHORT).show()
-            binding.contatoEmail.text.clear()
+                Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
+                this.findNavController().navigate(AdicionaContatoFragmentDirections.actionAdicionaContatoFragmentToContatosFragment())
+            }else{
+                Toast.makeText(context, "Contato Inválido.\n Tente novamente.", Toast.LENGTH_SHORT).show()
+                binding.contatoEmail.text.clear()
             }
         }
 

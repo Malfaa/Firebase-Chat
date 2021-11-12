@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,12 +20,10 @@ import com.malfaa.firebasechat.databinding.ContatosFragmentBinding
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 import android.content.Intent
-
-
+import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 
 
 class ContatosFragment : Fragment() {

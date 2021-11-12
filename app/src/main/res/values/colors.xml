@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="fundo_color">#3E234F</color>
-    <color name="main_purple">#C5CAE9</color>
-    <color name="asd">#9575cd</color>
-    <color name="sender_purple">#9499B7</color>
+    <color name="fundo_color">#37474f</color>
+    <color name="main_color">#819ca9</color>
+    <color name="asd">#62727b</color>
+    <color name="secondary_color">#546e7a</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="area_edittext">#65499c</color>
+    <color name="area_edittext">#102027</color>
+    <color name="cinza">#9A9999</color>
 </resources>
+
+<!-- fundo color ->#3E234F
+     sender purple->#9499B7
+     asd -> #9575cd
+     main purple -> #C5CAE9
+-->
