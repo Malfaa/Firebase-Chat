@@ -45,7 +45,6 @@ class SplashScreenFragment : Fragment() {
 //               this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToSignInFragment())
 //            }
             this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToContatosFragment())
-        }, 1500)
-
-    } // FIXME: 11/11/2021 flash ao final da animação
+        }, 800)
+    }
 }

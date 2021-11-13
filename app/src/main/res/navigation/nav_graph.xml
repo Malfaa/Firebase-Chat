@@ -61,12 +61,10 @@
         android:label="SplashScreenFragment" >
         <action
             android:id="@+id/action_splashScreenFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:enterAnim="@android:anim/fade_in" />
+            app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_splashScreenFragment_to_contatosFragment"
-            app:destination="@id/contatosFragment"
-            app:enterAnim="@android:anim/fade_in" />
+            app:destination="@id/contatosFragment" />
     </fragment>
 
 </navigation>
