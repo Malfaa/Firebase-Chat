@@ -9,5 +9,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         // TODO: 05/11/2021 Se estiver autenticado ir direto aos contatos, se não, inscrever-se
         // FIXME: 11/11/2021 arrumar logo launcher
+
+
     }
 }

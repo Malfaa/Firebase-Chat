@@ -17,34 +17,44 @@
         android:layout_height="wrap_content"
         tools:context=".fragment.AdicionaContatoFragment">
 
-        <EditText
-            android:id="@+id/contatoEmail"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/areaContato"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/distancia_elementos_globais"
-            android:layout_marginTop="@dimen/distancia_elementos_globais"
-            android:layout_marginEnd="@dimen/distancia_elementos_globais"
-            android:autofillHints="false"
-            android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/edittext_margem_dimen"
+            android:layout_marginEnd="@dimen/edittext_margem_dimen"
+            android:layout_marginTop="@dimen/edittext_margem_dimen"
+            android:layout_marginBottom="@dimen/edittext_margem_dimen"
+            app:layout_constraintBottom_toTopOf="@+id/adicionarContato"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/contatoEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/email"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                tools:layout_editor_absoluteX="17dp"
+                tools:layout_editor_absoluteY="6dp" />
+        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/adicionarContato"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_marginTop="@dimen/edittext_margem_dimen"
+            android:layout_marginEnd="@dimen/edittext_margem_dimen"
             android:layout_marginBottom="@dimen/distancia_elementos_globais"
-            android:backgroundTint="@color/design_default_color_secondary"
             android:text="@string/adicionar"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/contatoEmail"
-            app:layout_constraintStart_toStartOf="@+id/contatoEmail"
-            app:layout_constraintTop_toBottomOf="@+id/contatoEmail" />
+            app:layout_constraintEnd_toEndOf="@+id/areaContato"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/areaContato" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

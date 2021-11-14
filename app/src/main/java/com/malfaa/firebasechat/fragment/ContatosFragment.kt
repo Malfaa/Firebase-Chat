@@ -23,6 +23,7 @@ import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 import android.content.Intent
+import com.malfaa.firebasechat.DialogFragment
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 
 
@@ -54,6 +55,7 @@ class ContatosFragment : Fragment() {
         return MeuDatabase.recebaDatabase(application).meuDao()
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SetupVariaveisIniciais()
@@ -135,7 +137,7 @@ class ContatosFragment : Fragment() {
         construtor.setView(adicionarContBinding.root)
 
         construtor.setPositiveButton("Adicionar"){
-            dialogo, _ ->
+                dialogo, _ ->
             if(adicionarContBinding.contatoEmail.text.isNotEmpty()){
                 AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(any).apply {
                     nome = adicionarContBinding.contatoEmail.text.toString()
@@ -154,7 +156,6 @@ class ContatosFragment : Fragment() {
 
     }
 
-    // TODO: 20/10/2021 Layout precisa ser aprimorado
     // TODO: 03/11/2021 escolher entre usar o novo modo de adicionar contato ou o antigo que é por navegação
     // FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida
 }

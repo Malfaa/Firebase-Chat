@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.SplashScreenFragmentBinding
 import com.malfaa.firebasechat.safeNavigate
@@ -22,6 +23,7 @@ class SplashScreenFragment : Fragment() {
 
     private lateinit var viewModel: SplashScreenViewModel
     private lateinit var binding: SplashScreenFragmentBinding
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,16 +37,21 @@ class SplashScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SplashScreenViewModel::class.java]
 
+        mAuth = FirebaseAuth.getInstance()
+        val usuario = mAuth.currentUser
+
         val animacao = AnimationUtils.loadAnimation(requireActivity(), R.anim.fade_in)
         binding.fcLogo.startAnimation(animacao)
 
-        // TODO: 05/11/2021 Se estiver autenticado ir direto aos contatos, se não, inscrever-se
-        // TODO: 11/11/2021 IF cadastrado, entra se não no
+
         Handler(Looper.getMainLooper()).postDelayed({
-//            if(/*recebe google auth*/) {
-//               this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToSignInFragment())
-//            }
-            this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToContatosFragment())
-        }, 800)
+            if(usuario == null) {
+               this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToSignUpFragment())
+            }else{
+                this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToContatosFragment())
+            }
+        }, 2000)
     }
 }
+// TODO: 05/11/2021 Se estiver autenticado ir direto aos contatos, se não, inscrever-se
+// TODO: 11/11/2021 IF cadastrado, entra se não no
