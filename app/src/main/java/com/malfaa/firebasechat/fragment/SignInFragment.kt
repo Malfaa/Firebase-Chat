@@ -1,33 +1,45 @@
 package com.malfaa.firebasechat.fragment
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
+import android.app.Activity.RESULT_OK
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.SignInFragmentBinding
+import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.SignInViewModel
 
 class SignInFragment : Fragment() {
 
-    companion object {
-        private const val RC_SIGN_IN = 100
-    }
+//    companion object {
+//        private const val RC_SIGN_IN = 100
+//    }
 
     private lateinit var viewModel: SignInViewModel
     private lateinit var binding: SignInFragmentBinding
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var googleSignInClient: GoogleSignInClient
+//    private lateinit var mAuth: FirebaseAuth
+//    private lateinit var googleSignInClient: GoogleSignInClient
+
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { res ->
+        this.onSignInResult(res)
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,14 +47,14 @@ class SignInFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.sign_in_fragment, container, false)
 
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-
-        mAuth = FirebaseAuth.getInstance()
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken(getString(R.string.default_web_client_id))
+//            .requestEmail()
+//            .build()
+//
+//        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+//
+//        mAuth = FirebaseAuth.getInstance()
 
         return binding.root
     }
@@ -52,31 +64,34 @@ class SignInFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(SignInViewModel::class.java)
 
         binding.signIn.setOnClickListener {
-            signIn()
+            createSignInIntent()
+
         }
+    }
+    private fun createSignInIntent() {
+        // [START auth_fui_create_intent]
+        // Choose authentication providers
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.GoogleBuilder().build())
 
+        // Create and launch sign-in intent
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+        signInLauncher.launch(signInIntent)
+        // [END auth_fui_create_intent]
     }
 
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN) //deprecated
-    }
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+        if (result.resultCode == RESULT_OK) {
+            // Successfully signed in
+            val user = FirebaseAuth.getInstance().currentUser
+            this.findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToContatosFragment())
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-            }
+        } else {
+            Log.d("Erro SignInResult", "Erro")
         }
     }
 }

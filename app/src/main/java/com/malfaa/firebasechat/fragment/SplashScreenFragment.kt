@@ -50,7 +50,7 @@ class SplashScreenFragment : Fragment() {
             }else{
                 this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToContatosFragment())
             }
-        }, 2000)
+        }, 1800)
     }
 }
 // TODO: 05/11/2021 Se estiver autenticado ir direto aos contatos, se não, inscrever-se

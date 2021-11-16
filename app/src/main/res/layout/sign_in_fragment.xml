@@ -13,17 +13,19 @@
         android:background="@color/fundo_color"
         tools:context=".fragment.SignInFragment">
 
-
         <Button
             android:id="@+id/signIn"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_google"
             android:layout_marginBottom="147dp"
-            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
             android:text="@string/inscrever"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/bemvindo"
-            app:layout_constraintStart_toStartOf="@+id/bemvindo" />
+            app:layout_constraintStart_toStartOf="@+id/bemvindo"
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/bemvindo"
