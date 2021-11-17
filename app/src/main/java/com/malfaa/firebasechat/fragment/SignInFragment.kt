@@ -65,7 +65,6 @@ class SignInFragment : Fragment() {
 
         binding.signIn.setOnClickListener {
             createSignInIntent()
-
         }
     }
     private fun createSignInIntent() {

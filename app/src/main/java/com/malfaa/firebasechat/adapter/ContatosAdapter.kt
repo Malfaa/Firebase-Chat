@@ -31,6 +31,9 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         }
     }
 
+
+    // TODO: 17/11/2021 quando alguém enviar a mensagem, mostrar no adapter já com o nome da pessoa no display
+
     class MenuConversaDiffCallBack: DiffUtil.ItemCallback<ContatosEntidade>(){
         override fun areItemsTheSame(
             oldItem: ContatosEntidade,

@@ -53,5 +53,3 @@ class SplashScreenFragment : Fragment() {
         }, 1800)
     }
 }
-// TODO: 05/11/2021 Se estiver autenticado ir direto aos contatos, se não, inscrever-se
-// TODO: 11/11/2021 IF cadastrado, entra se não no

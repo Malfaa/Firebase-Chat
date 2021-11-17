@@ -142,6 +142,9 @@ class ContatosFragment : Fragment() {
                 AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(any).apply {
                     nome = adicionarContBinding.contatoEmail.text.toString()
                 })
+
+                // TODO: 17/11/2021 Pesquisa um contato e o adiciona. Envia para o firebase que retornará o valor do email e usará assim p/ conversar
+
                 dialogo.cancel()
                 Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
 

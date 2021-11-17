@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.auth.FirebaseAuth
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.adapter.ConversaAdapter
@@ -26,6 +27,7 @@ class ConversaFragment : Fragment() {
     private lateinit var viewModel: ConversaViewModel
     private lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
+    private lateinit var mAuth: FirebaseAuth
 
     val args : ConversaFragmentArgs by navArgs()
 
@@ -73,6 +75,8 @@ class ConversaFragment : Fragment() {
                 horario = viewModel.setHorarioMensagem
                 Log.d("Mensagem:", mensagem)
                 Log.d("Horario:", horario)
+
+                // TODO: 17/11/2021 Quando for enviar a mensagem, enviar tanto para o room quanto p/ o firebase
 
             })
             binding.mensagemEditText.setText("")

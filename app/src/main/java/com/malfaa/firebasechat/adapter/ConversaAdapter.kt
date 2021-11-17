@@ -44,7 +44,7 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
                 binding.horaDisplay.text = item.horario
                 binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#546e7a"))
             }
-
+// TODO: 17/11/2021 quando receber a mensagem do firebase, armazenar junto ao room. Vice-versa p/ enviar
         }
         companion object{
             fun from(parent: ViewGroup): ViewHolder {
