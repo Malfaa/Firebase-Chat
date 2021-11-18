@@ -23,6 +23,10 @@ import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 import android.content.Intent
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.malfaa.firebasechat.DialogFragment
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 
@@ -32,6 +36,8 @@ class ContatosFragment : Fragment() {
     private lateinit var viewModel: ContatosViewModel
     private lateinit var binding: ContatosFragmentBinding
     private lateinit var viewModelFactory: ContatosViewModelFactory
+    private lateinit var mAuth: FirebaseAuth
+    private val database = Firebase.database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -130,6 +136,9 @@ class ContatosFragment : Fragment() {
     }
     private fun alertDialogAdicionarContato(){
         Log.d("Status", "Função sendo chamada")
+        //Firebase
+        val referencia = database.getReference("Contatos")
+        //-------
         val construtor = AlertDialog.Builder(requireActivity())
         var any: Int = 0
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
@@ -140,9 +149,16 @@ class ContatosFragment : Fragment() {
                 dialogo, _ ->
             if(adicionarContBinding.contatoEmail.text.isNotEmpty()){
                 AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(any).apply {
-                    nome = adicionarContBinding.contatoEmail.text.toString()
+                    nome = adicionarContBinding.contatoNome.text.toString()
+                    email = adicionarContBinding.contatoEmail.text.toString()
                 })
+                //Firebase
+                val contatoVar = ContatosEntidade(any).apply { nome = adicionarContBinding.contatoNome.text.toString()
+                    email = adicionarContBinding.contatoEmail.text.toString() }
 
+                referencia.setValue(contatoVar)
+
+                Log.d("teste", referencia.toString())
                 // TODO: 17/11/2021 Pesquisa um contato e o adiciona. Envia para o firebase que retornará o valor do email e usará assim p/ conversar
 
                 dialogo.cancel()

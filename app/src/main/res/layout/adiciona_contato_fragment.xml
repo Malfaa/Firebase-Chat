@@ -17,18 +17,31 @@
         android:layout_height="wrap_content"
         tools:context=".fragment.AdicionaContatoFragment">
 
-        <androidx.cardview.widget.CardView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/areaContato"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/edittext_margem_dimen"
-            android:layout_marginEnd="@dimen/edittext_margem_dimen"
             android:layout_marginTop="@dimen/edittext_margem_dimen"
+            android:layout_marginEnd="@dimen/edittext_margem_dimen"
             android:layout_marginBottom="@dimen/edittext_margem_dimen"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/adicionarContato"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <EditText
+                android:id="@+id/contatoNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_marginBottom="@dimen/edittext_margem_dimen"
+                android:hint="@string/nomeConversa"
+                android:inputType="text"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/contatoEmail"
@@ -36,11 +49,10 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/email"
+                android:layout_marginTop="@dimen/edittext_margem_dimen"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
-                tools:layout_editor_absoluteX="17dp"
-                tools:layout_editor_absoluteY="6dp" />
-        </androidx.cardview.widget.CardView>
+                android:inputType="textEmailAddress"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <Button
             android:id="@+id/adicionarContato"

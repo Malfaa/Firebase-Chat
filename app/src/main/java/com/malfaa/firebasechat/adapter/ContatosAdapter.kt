@@ -1,12 +1,15 @@
 package com.malfaa.firebasechat.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.malfaa.firebasechat.databinding.ContatoItemBinding
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 
@@ -15,11 +18,32 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         val usuarioDestino = MutableLiveData<Boolean>()
         lateinit var idItem : ContatosEntidade
         val deletarUsuario = MutableLiveData<Boolean>()
+        lateinit var mAuth: FirebaseAuth
+        lateinit var db: FirebaseDatabase
     }
 
+   /* private fun teste(){
+        val teste = db.reference
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                val post = dataSnapshot.getValue<Post>()
+                // ...
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("Erro", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        teste.addValueEventListener(postListener)
+
+    }*/
     class ViewHolder private constructor(val binding: ContatoItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item : ContatosEntidade){
             binding.item = item
+
             binding.executePendingBindings()
         }
         companion object{

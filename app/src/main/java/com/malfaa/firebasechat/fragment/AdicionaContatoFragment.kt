@@ -50,7 +50,8 @@ class AdicionaContatoFragment : Fragment() {
         binding.adicionarContato.setOnClickListener{
             if(binding.contatoEmail.text.isNotEmpty()){
                 viewModel.adicionaContato(ContatosEntidade(any).apply {
-                    nome = binding.contatoEmail.text.toString()
+                    nome = binding.contatoNome.text.toString()
+                    email = binding.contatoEmail.text.toString()
                 })
                 Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
                 this.findNavController().navigate(AdicionaContatoFragmentDirections.actionAdicionaContatoFragmentToContatosFragment())

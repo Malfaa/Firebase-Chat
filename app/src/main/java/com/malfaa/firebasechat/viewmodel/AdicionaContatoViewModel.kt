@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 class AdicionaContatoViewModel(private val meuDao: MeuDao) : ViewModel() {
 
 
+
     //Coroutine ----------------------------------------------------------------------------------
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)

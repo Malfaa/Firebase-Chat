@@ -12,20 +12,5 @@ data class ContatosEntidade(
 
 ){
     var nome: String = ""
-
-    //como salvar o contato assim vindo pelo google funcionaria?
-
+    var email: String = ""
 }
-
-/*@Entity(tableName = "contatos")
-data class ContatosEntidade(
-    var nome: String
-){
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "contato_id")
-    var id: Int = 0
-
-    //como salvar o contato assim vindo pelo google funcionaria?
-
-}
-*/
