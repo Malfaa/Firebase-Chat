@@ -144,7 +144,9 @@ class ContatosFragment : Fragment() {
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
         construtor.setTitle(R.string.tituloAdicionarContato)
         construtor.setView(adicionarContBinding.root)
-
+// TODO: 19/11/2021 Quando for adicionar o contato, adicionar via email ou UID, de alguma forma tem que retornar o UID do contato que deseja conversar
+        // TODO: 19/11/2021 Usar o UID p/ navegar entre os fragmentos, como se fosse o padrão id usado até o momento
+        // TODO: 19/11/2021 Talvez o adicionar na verdade só usa o UID para poder comunicar com ele, o receiver só atualiza e tem a conversa feita
         construtor.setPositiveButton("Adicionar"){
                 dialogo, _ ->
             if(adicionarContBinding.contatoEmail.text.isNotEmpty()){

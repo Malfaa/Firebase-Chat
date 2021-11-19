@@ -15,5 +15,5 @@ data class ConversaEntidade(
 
     var horario: String = ""
 
-    var souEu: Boolean = false
+    var souEu: Boolean = false  //retrieve self UID from firebase
 }

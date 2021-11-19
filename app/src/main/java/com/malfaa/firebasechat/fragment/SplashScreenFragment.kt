@@ -52,4 +52,4 @@ class SplashScreenFragment : Fragment() {
             }
         }, 1800)
     }
-}
+}// TODO: 19/11/2021 salvar no firebase o user
