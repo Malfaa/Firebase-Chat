@@ -69,7 +69,7 @@ class ConversaFragment : Fragment() {
         callback.isEnabled
 
         binding.enviarBtn.setOnClickListener{
-            viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.contatoId).apply {
+            viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
                 souEu = true
                 mensagem = binding.mensagemEditText.text.toString()
                 horario = viewModel.setHorarioMensagem

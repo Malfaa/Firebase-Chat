@@ -1,11 +1,13 @@
 package com.malfaa.firebasechat.room.entidades
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "conversa")
 data class ConversaEntidade(
 
-    val contatosConversaIds : Int
+    val uid : String
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "mensagem_id")
@@ -15,5 +17,5 @@ data class ConversaEntidade(
 
     var horario: String = ""
 
-    var souEu: Boolean = false  //retrieve self UID from firebase
+    var souEu: Boolean = false //retrieve self UID from firebase
 }

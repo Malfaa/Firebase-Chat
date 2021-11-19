@@ -32,8 +32,8 @@
             app:enterAnim="@anim/side_slide_esquerda"
             app:exitAnim="@anim/side_slide_out_direita" />
         <argument
-            android:name="contato_id"
-            app:argType="integer" />
+            android:name="uid"
+            app:argType="string" />
     </fragment>
 
     <fragment

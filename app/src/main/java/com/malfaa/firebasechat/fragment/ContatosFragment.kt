@@ -24,10 +24,8 @@ import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 import android.content.Intent
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.malfaa.firebasechat.DialogFragment
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 
 
@@ -37,8 +35,12 @@ class ContatosFragment : Fragment() {
     private lateinit var binding: ContatosFragmentBinding
     private lateinit var viewModelFactory: ContatosViewModelFactory
     private lateinit var mAuth: FirebaseAuth
-    private val database = Firebase.database
 
+    companion object{
+        val selfUid = FirebaseAuth.getInstance().uid
+        val database = Firebase.database
+    }
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,7 +101,7 @@ class ContatosFragment : Fragment() {
         ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
                 condicao ->
             if (condicao){
-                val argumento = ContatosAdapter.idItem.id
+                val argumento = ContatosAdapter.uidItem.uid
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )
@@ -109,13 +111,14 @@ class ContatosFragment : Fragment() {
             }
         })
     }
+    // TODO: 19/11/2021 alterar os argumentos p/ alterar o contato
 
     private fun voltaDeletarValParaNormal(){
         ContatosAdapter.deletarUsuario.value = false
     }
     private fun alertDialogDeletarContato(){
         val construtor = AlertDialog.Builder(requireActivity())
-        val idParaDeletar = ContatosAdapter.idItem
+        val idParaDeletar = ContatosAdapter.uidItem
 
         construtor.setTitle(R.string.tituloDeletarContato)
         construtor.setMessage(R.string.mensagemDeletarContato)
@@ -137,10 +140,10 @@ class ContatosFragment : Fragment() {
     private fun alertDialogAdicionarContato(){
         Log.d("Status", "Função sendo chamada")
         //Firebase
-        val referencia = database.getReference("Contatos")
+        val referencia = database.getReference("Users")
         //-------
         val construtor = AlertDialog.Builder(requireActivity())
-        var any: Int = 0
+        val uid: String = referencia. //Continuar como recuperar valor do uid presente no realtime database
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
         construtor.setTitle(R.string.tituloAdicionarContato)
         construtor.setView(adicionarContBinding.root)
@@ -149,16 +152,12 @@ class ContatosFragment : Fragment() {
         // TODO: 19/11/2021 Talvez o adicionar na verdade só usa o UID para poder comunicar com ele, o receiver só atualiza e tem a conversa feita
         construtor.setPositiveButton("Adicionar"){
                 dialogo, _ ->
+
             if(adicionarContBinding.contatoEmail.text.isNotEmpty()){
-                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(any).apply {
+                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(uid).apply {
                     nome = adicionarContBinding.contatoNome.text.toString()
                     email = adicionarContBinding.contatoEmail.text.toString()
                 })
-                //Firebase
-                val contatoVar = ContatosEntidade(any).apply { nome = adicionarContBinding.contatoNome.text.toString()
-                    email = adicionarContBinding.contatoEmail.text.toString() }
-
-                referencia.setValue(contatoVar)
 
                 Log.d("teste", referencia.toString())
                 // TODO: 17/11/2021 Pesquisa um contato e o adiciona. Envia para o firebase que retornará o valor do email e usará assim p/ conversar

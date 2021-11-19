@@ -1,7 +1,6 @@
 package com.malfaa.firebasechat.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +15,7 @@ import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>(MenuConversaDiffCallBack()){
     companion object {
         val usuarioDestino = MutableLiveData<Boolean>()
-        lateinit var idItem : ContatosEntidade
+        lateinit var uidItem : ContatosEntidade
         val deletarUsuario = MutableLiveData<Boolean>()
         lateinit var mAuth: FirebaseAuth
         lateinit var db: FirebaseDatabase
@@ -84,11 +83,11 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         val item = getItem(position)
         holder.bind(item)
         holder.binding.contatoItem.setOnClickListener{
-            idItem = item
+            uidItem = item
             usuarioDestino.value = true
         }
         holder.binding.contatoItem.setOnLongClickListener {
-            idItem = item
+            uidItem = item
             deletarUsuario.value = true
             true
         }
