@@ -17,7 +17,7 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
     fun removeContato(contato: ContatosEntidade){
         uiScope.launch {
             meuDao.removerContato(contato)
-            meuDao.removeContato(contato.id)
+            meuDao.removeContato(contato.uid)
             onCleared()
         }
     }

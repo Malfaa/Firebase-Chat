@@ -47,7 +47,7 @@ class AdicionaContatoFragment : Fragment() {
 
         SetupVariaveisIniciais()
 
-        binding.adicionarContato.setOnClickListener{
+        /*binding.adicionarContato.setOnClickListener{
             if(binding.contatoEmail.text.isNotEmpty()){
                 viewModel.adicionaContato(ContatosEntidade(any).apply {
                     nome = binding.contatoNome.text.toString()
@@ -59,7 +59,7 @@ class AdicionaContatoFragment : Fragment() {
                 Toast.makeText(context, "Contato Inválido.\n Tente novamente.", Toast.LENGTH_SHORT).show()
                 binding.contatoEmail.text.clear()
             }
-        }
+        }*/
 
     }
 }

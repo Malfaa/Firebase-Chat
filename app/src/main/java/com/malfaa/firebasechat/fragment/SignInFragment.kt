@@ -85,7 +85,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun adicaoDeUserAoFDB(user: FirebaseUser?){
-        val ref = database.getReference("Users")
+        val ref = database.getReference("Users").child(user?.displayName.toString())
         val valores = ContatosEntidade(user?.uid.toString()).apply{
             nome = user?.displayName.toString()
             email = user?.email.toString()

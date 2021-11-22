@@ -21,24 +21,6 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
         lateinit var db: FirebaseDatabase
     }
 
-   /* private fun teste(){
-        val teste = db.reference
-
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                val post = dataSnapshot.getValue<Post>()
-                // ...
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w("Erro", "loadPost:onCancelled", databaseError.toException())
-            }
-        }
-        teste.addValueEventListener(postListener)
-
-    }*/
     class ViewHolder private constructor(val binding: ContatoItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item : ContatosEntidade){
             binding.item = item

@@ -21,11 +21,11 @@ interface MeuDao {
     @Delete
     suspend fun removerContato(id: ContatosEntidade)
 
-    @Query("DELETE FROM conversa WHERE contatosConversaIds = :id")
-    suspend fun removeContato(id: Int)
+    @Query("DELETE FROM conversa WHERE uid = :id")
+    suspend fun removeContato(id: String)
 
-    @Query("SELECT * FROM conversa WHERE contatosConversaIds = :id ORDER BY mensagem_id DESC")
-    fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
+    @Query("SELECT * FROM conversa WHERE uid = :id ORDER BY mensagem_id DESC")
+    fun receberConversa(id: String): LiveData<List<ConversaEntidade>>
 
     @Insert
     suspend fun inserirMensagem(id: ConversaEntidade)

@@ -105,7 +105,7 @@ class ContatosFragment : Fragment() {
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )
-                Log.d("Condicao", "foi até destino")
+                Log.d("Condicao", "foi até destino, $argumento")
             }else{
                 Log.d("Condicao", "Retido")
             }
@@ -139,27 +139,37 @@ class ContatosFragment : Fragment() {
     }
     private fun alertDialogAdicionarContato(){
         Log.d("Status", "Função sendo chamada")
-        //Firebase
-        val referencia = database.getReference("Users")
-        //-------
+
         val construtor = AlertDialog.Builder(requireActivity())
-        val uid: String = referencia. //Continuar como recuperar valor do uid presente no realtime database
+        val user = FirebaseAuth.getInstance().currentUser
+
+        //Firebase
+        val referencia = database.reference.child("Users").child(user?.displayName.toString()).get().addOnSuccessListener {
+            Log.d("Ref", "Dados Recuperados")
+        }.addOnFailureListener{
+            Log.d("Ref", "Falha em recuperar os dados")
+        }
+//-------
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
         construtor.setTitle(R.string.tituloAdicionarContato)
         construtor.setView(adicionarContBinding.root)
-// TODO: 19/11/2021 Quando for adicionar o contato, adicionar via email ou UID, de alguma forma tem que retornar o UID do contato que deseja conversar
+
+        // TODO: 19/11/2021 Quando for adicionar o contato, adicionar via email ou UID, de alguma forma tem que retornar o UID do contato que deseja conversar
         // TODO: 19/11/2021 Usar o UID p/ navegar entre os fragmentos, como se fosse o padrão id usado até o momento
         // TODO: 19/11/2021 Talvez o adicionar na verdade só usa o UID para poder comunicar com ele, o receiver só atualiza e tem a conversa feita
+
         construtor.setPositiveButton("Adicionar"){
                 dialogo, _ ->
+            val e_mail: String = adicionarContBinding.contatoEmail.text.toString()
+            Log.d("Verificando UID", e_mail.toString())
+            Log.d("Verificando UID", referencia.result.value.toString())
+            Log.d("Verificando UID", referencia.result.child("email").value.toString())
 
-            if(adicionarContBinding.contatoEmail.text.isNotEmpty()){
-                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(uid).apply {
+            if(referencia.result.child("email").value.toString() == e_mail ){
+                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(e_mail).apply {
                     nome = adicionarContBinding.contatoNome.text.toString()
                     email = adicionarContBinding.contatoEmail.text.toString()
                 })
-
-                Log.d("teste", referencia.toString())
                 // TODO: 17/11/2021 Pesquisa um contato e o adiciona. Envia para o firebase que retornará o valor do email e usará assim p/ conversar
 
                 dialogo.cancel()
@@ -173,7 +183,6 @@ class ContatosFragment : Fragment() {
 
         val alerta = construtor.create()
         alerta.show()
-
     }
 
     // TODO: 03/11/2021 escolher entre usar o novo modo de adicionar contato ou o antigo que é por navegação

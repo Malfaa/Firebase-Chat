@@ -14,7 +14,7 @@ import java.util.*
 
 class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
-    val recebeConversa = meuDao.receberConversa(ConversaFragment.companionArguments.contatoId)
+    val recebeConversa = meuDao.receberConversa(ConversaFragment.companionArguments.uid)
 
     //Coroutine
     private val viewModelJob = Job()
