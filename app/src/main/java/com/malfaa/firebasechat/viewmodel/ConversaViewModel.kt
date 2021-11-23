@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.malfaa.firebasechat.converteLongParaString
 import com.malfaa.firebasechat.fragment.ConversaFragment
 import com.malfaa.firebasechat.room.MeuDao
+import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

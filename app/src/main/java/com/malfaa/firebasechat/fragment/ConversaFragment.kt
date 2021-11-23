@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
+import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
+import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.num
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.selfUid
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
@@ -29,9 +29,8 @@ class ConversaFragment : Fragment() {
     private lateinit var viewModel: ConversaViewModel
     private lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
-    private lateinit var mAuth: FirebaseAuth
 
-    val args : ConversaFragmentArgs by navArgs()
+    val args : ConversaFragmentArgs by navArgs() // poderia passar o novo random number
 
     companion object{
         lateinit var companionArguments : ConversaFragmentArgs
@@ -48,11 +47,11 @@ class ConversaFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val application = requireNotNull(this.activity).application
         val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
-        val user = FirebaseAuth.getInstance().currentUser
 
         viewModelFactory = ConversaViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[ConversaViewModel::class.java]
@@ -73,15 +72,14 @@ class ConversaFragment : Fragment() {
 
         binding.enviarBtn.setOnClickListener{
             viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
-                souEu = selfUid.toString()
+                //souEu = selfUid.toString()
                 mensagem = binding.mensagemEditText.text.toString()
                 horario = viewModel.setHorarioMensagem
                 Log.d("Mensagem:", mensagem)
                 Log.d("Horario:", horario)
             })
-            // TODO: 17/11/2021 Quando for enviar a mensagem, enviar tanto para o room quanto p/ o firebase
 
-            adicionaMensagemAoFirebase(user)
+            adicionaMensagemAoFirebase()
 
             binding.mensagemEditText.setText("")
         }
@@ -91,15 +89,29 @@ class ConversaFragment : Fragment() {
         ContatosAdapter.usuarioDestino.value = false
     }
 
-    private fun adicionaMensagemAoFirebase(user: FirebaseUser?){
-        //val ref = ContatosFragment.database.getReference(user?.displayName.toString()).child("Mensagens").child(ConversaFragment.companionArguments.uid)
-        val ref = ContatosFragment.database.getReference("Mensagens").child("$selfUid | ${companionArguments.uid}") //problema aqui
-        // TODO: 22/11/2021 O que pode  ser feito é, ao invés de usar os dois uid's para criar a conversa, só é colocado o do outro user, assim o adapter sempre att o próprio UID para novas mensagens que não foram enviadas pelo próprio user
-        val valores = ConversaEntidade(user?.uid.toString()).apply{
-            souEu = selfUid.toString()
-            mensagem = binding.mensagemEditText.text.toString()
+
+    private fun adicionaMensagemAoFirebase(){
+
+        // FIXME: 23/11/2021 problema é aqui abaixo
+        val uid: String = database.reference.child("Users").child(num).child("uid").get().result.value.toString()
+        val conversaId : String
+
+        if(selfUid?.length!! < uid.length){
+            conversaId = selfUid+uid
+            Log.d("ConversaId", conversaId)
+        }else{
+            conversaId = uid+selfUid
+            Log.d("ConversaId", conversaId)
+        }
+        val referencia = database.getReference("Conversas").child(conversaId)
+
+        val mensagem = ConversaEntidade(uid).apply {
             horario = viewModel.setHorarioMensagem
-        }// TODO: 22/11/2021 meter um "para: nome da pessoa caso não user o segundo ref
-        ref.setValue(valores)
+            mensagem = binding.mensagemEditText.text.toString()
+            myUid
+        }
+
+        referencia.push().child(selfUid/**talvez usar {num}?**/).setValue(mensagem)
+
     }
 }

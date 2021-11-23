@@ -34,10 +34,10 @@ class ContatosFragment : Fragment() {
     private lateinit var viewModel: ContatosViewModel
     private lateinit var binding: ContatosFragmentBinding
     private lateinit var viewModelFactory: ContatosViewModelFactory
-    private lateinit var mAuth: FirebaseAuth
 
     companion object{
         val selfUid = FirebaseAuth.getInstance().uid
+        var num: String = ""
         val database = Firebase.database
     }
     
@@ -50,14 +50,6 @@ class ContatosFragment : Fragment() {
         return binding.root
     }
 
-    private fun SetupVariaveisIniciais() {
-        val application = requireNotNull(this.activity).application
-        val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
-        viewModelFactory = ContatosViewModelFactory(dataSource)
-        viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
-        binding.viewModel = viewModel
-    }
-
     private fun retornaDao():MeuDao{
         val application = requireNotNull(this.activity).application
         return MeuDatabase.recebaDatabase(application).meuDao()
@@ -66,7 +58,12 @@ class ContatosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetupVariaveisIniciais()
+
+        val application = requireNotNull(this.activity).application
+        val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
+        viewModelFactory = ContatosViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
+        binding.viewModel = viewModel
 
         val mAdapter = ContatosAdapter()
         binding.RVContatos.adapter = mAdapter
@@ -111,7 +108,6 @@ class ContatosFragment : Fragment() {
             }
         })
     }
-    // TODO: 19/11/2021 alterar os argumentos p/ alterar o contato
 
     private fun voltaDeletarValParaNormal(){
         ContatosAdapter.deletarUsuario.value = false
@@ -141,10 +137,9 @@ class ContatosFragment : Fragment() {
         Log.d("Status", "Função sendo chamada")
 
         val construtor = AlertDialog.Builder(requireActivity())
-        val user = FirebaseAuth.getInstance().currentUser
 
         //Firebase
-        val referencia = database.reference.child("Users").child(user?.displayName.toString()).get().addOnSuccessListener {
+        val referencia = database.reference.child("Users").get().addOnSuccessListener {
             Log.d("Ref", "Dados Recuperados")
         }.addOnFailureListener{
             Log.d("Ref", "Falha em recuperar os dados")
@@ -154,37 +149,29 @@ class ContatosFragment : Fragment() {
         construtor.setTitle(R.string.tituloAdicionarContato)
         construtor.setView(adicionarContBinding.root)
 
-        // TODO: 19/11/2021 Quando for adicionar o contato, adicionar via email ou UID, de alguma forma tem que retornar o UID do contato que deseja conversar
-        // TODO: 19/11/2021 Usar o UID p/ navegar entre os fragmentos, como se fosse o padrão id usado até o momento
-        // TODO: 19/11/2021 Talvez o adicionar na verdade só usa o UID para poder comunicar com ele, o receiver só atualiza e tem a conversa feita
-
         construtor.setPositiveButton("Adicionar"){
                 dialogo, _ ->
-            val e_mail: String = adicionarContBinding.contatoEmail.text.toString()
-            Log.d("Verificando UID", e_mail.toString())
-            Log.d("Verificando UID", referencia.result.value.toString())
-            Log.d("Verificando UID", referencia.result.child("email").value.toString())
+            val num: String = adicionarContBinding.contatoNumero.text.toString()
 
-            if(referencia.result.child("email").value.toString() == e_mail ){
-                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(e_mail).apply {
+            if(referencia.result.child(num).key.toString()== num ){ //referencia.result.child("email").value.toString()
+                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referencia.result.child(num).child("uid").value.toString()).apply {
                     nome = adicionarContBinding.contatoNome.text.toString()
-                    email = adicionarContBinding.contatoEmail.text.toString()
+                    email = referencia.result.child(num).child("email").value.toString()
                 })
-                // TODO: 17/11/2021 Pesquisa um contato e o adiciona. Envia para o firebase que retornará o valor do email e usará assim p/ conversar
 
                 dialogo.cancel()
                 Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
 
             }else{
                 Toast.makeText(context, "Contato Inválido. Tente novamente.", Toast.LENGTH_SHORT).show()
-                adicionarContBinding.contatoEmail.text.clear()
+                adicionarContBinding.contatoNumero.text.clear()
             }
         }
 
         val alerta = construtor.create()
         alerta.show()
     }
-
-    // TODO: 03/11/2021 escolher entre usar o novo modo de adicionar contato ou o antigo que é por navegação
     // FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida
+    // TODO: 23/11/2021 passar p/ viewModel
 }
+

@@ -24,7 +24,7 @@ interface MeuDao {
     @Query("DELETE FROM conversa WHERE uid = :id")
     suspend fun removeContato(id: String)
 
-    @Query("SELECT * FROM conversa WHERE uid = :id ORDER BY mensagem_id DESC")
+    @Query("SELECT * FROM conversa WHERE uid = :id ORDER BY horario DESC")//mensagem_id
     fun receberConversa(id: String): LiveData<List<ConversaEntidade>>
 
     @Insert

@@ -23,6 +23,7 @@ import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.SignInViewModel
+import kotlin.random.Random
 
 class SignInFragment : Fragment() {
 
@@ -77,19 +78,13 @@ class SignInFragment : Fragment() {
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
-            adicaoDeUserAoFDB(user)
+
+            viewModel.adicaoDeUserAoFDB(user)
             this.findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToContatosFragment())
         } else {
             Log.d("Erro SignInResult", "Erro")
         }
     }
 
-    private fun adicaoDeUserAoFDB(user: FirebaseUser?){
-        val ref = database.getReference("Users").child(user?.displayName.toString())
-        val valores = ContatosEntidade(user?.uid.toString()).apply{
-            nome = user?.displayName.toString()
-            email = user?.email.toString()
-        }
-        ref.setValue(valores)
-    }
+    //removi daqui o adicao
 }

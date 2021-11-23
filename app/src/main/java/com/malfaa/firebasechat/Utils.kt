@@ -12,7 +12,7 @@ import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 fun converteLongParaString(horaSistema: Date): String {
-    return SimpleDateFormat("h:mm a")//"h:mm a '||' dd.MM.yyyy"
+    return SimpleDateFormat("h:mm a")//"h:mm:ss a '||' dd.MM.yyyy"
         .format(horaSistema).toString()
 }
 

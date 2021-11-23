@@ -44,11 +44,11 @@
                 android:importantForAutofill="no" />
 
             <EditText
-                android:id="@+id/contatoEmail"
+                android:id="@+id/contatoNumero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/email"
+                android:hint="@string/num"
                 android:layout_marginTop="@dimen/edittext_margem_dimen"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"/>

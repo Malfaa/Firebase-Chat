@@ -2,6 +2,7 @@
     <string name="app_name">FirebaseChat</string>
     <string name="mensagem_hint">Mensagem</string>
     <string name="email">Email</string>
+    <string name="num">Número Contato</string>
     <string name="enviar">Enviar</string>
     <string name="adicionar">Adicionar</string>
     <string name="tituloAdicionarContato">Adicionar Contato</string>

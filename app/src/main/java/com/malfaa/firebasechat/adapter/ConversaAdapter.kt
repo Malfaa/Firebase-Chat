@@ -25,20 +25,7 @@ import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 
 class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
-        private fun receberMensagensFirebase(user:FirebaseUser){
-            val ordersRef = database.reference.child("${selfUid}+${ConversaFragment.companionArguments.uid}")
-            val valueEventListener = object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val mensagem = dataSnapshot.child("mensagem").value
-                    mensagem.toString()
-                }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d("Data", databaseError.getMessage()) //Don't ignore errors!
-                }
-            }
-            ordersRef.addValueEventListener(valueEventListener)
-        }
         val user = FirebaseAuth.getInstance().currentUser
         fun bind(item: ConversaEntidade){
             val params = FrameLayout.LayoutParams(
@@ -50,10 +37,9 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
                 bottomMargin = 20
             }
 
-            // FIXME: 22/11/2021 arrumar aqui p/ receber valor do firebase
-            receberMensagensFirebase(user!!)
+            //receberMensagensFirebase(user!!)
 
-            if (item.souEu == selfUid.toString()){
+            if (item.myUid == selfUid.toString()){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
                 binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#102027"))
@@ -64,7 +50,6 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
                 binding.horaDisplay.text = item.horario
                 binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#546e7a"))
             }
-// TODO: 17/11/2021 quando receber a mensagem do firebase, armazenar junto ao room. Vice-versa p/ enviar
         }
         companion object{
             fun from(parent: ViewGroup): ViewHolder {
@@ -100,28 +85,5 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
         val item = getItem(position)
         holder.bind(item)
     }
-//child("${ConversaFragment.companionArguments.uid}"+${selfUid})
-//child("${selfUid}+${ConversaFragment.companionArguments.uid}")
-
-    /*private fun receberMensagensFirebase(user:FirebaseUser){
-        val ordersRef = database.reference.child("${selfUid}+${ConversaFragment.companionArguments.uid}")
-        val valueEventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val mensagem = dataSnapshot.child("mensagem").value
-                mensagem.toString()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("Data", databaseError.getMessage()) //Don't ignore errors!
-            }
-        }
-        ordersRef.addValueEventListener(valueEventListener)
-    }*/
 
 }
-
-// TODO: 10/11/2021 Figma - arrumar o adicionar e o remover (layout)
-
-
-// TODO: 22/11/2021 SOu eu pode ser o uid, pq se continuar a estrutura que está agora, terá problema para mostrar qual dado é de tal.
-// TODO: 22/11/2021 Arrumar o parent e child de mensanges, arranjar algum jeito de linkar os users a uma conversa
