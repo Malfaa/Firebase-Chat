@@ -37,7 +37,6 @@ class ContatosFragment : Fragment() {
 
     companion object{
         val selfUid = FirebaseAuth.getInstance().uid
-        var num: String = ""
         val database = Firebase.database
     }
     
@@ -157,6 +156,7 @@ class ContatosFragment : Fragment() {
                 AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referencia.result.child(num).child("uid").value.toString()).apply {
                     nome = adicionarContBinding.contatoNome.text.toString()
                     email = referencia.result.child(num).child("email").value.toString()
+                    number = num
                 })
 
                 dialogo.cancel()

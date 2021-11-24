@@ -29,6 +29,7 @@ class SignInViewModel : ViewModel() {
             val valores = ContatosEntidade(user?.uid.toString()).apply{
                 nome = user?.displayName.toString()
                 email = user?.email.toString()
+                number = num.toString()
             }
             ref.setValue(valores)}
     }
