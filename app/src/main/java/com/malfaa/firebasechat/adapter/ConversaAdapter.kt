@@ -6,21 +6,22 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.FrameLayout.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.MensagemBinding
-import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.selfUid
+import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.myUid
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 
 
-class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
+class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: ConversaEntidade){
             val params = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
+                WRAP_CONTENT,
+                WRAP_CONTENT
             ).apply {
                 gravity = Gravity.END
                 marginEnd = 10
@@ -29,7 +30,7 @@ class ConversaAdapter(): ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolde
 
             //receberMensagensFirebase(user!!)
 
-            if (item.myUid == selfUid.toString()){
+            if (item.myUid == myUid.toString()){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
                 binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#102027"))

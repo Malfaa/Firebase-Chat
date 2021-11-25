@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
+import com.malfaa.firebasechat.room.entidades.SignInEntidade
 
-@Database(entities = [ContatosEntidade::class, ConversaEntidade::class], version = 1, exportSchema = false)
+@Database(entities = [ContatosEntidade::class, ConversaEntidade::class, SignInEntidade::class], version = 1, exportSchema = false)
 abstract class MeuDatabase: RoomDatabase() {
 
     abstract fun meuDao(): MeuDao

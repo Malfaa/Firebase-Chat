@@ -3,6 +3,7 @@
     <string name="mensagem_hint">Mensagem</string>
     <string name="email">Email</string>
     <string name="num">Número Contato</string>
+    <string name="meuNum">número</string>
     <string name="enviar">Enviar</string>
     <string name="adicionar">Adicionar</string>
     <string name="tituloAdicionarContato">Adicionar Contato</string>

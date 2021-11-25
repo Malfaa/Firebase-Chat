@@ -14,16 +14,12 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.SignInFragmentBinding
-import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
-import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.SignInViewModel
-import kotlin.random.Random
+import com.malfaa.firebasechat.viewmodelfactory.SignInViewModelFactory
 
 class SignInFragment : Fragment() {
 
@@ -33,6 +29,7 @@ class SignInFragment : Fragment() {
 
     private lateinit var viewModel: SignInViewModel
     private lateinit var binding: SignInFragmentBinding
+    private lateinit var viewModelFactory: SignInViewModelFactory
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -52,7 +49,11 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[SignInViewModel::class.java]
+
+        val application = requireNotNull(this.activity).application
+        val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
+        viewModelFactory = SignInViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory)[SignInViewModel::class.java]
 
         binding.signIn.setOnClickListener {
             createSignInIntent()
@@ -80,11 +81,10 @@ class SignInFragment : Fragment() {
             val user = FirebaseAuth.getInstance().currentUser
 
             viewModel.adicaoDeUserAoFDB(user)
+            viewModel.adicaoInfosPessoal(user)
             this.findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToContatosFragment())
         } else {
             Log.d("Erro SignInResult", "Erro")
         }
     }
-
-    //removi daqui o adicao
 }

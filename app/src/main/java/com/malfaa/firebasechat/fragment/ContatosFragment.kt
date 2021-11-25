@@ -1,6 +1,7 @@
 package com.malfaa.firebasechat.fragment
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.databinding.AdicionaContatoFragmentBinding
@@ -20,13 +24,9 @@ import com.malfaa.firebasechat.databinding.ContatosFragmentBinding
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
-import android.content.Intent
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 
 
 class ContatosFragment : Fragment() {
@@ -36,8 +36,9 @@ class ContatosFragment : Fragment() {
     private lateinit var viewModelFactory: ContatosViewModelFactory
 
     companion object{
-        val selfUid = FirebaseAuth.getInstance().uid
+        val myUid = FirebaseAuth.getInstance().uid
         val database = Firebase.database
+        lateinit var myNum: String
     }
     
     override fun onCreateView(
@@ -64,12 +65,16 @@ class ContatosFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
         binding.viewModel = viewModel
 
+        viewModel.retornaMeuNumero()
+
         val mAdapter = ContatosAdapter()
         binding.RVContatos.adapter = mAdapter
 
         viewModel.verificaRecyclerView.observe(viewLifecycleOwner, {
             mAdapter.submitList(it.toMutableList())
         })
+
+        binding.numero.text = myNum // FIXME: 25/11/2021 problema aqui
 
         binding.adicaoNovoContato.setOnClickListener {
             //findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())

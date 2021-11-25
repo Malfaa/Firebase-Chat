@@ -10,18 +10,15 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.SplashScreenFragmentBinding
 import com.malfaa.firebasechat.safeNavigate
-import com.malfaa.firebasechat.viewmodel.SplashScreenViewModel
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
-    private lateinit var viewModel: SplashScreenViewModel
     private lateinit var binding: SplashScreenFragmentBinding
     private lateinit var mAuth: FirebaseAuth
 
@@ -35,7 +32,6 @@ class SplashScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[SplashScreenViewModel::class.java]
 
         mAuth = FirebaseAuth.getInstance()
         val usuario = mAuth.currentUser

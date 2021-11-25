@@ -7,12 +7,17 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
 fun converteLongParaString(horaSistema: Date): String {
     return SimpleDateFormat("h:mm a")//"h:mm:ss a '||' dd.MM.yyyy"
+        .format(horaSistema).toString()
+}
+
+@SuppressLint("SimpleDateFormat")
+fun usarNoDatabase(horaSistema: Date): String {
+    return SimpleDateFormat("h:mm:ss a '||' dd.MM.yyyy")//"h:mm:ss a '||' dd.MM.yyyy"
         .format(horaSistema).toString()
 }
 

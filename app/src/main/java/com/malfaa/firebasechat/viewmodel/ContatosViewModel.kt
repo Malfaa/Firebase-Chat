@@ -1,12 +1,10 @@
 package com.malfaa.firebasechat.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.malfaa.firebasechat.fragment.ContatosFragment
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
 
@@ -29,6 +27,20 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
             onCleared()
         }
     }
+
+    fun retornaMeuNumero(){
+        uiScope.launch {
+            ContatosFragment.myNum = retornaNumeroPessoal(ContatosFragment.myUid.toString())
+        }
+    }
+
+    private suspend fun retornaNumeroPessoal(uid: String):String{
+        return withContext(Dispatchers.IO) {
+            val resultado = meuDao.myNum(uid).myNum
+            resultado
+        }
+    }
+
 
 
     //Adapter ----------------------------------------------------------------------------------

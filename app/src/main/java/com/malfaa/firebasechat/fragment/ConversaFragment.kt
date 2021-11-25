@@ -16,7 +16,9 @@ import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
+import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.myUid
 import com.malfaa.firebasechat.room.MeuDatabase
+import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
@@ -27,19 +29,20 @@ class ConversaFragment : Fragment() {
     private lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
 
-    private val args : ConversaFragmentArgs by navArgs() // poderia passar o novo random number
+    private val args : ConversaFragmentArgs by navArgs()
 
     companion object{
         lateinit var companionArguments : ConversaFragmentArgs
-        lateinit var num: String
-        val referenciaUser = database.reference.child("Users").get().addOnSuccessListener {
-            Log.d("Dados", "Dados recuperados")
-        }.addOnFailureListener{
-            Log.d("Dados", "Dados não encontrados")
-        }
-
-
-
+        lateinit var num: String  // mudei aqui
+//        val referenciaUser = database.reference.child("Users").get().addOnSuccessListener {
+//            Log.d("Dados", "Dados recuperados")
+//        }.addOnFailureListener{
+//            Log.d("Dados", "Dados não encontrados")
+//        }
+//        val uid: String
+//            get() {
+//                return referenciaUser.result.child(num).child("uid").value.toString() // Aqui
+//            }
     }
 
     override fun onCreateView(
@@ -62,39 +65,37 @@ class ConversaFragment : Fragment() {
         viewModelFactory = ConversaViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[ConversaViewModel::class.java]
         binding.viewModel = viewModel
-
+        viewModel.retornaNumeroUser()
 
         val mAdapter = ConversaAdapter()
         binding.conversaRecyclerView.adapter = mAdapter
 
-        viewModel.recebeConversa.observe(viewLifecycleOwner, {
+
+        viewModel.recebeConversa.observe(viewLifecycleOwner, { // TODO: 25/11/2021 aqui
             mAdapter.submitList(it.toMutableList())
         })
+
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             retornaOrdem()
         }
-
         callback.isEnabled
 
-        //val uid = referenciaUser.result.child(num)
+        binding.enviarBtn.setOnClickListener{
+            adicionaMensagemAoFirebase()//problema
+            Log.d("Firebase", "Enviado")
+            try{
+                viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
+                    mensagem = binding.mensagemEditText.text.toString()
+                    horario = viewModel.setHorarioMensagem
+                    Log.d("Mensagem", mensagem)
+                    Log.d("Horario", horario)
+                })
+            }catch (e: Exception){
+                Log.d("Error", e.toString())
+            }
 
-        binding.enviarBtn.setOnClickListener{ //PRoblema é que ta retornando um kotlin PONTO unit (kotlin.unit)
 
-        val num = viewModel.retornaNumero()
-        Log.d("Numero", num.toString())
-
-            // FIXME: 24/11/2021 arrumar num, como conseguir o String Number do room usando livedata? Ou melhor usar outro tipo de método?
-
-/*
-            viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
-                //souEu = selfUid.toString()
-                mensagem = binding.mensagemEditText.text.toString()
-                horario = viewModel.setHorarioMensagem
-                Log.d("Mensagem:", mensagem)
-                Log.d("Horario:", horario)
-            })
-*/
 
             binding.mensagemEditText.setText("")
         }
@@ -104,43 +105,19 @@ class ConversaFragment : Fragment() {
         ContatosAdapter.usuarioDestino.value = false
     }
 
+    private fun adicionaMensagemAoFirebase(){
 
-    /*private fun adicionaMensagemAoFirebase(){
+        val conversaId = viewModel.conversaUid(myUid.toString(), args.uid)
 
-        // FIXME: 23/11/2021 problema é aqui abaixo
-        num = viewModel.retornandoNumber(args.uid).toString()
-        Log.d("UID", num)
-        //val uid: String = referenciaUid.result.child(num).child("uid").value.toString()
+        val referenciaMensagem = database.getReference("Conversas").child(conversaId)
 
-        Log.d("UId", referenciaUid.toString())
-        //Log.d("UId", uid)
-
-        var conversaId : String = ""
-
-        if(selfUid?.length!! < referenciaUid.result.child(num).child("uid").value.toString().length){
-            conversaId = selfUid+referenciaUid.result.child(num).child("uid").value.toString()
-            Log.d("ConversaId", conversaId)
-        }else{
-            conversaId = referenciaUid.result.child(num).child("uid").value.toString()+selfUid
-            Log.d("ConversaId", conversaId)
+        val mensagem = ConversaEntidade(companionArguments.uid).apply {
+            horario = viewModel.setHorarioMensagem
+            mensagem = binding.mensagemEditText.text.toString()
+            myUid
         }
-        if(selfUid?.length!! < referenciaUid.result.child(num).child("uid").value.toString().length){
-                conversaId = selfUid+referenciaUid.result.child(num).child("uid").value.toString()
-                Log.d("ConversaId", conversaId)
-            }else{
-                conversaId = referenciaUid.result.child(num).child("uid").value.toString()+selfUid
-                Log.d("ConversaId", conversaId)
-            }
 
-//        val referenciaMensagem = database.getReference("Conversas").child(conversaId)
-//
-//        val mensagem = ConversaEntidade(uid).apply {
-//            horario = viewModel.setHorarioMensagem
-//            mensagem = binding.mensagemEditText.text.toString()
-//            myUid
-//        }
-//
-//        referenciaMensagem.push().child(selfUid/**talvez usar {num}?**/).setValue(mensagem)
+        referenciaMensagem.push().child(myUid!!).setValue(mensagem)// TODO: 25/11/2021 arrumar o push com o adapter
 
-    }*/
+    }
 }

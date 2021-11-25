@@ -1,11 +1,10 @@
 package com.malfaa.firebasechat.room
 
-import android.os.Bundle
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
+import com.malfaa.firebasechat.room.entidades.SignInEntidade
 
 @Dao
 interface MeuDao {
@@ -28,7 +27,7 @@ interface MeuDao {
     @Query("DELETE FROM conversa WHERE uid = :id")
     suspend fun removeContato(id: String)
 
-    @Query("SELECT * FROM conversa WHERE uid = :id ORDER BY horario DESC")//mensagem_id
+    @Query("SELECT * FROM conversa WHERE uid = :id ORDER BY horario ASC")//mensagem_id
     fun receberConversa(id: String): LiveData<List<ConversaEntidade>>
 
     @Insert
@@ -37,6 +36,11 @@ interface MeuDao {
     @Delete
     suspend fun deleterMensagem(id: ConversaEntidade)
 
-}
+    //Pessoal
+    @Query("SELECT * FROM info_pessoal WHERE uid = :uid")
+    suspend fun myNum(uid:String): SignInEntidade
 
-// MUDAR OS SUSPEND LIST PARA LIVEDATA E REMOVER SUSPEND
+    @Insert
+    suspend fun inserirInfos(infos: SignInEntidade)
+
+}

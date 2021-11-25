@@ -16,7 +16,20 @@
         android:layout_height="match_parent"
         tools:context=".fragment.ContatosFragment">
 
+        <TextView
+            android:id="@+id/numero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/meuNum"
+            android:height="50dp"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+        </TextView>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVContatos"
             android:layout_width="0dp"
@@ -25,7 +38,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/numero"
             tools:listitem="@layout/contato_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
