@@ -1,8 +1,11 @@
 package com.malfaa.firebasechat.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.malfaa.firebasechat.converteLongParaString
+import com.google.firebase.database.DataSnapshot
 import com.malfaa.firebasechat.fragment.ConversaFragment
+import com.malfaa.firebasechat.getDateTime
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import kotlinx.coroutines.*
@@ -12,11 +15,21 @@ import java.util.*
 class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     private val args = ConversaFragment.companionArguments.uid
-    val recebeConversa = meuDao.receberConversa(args)
+    val recebeConversaRoom = meuDao.receberConversa(args)
+
+
 
     //Coroutine
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val _num = MutableLiveData<String>()
+    val num : LiveData<String>
+        get() = _num
+
+    private val _referencia = MutableLiveData<DataSnapshot>()
+    val referencia: LiveData<DataSnapshot>
+        get() = _referencia
 
     fun adicionandoMensagem(id: ConversaEntidade){
         uiScope.launch {
@@ -26,7 +39,7 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     fun retornaNumeroUser(){
         uiScope.launch {
-            ConversaFragment.num = numero(args)
+            _num.value = numero(args)
         }
     }
 
@@ -52,7 +65,7 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
         }
     }
 
-    val setHorarioMensagem = converteLongParaString(Date())
+    val setHorarioMensagem = getDateTime(Date().time.toString())
 
     override fun onCleared() {
         super.onCleared()

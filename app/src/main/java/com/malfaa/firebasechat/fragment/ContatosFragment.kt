@@ -38,7 +38,6 @@ class ContatosFragment : Fragment() {
     companion object{
         val myUid = FirebaseAuth.getInstance().uid
         val database = Firebase.database
-        lateinit var myNum: String
     }
     
     override fun onCreateView(
@@ -74,7 +73,15 @@ class ContatosFragment : Fragment() {
             mAdapter.submitList(it.toMutableList())
         })
 
-        binding.numero.text = myNum // FIXME: 25/11/2021 problema aqui
+        viewModel.meuNum.observe(viewLifecycleOwner,{
+            valor ->
+            if (valor != null){
+                binding.numero.text = valor
+            }else{
+                Log.d("Error", "Não foi possível resgatar número")
+            }
+        })
+
 
         binding.adicaoNovoContato.setOnClickListener {
             //findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
@@ -148,7 +155,7 @@ class ContatosFragment : Fragment() {
         }.addOnFailureListener{
             Log.d("Ref", "Falha em recuperar os dados")
         }
-//-------
+
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
         construtor.setTitle(R.string.tituloAdicionarContato)
         construtor.setView(adicionarContBinding.root)
@@ -157,7 +164,7 @@ class ContatosFragment : Fragment() {
                 dialogo, _ ->
             val num: String = adicionarContBinding.contatoNumero.text.toString()
 
-            if(referencia.result.child(num).key.toString()== num ){ //referencia.result.child("email").value.toString()
+            if(referencia.result.child(num).key.toString()== num ){
                 AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referencia.result.child(num).child("uid").value.toString()).apply {
                     nome = adicionarContBinding.contatoNome.text.toString()
                     email = referencia.result.child(num).child("email").value.toString()
@@ -177,6 +184,5 @@ class ContatosFragment : Fragment() {
         alerta.show()
     }
     // FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida
-    // TODO: 23/11/2021 passar p/ viewModel
 }
 

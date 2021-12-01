@@ -1,5 +1,7 @@
 package com.malfaa.firebasechat.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.malfaa.firebasechat.fragment.ContatosFragment
 import com.malfaa.firebasechat.room.MeuDao
@@ -11,6 +13,11 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
     //Coroutine ----------------------------------------------------------------------------------
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val myUid = ContatosFragment.myUid.toString()
+
+    private val _meuNum = MutableLiveData<String>()
+    val meuNum : LiveData<String>
+        get() = _meuNum
 
     fun removeContato(contato: ContatosEntidade){
         uiScope.launch {
@@ -30,7 +37,7 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     fun retornaMeuNumero(){
         uiScope.launch {
-            ContatosFragment.myNum = retornaNumeroPessoal(ContatosFragment.myUid.toString())
+            _meuNum.value = retornaNumeroPessoal(myUid)
         }
     }
 
@@ -42,8 +49,6 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
     }
 
 
-
-    //Adapter ----------------------------------------------------------------------------------
     val verificaRecyclerView = meuDao.retornarContatos()
 
 

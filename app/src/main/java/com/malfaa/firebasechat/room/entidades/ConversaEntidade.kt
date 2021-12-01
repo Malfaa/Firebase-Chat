@@ -9,6 +9,8 @@ data class ConversaEntidade(
     @PrimaryKey
     val uid : String
 ) {
+    var idMensagem: String = "" //!
+
     var mensagem: String = ""
 
     var horario: String = ""
