@@ -20,29 +20,27 @@ import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.myUid
-import com.malfaa.firebasechat.getDateTime
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
-import java.util.*
 
 class ConversaFragment : Fragment() {
 
     private lateinit var viewModel: ConversaViewModel
     private lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
-    private lateinit var conversa: ArrayList<String>
+    private lateinit var conversa: MutableList<ConversaEntidade>
     private val args : ConversaFragmentArgs by navArgs()
 
     companion object{
         lateinit var companionArguments : ConversaFragmentArgs
-        val referenciaConversa = database.reference.child("Conversas").get().addOnSuccessListener {
-            Log.d("Dados", "Dados recuperados")
-        }.addOnFailureListener{
-            Log.d("Dados", "Dados não encontrados")
-        }
+//        val referenciaConversa = database.reference.child("Conversas").get().addOnSuccessListener {
+//            Log.d("Dados", "Dados recuperados")
+//        }.addOnFailureListener{
+//            Log.d("Dados", "Dados não encontrados")
+//        }
 
 //        viewModel.num.observe(viewLifecycleOwner,{
 //            valor ->
@@ -83,32 +81,26 @@ class ConversaFragment : Fragment() {
         val mAdapter = ConversaAdapter()
         binding.conversaRecyclerView.adapter = mAdapter
 
-        conversa = arrayListOf<String>()
+        conversa = arrayListOf()
         task()
 
+//        viewModel.recebeConversaRoom.observe(viewLifecycleOwner, { // TODO: 25/11/2021 aqui
+//            mAdapter.submitList(it.toMutableList())
+//        })
 
-        viewModel.recebeConversaRoom.observe(viewLifecycleOwner, { // TODO: 25/11/2021 aqui
-            mAdapter.submitList(it.toMutableList())
-        })
+        mAdapter.submitList(conversa)
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             retornaOrdem()
         }
         callback.isEnabled
 
-        Log.d("Hora", getDateTime(Date().time.toString()).toString())
-
         binding.enviarBtn.setOnClickListener{
             try{
                 adicionaMensagemAoFirebase()
                 Log.d("Firebase", "Enviado")
+            //aqui
 
-                viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
-                    mensagem = binding.mensagemEditText.text.toString()
-                    horario = viewModel.setHorarioMensagem.toString()
-                    Log.d("Mensagem", mensagem)
-                    Log.d("Horario", horario)
-                })
             }catch (e: Exception){
                 Log.d("Error", e.toString())
             }
@@ -119,15 +111,17 @@ class ConversaFragment : Fragment() {
     private fun task() {
         val conversaId = viewModel.conversaUid(myUid.toString(), args.uid)
 
-        val listaConteudoFirebase = database.getReference("Conversas")
+        val listaConteudoFirebase = database.getReference("Conversas").child(conversaId)
 
         listaConteudoFirebase.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
-                    for (teste in snapshot.children){
-                        //val mensagens = teste.getValue(ConversaEntidade::class.java)
-                        val mensagens = teste.value  // FIXME: 30/11/2021 funciona, retorna todas as conversas, próximo passo é corrigir o filtro e passar para o room por meio do listener
-                        conversa.add(mensagens!!.toString())
+                    for (data in snapshot.children){
+                        // FIXME: 30/11/2021 funciona, retorna todas as conversas, próximo passo é corrigir o filtro e passar para o room por meio do listener
+                        //val mensagens = data.getValue(ConversaEntidade::class.java)
+                        val mensagens = data.getValue(ConversaEntidade::class.java)//.value //FIXME arrumar o pq dele falar que o constructor não querer argumento
+
+                        conversa.add(mensagens!!)
                    }
                 Log.d("Log", conversa.toString())
                 }
@@ -136,7 +130,7 @@ class ConversaFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Log.d("Error", "Error onCancelled")
             }
         })
 
@@ -162,6 +156,8 @@ class ConversaFragment : Fragment() {
         referenciaMensagem.push().setValue(mensagem)// TODO: 25/11/2021 arrumar o push com o adapter  {referenciaMensagem.child(myUid!!).push().setValue(mensagem)}
 
     }
+
+    // TODO: 01/12/2021 colocar foto das pessoas nos contatos (ou não)
 }
 
 /*
@@ -170,4 +166,17 @@ class ConversaFragment : Fragment() {
 
     database.reference.child("Conversas").child("conversaId").get()
 
+viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
+                            mensagem = teste.child("mensagem").value.toString()
+                            horario = teste.child("horario").value.toString()
+                            myUid = teste.child("uid").value.toString()
+                        })
+
+
+                        //                viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
+//                    mensagem = binding.mensagemEditText.text.toString()
+//                    horario = viewModel.setHorarioMensagem.toString()
+//                    Log.d("Mensagem", mensagem)
+//                    Log.d("Horario", horario)
+//                })
 * */
