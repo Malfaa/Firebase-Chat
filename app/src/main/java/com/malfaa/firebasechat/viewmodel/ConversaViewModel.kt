@@ -1,41 +1,38 @@
 package com.malfaa.firebasechat.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.malfaa.firebasechat.fragment.ContatosFragment
 import com.malfaa.firebasechat.fragment.ConversaFragment
-import com.malfaa.firebasechat.getDateTime
+import com.malfaa.firebasechat.getDateString
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import kotlinx.coroutines.*
 import java.util.*
 
-
 class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
+    companion object{
+            lateinit var ID_MENSAGEM_REFERENCIA: String
+            lateinit var conversaId:String
+            lateinit var receberConversaRoom : LiveData<List<ConversaEntidade>>
+    }
+
     private val args = ConversaFragment.companionArguments.uid
-    val recebeConversaRoom = meuDao.receberConversa(args)
+    //val recebeConversaRoom = meuDao.receberConversa(conversaId)
 
+    val conversa = MutableLiveData<List<ConversaEntidade>>()
+    private lateinit var conversaValueEventListener: ValueEventListener
 
-
-    //Coroutine
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val _num = MutableLiveData<String>()
-    val num : LiveData<String>
-        get() = _num
-
-    private val _referencia = MutableLiveData<DataSnapshot>()
-    val referencia: LiveData<DataSnapshot>
-        get() = _referencia
-
-    fun adicionandoMensagem(id: ConversaEntidade){
-        uiScope.launch {
-            mensagem(id)
-        }
-    }
 
     fun retornaNumeroUser(){
         uiScope.launch {
@@ -50,13 +47,6 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
         }
     }
 
-    private suspend fun mensagem(id: ConversaEntidade) {
-        return withContext(Dispatchers.IO){
-            meuDao.inserirMensagem(id)
-            onCleared()
-        }
-    }
-
     fun conversaUid(iUid: String, fUid: String): String {
         return if (iUid.length > fUid.length){
             iUid + fUid
@@ -65,7 +55,46 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
         }
     }
 
-    val setHorarioMensagem = getDateTime(Date().time.toString())
+    fun taskConversa() {
+        conversaId = conversaUid(ContatosFragment.myUid.toString(), args)
+
+        conversaValueEventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    val mensagens = snapshot.children.mapNotNull {
+                        it.getValue(ConversaEntidade::class.java)
+                    }.toList()
+                    ID_MENSAGEM_REFERENCIA = snapshot.children.toString()
+                    conversa.postValue(mensagens)
+                }
+                receberConversaRoom = meuDao.receberConversa(conversaId)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("error", "no onCancelled")
+            }
+        }
+        adcAoRoom()// Novo aqui
+        ContatosFragment.database.getReference(ConversaFragment.CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
+
+    }
+
+    fun adcAoRoom(){
+        uiScope.launch {
+            conversa.value?.forEach { index ->
+                meuDao.inserirMensagem(ConversaEntidade(ID_MENSAGEM_REFERENCIA).apply {
+                    uid = index.uid
+                    mensagem = index.mensagem
+                    myUid = index.myUid
+                    horario = index.horario
+                    idConversaGerada = conversaId
+                })
+            }
+        }
+    }
+// FIXME: 02/12/2021 arrumar a parte de adicionar ao room
+
+    val setHorarioMensagem = getDateString(Date().time)
 
     override fun onCleared() {
         super.onCleared()

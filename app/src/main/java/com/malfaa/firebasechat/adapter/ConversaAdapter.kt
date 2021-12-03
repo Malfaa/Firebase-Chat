@@ -14,7 +14,6 @@ import com.malfaa.firebasechat.databinding.MensagemBinding
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.myUid
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 
-
 class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
 

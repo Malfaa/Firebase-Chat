@@ -1,19 +1,28 @@
 package com.malfaa.firebasechat.room.entidades
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.malfaa.firebasechat.fragment.ContatosFragment
 
 @Entity(tableName = "conversa")
 data class ConversaEntidade(
     @PrimaryKey
-    val uid : String
+    @ColumnInfo(name = "id_mensagem")
+    val idMensagem: String
 ) {
-    var idMensagem: String = "" //!
+
+    var uid: String = ""
 
     var mensagem: String = ""
 
     var horario: String = ""
 
-    var myUid: String = ContatosFragment.myUid.toString()
+    @ColumnInfo(name = "my_uid")
+    var myUid: String = ""
+
+    @ColumnInfo(name = "conversa_id")
+    var idConversaGerada = ""
+
+    constructor(): this("")
 }
+

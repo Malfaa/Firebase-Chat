@@ -18,6 +18,7 @@ class FCMServico : FirebaseMessagingService() {
         //https://www.youtube.com/watch?v=0gFgdtTwFQM
     }
 
+    // TODO: 02/12/2021 Apagar essa Classe
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ

@@ -11,9 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.adapter.ConversaAdapter
@@ -24,6 +21,7 @@ import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
+import com.malfaa.firebasechat.viewmodel.ConversaViewModel.Companion.ID_MENSAGEM_REFERENCIA
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
 
 class ConversaFragment : Fragment() {
@@ -31,29 +29,12 @@ class ConversaFragment : Fragment() {
     private lateinit var viewModel: ConversaViewModel
     private lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
-    private lateinit var conversa: MutableList<ConversaEntidade>
     private val args : ConversaFragmentArgs by navArgs()
 
     companion object{
         lateinit var companionArguments : ConversaFragmentArgs
-//        val referenciaConversa = database.reference.child("Conversas").get().addOnSuccessListener {
-//            Log.d("Dados", "Dados recuperados")
-//        }.addOnFailureListener{
-//            Log.d("Dados", "Dados não encontrados")
-//        }
+        const val CONVERSA_REFERENCIA = "Conversas"
 
-//        viewModel.num.observe(viewLifecycleOwner,{
-//            valor ->
-//            if (valor != null){
-//                uid: String
-//                get() {
-//                    return referenciaUser.result.child(num).child("uid").value.toString() // Aqui
-//                }
-//            }else{
-//                Log.d("Error", "Falha ao referenciar")
-//            }
-//        })
-//        lateinit var uid: String
     }
 
     override fun onCreateView(
@@ -81,14 +62,18 @@ class ConversaFragment : Fragment() {
         val mAdapter = ConversaAdapter()
         binding.conversaRecyclerView.adapter = mAdapter
 
-        conversa = arrayListOf()
-        task()
+        viewModel.taskConversa()
 
-//        viewModel.recebeConversaRoom.observe(viewLifecycleOwner, { // TODO: 25/11/2021 aqui
+        viewModel.conversa.observe(viewLifecycleOwner,{
+            mAdapter.submitList(it.asReversed().toMutableList())
+        })
+
+
+//        //Esse funfa pelo ROOM FIXME(não esta funcionando, hue -> o problema está no conversaId, da problema de inicialização por causa do lateinit)
+//        viewModel.recebeConversaRoom.observe(viewLifecycleOwner, {
 //            mAdapter.submitList(it.toMutableList())
+//
 //        })
-
-        mAdapter.submitList(conversa)
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             retornaOrdem()
@@ -108,34 +93,6 @@ class ConversaFragment : Fragment() {
         }
     }
 
-    private fun task() {
-        val conversaId = viewModel.conversaUid(myUid.toString(), args.uid)
-
-        val listaConteudoFirebase = database.getReference("Conversas").child(conversaId)
-
-        listaConteudoFirebase.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    for (data in snapshot.children){
-                        // FIXME: 30/11/2021 funciona, retorna todas as conversas, próximo passo é corrigir o filtro e passar para o room por meio do listener
-                        //val mensagens = data.getValue(ConversaEntidade::class.java)
-                        val mensagens = data.getValue(ConversaEntidade::class.java)//.value //FIXME arrumar o pq dele falar que o constructor não querer argumento
-
-                        conversa.add(mensagens!!)
-                   }
-                Log.d("Log", conversa.toString())
-                }
-
-                // TODO: 30/11/2021 posso adicionar esse listener ao room, assim ele att o local e manda pro display que é o adapter
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("Error", "Error onCancelled")
-            }
-        })
-
-    }
-
     private fun retornaOrdem(){
         this.findNavController().safeNavigate(ConversaFragmentDirections.actionConversaFragmentToContatosFragment())
         ContatosAdapter.usuarioDestino.value = false
@@ -145,38 +102,17 @@ class ConversaFragment : Fragment() {
 
         val conversaId = viewModel.conversaUid(myUid.toString(), args.uid)
 
-        val referenciaMensagem = database.getReference("Conversas").child(conversaId)
+        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
 
-        val mensagem = ConversaEntidade(companionArguments.uid).apply {
-            horario = viewModel.setHorarioMensagem.toString()
+        val mensagem = ConversaEntidade(ID_MENSAGEM_REFERENCIA).apply {
+            uid = companionArguments.uid
+            horario = viewModel.setHorarioMensagem
             mensagem = binding.mensagemEditText.text.toString()
-            myUid
+            myUid = ContatosFragment.myUid.toString()
+            idConversaGerada = conversaId
         }
-
-        referenciaMensagem.push().setValue(mensagem)// TODO: 25/11/2021 arrumar o push com o adapter  {referenciaMensagem.child(myUid!!).push().setValue(mensagem)}
-
+        referenciaMensagem.push().setValue(mensagem)
     }
 
     // TODO: 01/12/2021 colocar foto das pessoas nos contatos (ou não)
 }
-
-/*
-    Ideia é resgatar o id da conversa, pegar os ids construídos aleatoriamente e dar display -> daí ver se é melhor o firebase atualizar o room que dará o display correto por já ter a estrutura.
-                                                                                                ou usar o firebase p/ já atualizar o adapter.
-
-    database.reference.child("Conversas").child("conversaId").get()
-
-viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
-                            mensagem = teste.child("mensagem").value.toString()
-                            horario = teste.child("horario").value.toString()
-                            myUid = teste.child("uid").value.toString()
-                        })
-
-
-                        //                viewModel.adicionandoMensagem(ConversaEntidade(companionArguments.uid).apply {
-//                    mensagem = binding.mensagemEditText.text.toString()
-//                    horario = viewModel.setHorarioMensagem.toString()
-//                    Log.d("Mensagem", mensagem)
-//                    Log.d("Horario", horario)
-//                })
-* */

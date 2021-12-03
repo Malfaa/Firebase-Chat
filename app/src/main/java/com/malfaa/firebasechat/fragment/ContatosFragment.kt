@@ -38,6 +38,15 @@ class ContatosFragment : Fragment() {
     companion object{
         val myUid = FirebaseAuth.getInstance().uid
         val database = Firebase.database
+        private const val USERS_REFERENCIA = "Users"
+        private const val UID_REFERENCIA = "uid"
+        private const val EMAIL_REFERENCIA = "email"
+
+        private val referencia = database.reference.child(USERS_REFERENCIA).get().addOnSuccessListener {
+            Log.d("Ref", "Dados Recuperados")
+        }.addOnFailureListener{
+            Log.d("Ref", "Falha em recuperar os dados")
+        }
     }
     
     override fun onCreateView(
@@ -82,7 +91,6 @@ class ContatosFragment : Fragment() {
             }
         })
 
-
         binding.adicaoNovoContato.setOnClickListener {
             //findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
             alertDialogAdicionarContato()
@@ -123,6 +131,8 @@ class ContatosFragment : Fragment() {
     private fun voltaDeletarValParaNormal(){
         ContatosAdapter.deletarUsuario.value = false
     }
+
+    // FIXME: 02/12/2021 Trocar o ID para ID_CONVERSA_GERADA (talvez n precise, é necessário um teste quando o room estiver atualizado com o firebase db)
     private fun alertDialogDeletarContato(){
         val construtor = AlertDialog.Builder(requireActivity())
         val idParaDeletar = ContatosAdapter.uidItem
@@ -146,15 +156,7 @@ class ContatosFragment : Fragment() {
     }
     private fun alertDialogAdicionarContato(){
         Log.d("Status", "Função sendo chamada")
-
         val construtor = AlertDialog.Builder(requireActivity())
-
-        //Firebase
-        val referencia = database.reference.child("Users").get().addOnSuccessListener {
-            Log.d("Ref", "Dados Recuperados")
-        }.addOnFailureListener{
-            Log.d("Ref", "Falha em recuperar os dados")
-        }
 
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
         construtor.setTitle(R.string.tituloAdicionarContato)
@@ -165,9 +167,10 @@ class ContatosFragment : Fragment() {
             val num: String = adicionarContBinding.contatoNumero.text.toString()
 
             if(referencia.result.child(num).key.toString()== num ){
-                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referencia.result.child(num).child("uid").value.toString()).apply {
+                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referencia.result.child(num).child(
+                    UID_REFERENCIA).value.toString()).apply {
                     nome = adicionarContBinding.contatoNome.text.toString()
-                    email = referencia.result.child(num).child("email").value.toString()
+                    email = referencia.result.child(num).child(EMAIL_REFERENCIA).value.toString()
                     number = num
                 })
 
