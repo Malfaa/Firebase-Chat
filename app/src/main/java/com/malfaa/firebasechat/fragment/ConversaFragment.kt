@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.adapter.ConversaAdapter
+import com.malfaa.firebasechat.dataFormato
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.myUid
@@ -21,7 +22,6 @@ import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
-import com.malfaa.firebasechat.viewmodel.ConversaViewModel.Companion.ID_MENSAGEM_REFERENCIA
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
 
 class ConversaFragment : Fragment() {
@@ -34,7 +34,7 @@ class ConversaFragment : Fragment() {
     companion object{
         lateinit var companionArguments : ConversaFragmentArgs
         const val CONVERSA_REFERENCIA = "Conversas"
-
+        lateinit var setHorarioMensagem:String
     }
 
     override fun onCreateView(
@@ -69,11 +69,15 @@ class ConversaFragment : Fragment() {
         })
 
 
-//        //Esse funfa pelo ROOM FIXME(não esta funcionando, hue -> o problema está no conversaId, da problema de inicialização por causa do lateinit)
+//        //Esse funfa pelo ROOM FIXME ta quebrado usar o room junto ao Firebase
 //        viewModel.recebeConversaRoom.observe(viewLifecycleOwner, {
 //            mAdapter.submitList(it.toMutableList())
 //
 //        })
+
+        viewModel.horario.observe(viewLifecycleOwner,{
+            horario -> setHorarioMensagem = dataFormato(horario)
+        })
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             retornaOrdem()
@@ -100,18 +104,20 @@ class ConversaFragment : Fragment() {
 
     private fun adicionaMensagemAoFirebase(){
 
+        viewModel.retornaHorario()
+
         val conversaId = viewModel.conversaUid(myUid.toString(), args.uid)
 
         val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
 
-        val mensagem = ConversaEntidade(ID_MENSAGEM_REFERENCIA).apply {
+        val mensagem = ConversaEntidade().apply {
             uid = companionArguments.uid
-            horario = viewModel.setHorarioMensagem
+            horario = setHorarioMensagem
             mensagem = binding.mensagemEditText.text.toString()
             myUid = ContatosFragment.myUid.toString()
             idConversaGerada = conversaId
         }
-        referenciaMensagem.push().setValue(mensagem)
+        referenciaMensagem.push().setValue(mensagem) //fixme talvez tentar pegar o valor por aqui
     }
 
     // TODO: 01/12/2021 colocar foto das pessoas nos contatos (ou não)

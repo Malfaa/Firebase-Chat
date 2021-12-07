@@ -188,4 +188,4 @@ class ContatosFragment : Fragment() {
     }
     // FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida
 }
-
+// TODO: 06/12/2021 quando receber mensagem de um user que n tenha salvo, aparecer nos contatos

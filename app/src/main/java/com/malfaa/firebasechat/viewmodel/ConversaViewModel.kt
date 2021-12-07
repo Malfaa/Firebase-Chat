@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.malfaa.firebasechat.fragment.ContatosFragment
 import com.malfaa.firebasechat.fragment.ConversaFragment
-import com.malfaa.firebasechat.getDateString
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import kotlinx.coroutines.*
@@ -18,13 +17,10 @@ import java.util.*
 class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     companion object{
-            lateinit var ID_MENSAGEM_REFERENCIA: String
-            lateinit var conversaId:String
-            lateinit var receberConversaRoom : LiveData<List<ConversaEntidade>>
+        lateinit var ID_MENSAGEM_REFERENCIA: String
+        lateinit var conversaId:String
     }
-
     private val args = ConversaFragment.companionArguments.uid
-    //val recebeConversaRoom = meuDao.receberConversa(conversaId)
 
     val conversa = MutableLiveData<List<ConversaEntidade>>()
     private lateinit var conversaValueEventListener: ValueEventListener
@@ -33,6 +29,15 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val _num = MutableLiveData<String>()
+
+    private val _horario = MutableLiveData<Long>()
+    val horario: LiveData<Long>
+        get() = _horario
+
+    fun retornaHorario(): Long {
+        _horario.value = Date().time
+        return _horario.value!!
+    }
 
     fun retornaNumeroUser(){
         uiScope.launch {
@@ -67,34 +72,34 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
                     ID_MENSAGEM_REFERENCIA = snapshot.children.toString()
                     conversa.postValue(mensagens)
                 }
-                receberConversaRoom = meuDao.receberConversa(conversaId)
+                //adcAoRoom()
             }
-
             override fun onCancelled(error: DatabaseError) {
                 Log.d("error", "no onCancelled")
             }
         }
-        adcAoRoom()// Novo aqui
         ContatosFragment.database.getReference(ConversaFragment.CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
-
     }
 
+    // FIXME: 06/12/2021 Problema é que as variáveis não estão recebendo seus devidos valores, com isso não está sendo adicionado ao Room function.
     fun adcAoRoom(){
-        uiScope.launch {
-            conversa.value?.forEach { index ->
-                meuDao.inserirMensagem(ConversaEntidade(ID_MENSAGEM_REFERENCIA).apply {
-                    uid = index.uid
-                    mensagem = index.mensagem
-                    myUid = index.myUid
-                    horario = index.horario
-                    idConversaGerada = conversaId
-                })
+        try {
+            uiScope.launch {
+                conversa.value?.forEach { index ->
+                    meuDao.inserirMensagem(ConversaEntidade().apply { //mudei aqui
+                        uid = index.uid
+                        mensagem = index.mensagem
+                        myUid = index.myUid
+                        horario = index.horario
+                        idConversaGerada = conversaId
+                    })
+                }
             }
+            Log.d("AdcAoRoom", "Adicionado com sucesso")
+        }catch (e: Exception){
+            Log.d("AdcAoRoom", "Falha ao adicionar")
         }
     }
-// FIXME: 02/12/2021 arrumar a parte de adicionar ao room
-
-    val setHorarioMensagem = getDateString(Date().time)
 
     override fun onCleared() {
         super.onCleared()

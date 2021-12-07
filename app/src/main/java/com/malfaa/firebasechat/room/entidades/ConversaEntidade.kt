@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "conversa")
 data class ConversaEntidade(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true) // FIXME: 06/12/2021 mudei aqui 
     @ColumnInfo(name = "id_mensagem")
     val idMensagem: String
 ) {
@@ -21,7 +21,7 @@ data class ConversaEntidade(
     var myUid: String = ""
 
     @ColumnInfo(name = "conversa_id")
-    var idConversaGerada = ""
+    var idConversaGerada: String = ""
 
     constructor(): this("")
 }
