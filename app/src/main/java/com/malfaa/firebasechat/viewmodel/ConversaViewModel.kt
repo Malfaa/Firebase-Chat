@@ -61,7 +61,7 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
     }
 
     fun taskConversa() {
-        conversaId = conversaUid(ContatosFragment.myUid.toString(), args)
+        conversaId = conversaUid(ContatosFragment.meuUid.toString(), args)
 
         conversaValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

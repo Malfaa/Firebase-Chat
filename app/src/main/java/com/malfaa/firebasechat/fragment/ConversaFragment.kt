@@ -17,7 +17,7 @@ import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.dataFormato
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
 import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
-import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.myUid
+import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.meuUid
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
@@ -102,11 +102,11 @@ class ConversaFragment : Fragment() {
         ContatosAdapter.usuarioDestino.value = false
     }
 
-    private fun adicionaMensagemAoFirebase(){
+    private fun adicionaMensagemAoFirebase(){ // TODO: 07/12/2021 colocar essa fun no viewmodel
 
         viewModel.retornaHorario()
 
-        val conversaId = viewModel.conversaUid(myUid.toString(), args.uid)
+        val conversaId = viewModel.conversaUid(meuUid.toString(), args.uid)
 
         val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
 
@@ -114,7 +114,7 @@ class ConversaFragment : Fragment() {
             uid = companionArguments.uid
             horario = setHorarioMensagem
             mensagem = binding.mensagemEditText.text.toString()
-            myUid = ContatosFragment.myUid.toString()
+            myUid = ContatosFragment.meuUid.toString()
             idConversaGerada = conversaId
         }
         referenciaMensagem.push().setValue(mensagem) //fixme talvez tentar pegar o valor por aqui

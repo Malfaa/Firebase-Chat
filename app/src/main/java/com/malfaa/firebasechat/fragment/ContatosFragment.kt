@@ -36,17 +36,20 @@ class ContatosFragment : Fragment() {
     private lateinit var viewModelFactory: ContatosViewModelFactory
 
     companion object{
-        val myUid = FirebaseAuth.getInstance().uid
+        val auth = FirebaseAuth.getInstance()
+        val meuUid = FirebaseAuth.getInstance().uid
         val database = Firebase.database
         private const val USERS_REFERENCIA = "Users"
         private const val UID_REFERENCIA = "uid"
         private const val EMAIL_REFERENCIA = "email"
+        private const val CONTATO_REFERENCIA = "Contatos"
 
-        private val referencia = database.reference.child(USERS_REFERENCIA).get().addOnSuccessListener {
+        private val referenciaUser = database.reference.child(USERS_REFERENCIA).get().addOnSuccessListener {
             Log.d("Ref", "Dados Recuperados")
         }.addOnFailureListener{
             Log.d("Ref", "Falha em recuperar os dados")
         }
+        private val referenciaContato = database.getReference(CONTATO_REFERENCIA)
     }
     
     override fun onCreateView(
@@ -78,12 +81,11 @@ class ContatosFragment : Fragment() {
         val mAdapter = ContatosAdapter()
         binding.RVContatos.adapter = mAdapter
 
-        viewModel.verificaRecyclerView.observe(viewLifecycleOwner, {
-            mAdapter.submitList(it.toMutableList())
-        })
+
+        viewModel.taskContatos()
 
         viewModel.meuNum.observe(viewLifecycleOwner,{
-            valor ->
+                valor ->
             if (valor != null){
                 binding.numero.text = valor
             }else{
@@ -91,8 +93,11 @@ class ContatosFragment : Fragment() {
             }
         })
 
+        viewModel.contatos.observe(viewLifecycleOwner, {
+            mAdapter.submitList(it.toMutableList())
+        })
+
         binding.adicaoNovoContato.setOnClickListener {
-            //findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
             alertDialogAdicionarContato()
         }
 
@@ -117,7 +122,7 @@ class ContatosFragment : Fragment() {
         ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
                 condicao ->
             if (condicao){
-                val argumento = ContatosAdapter.uidItem.uid
+                val argumento = ContatosAdapter.uidItem.uid // TODO: 07/12/2021 arrumar aqui
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )
@@ -141,6 +146,7 @@ class ContatosFragment : Fragment() {
         construtor.setMessage(R.string.mensagemDeletarContato)
         construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
             viewModel.removeContato(idParaDeletar)
+            referenciaContato.child(viewModel.meuNum.value.toString()).child(idParaDeletar.number).push().removeValue() // FIXME: 07/12/2021 arrumar auqi
             Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
             voltaDeletarValParaNormal()
             dialogInterface.cancel()
@@ -155,7 +161,6 @@ class ContatosFragment : Fragment() {
         alerta.show()
     }
     private fun alertDialogAdicionarContato(){
-        Log.d("Status", "Função sendo chamada")
         val construtor = AlertDialog.Builder(requireActivity())
 
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
@@ -165,12 +170,28 @@ class ContatosFragment : Fragment() {
         construtor.setPositiveButton("Adicionar"){
                 dialogo, _ ->
             val num: String = adicionarContBinding.contatoNumero.text.toString()
+            val meuContato = ContatosEntidade(meuUid.toString()).apply {
+                nome = auth.currentUser?.displayName.toString()
+                email = auth.currentUser?.email.toString()
+                number =  viewModel.meuNum.toString()
+            }
 
-            if(referencia.result.child(num).key.toString()== num ){
-                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referencia.result.child(num).child(
+            if(referenciaUser.result.child(num).key.toString()== num ){
+                val ref = referenciaUser.result.child(num).getValue(ContatosEntidade::class.java)
+
+                val contato = ContatosEntidade(ref?.uid.toString()).apply {
+                    nome = ref?.nome.toString()
+                    email = ref?.email.toString()
+                    number = ref?.number.toString()
+                }
+
+                referenciaContato.child(viewModel.meuNum.value.toString()).child(num).push().setValue(contato)
+                referenciaContato.child(num).child(viewModel.meuNum.value.toString()).push().setValue(meuContato)
+
+                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referenciaUser.result.child(num).child(
                     UID_REFERENCIA).value.toString()).apply {
                     nome = adicionarContBinding.contatoNome.text.toString()
-                    email = referencia.result.child(num).child(EMAIL_REFERENCIA).value.toString()
+                    email = referenciaUser.result.child(num).child(EMAIL_REFERENCIA).value.toString()
                     number = num
                 })
 

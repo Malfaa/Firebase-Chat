@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "conversa")
 data class ConversaEntidade(
-    @PrimaryKey(autoGenerate = true) // FIXME: 06/12/2021 mudei aqui 
+    @PrimaryKey() // FIXME: 06/12/2021 mudei aqui  autoGenerate = true
     @ColumnInfo(name = "id_mensagem")
     val idMensagem: String
 ) {

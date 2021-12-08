@@ -1,6 +1,5 @@
 package com.malfaa.firebasechat.room.entidades
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,4 +11,5 @@ data class ContatosEntidade(
     var nome: String = ""
     var email: String = ""
     var number: String = ""
+    //constructor():this("")
 }

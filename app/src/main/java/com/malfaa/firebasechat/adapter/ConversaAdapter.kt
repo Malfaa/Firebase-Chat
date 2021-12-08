@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.MensagemBinding
-import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.myUid
+import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.meuUid
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 
 class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
@@ -29,7 +29,7 @@ class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder
 
             //receberMensagensFirebase(user!!)
 
-            if (item.myUid == myUid.toString()){
+            if (item.myUid == meuUid.toString()){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
                 binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#102027"))
