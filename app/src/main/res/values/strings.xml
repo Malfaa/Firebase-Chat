@@ -17,4 +17,5 @@
     <string name="inscrever">Inscrever-se</string>
     <string name="bemvindo">Bem-Vindo</string>
     <string name="logo">Logo</string>
+    <string name="carregando">Aguarde…</string>
 </resources>

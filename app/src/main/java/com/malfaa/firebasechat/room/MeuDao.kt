@@ -37,8 +37,8 @@ interface MeuDao {
     suspend fun deleterMensagem(id: ConversaEntidade)
 
     //Pessoal
-    @Query("SELECT * FROM info_pessoal WHERE uid = :uid")
-    suspend fun myNum(uid:String): SignInEntidade
+    @Query("SELECT * FROM info_pessoal")
+    fun myNum(): SignInEntidade
 
     @Insert
     suspend fun inserirInfos(infos: SignInEntidade)

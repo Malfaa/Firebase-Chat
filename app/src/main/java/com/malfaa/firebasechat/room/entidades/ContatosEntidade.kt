@@ -11,5 +11,5 @@ data class ContatosEntidade(
     var nome: String = ""
     var email: String = ""
     var number: String = ""
-    //constructor():this("")
+    constructor():this("")
 }

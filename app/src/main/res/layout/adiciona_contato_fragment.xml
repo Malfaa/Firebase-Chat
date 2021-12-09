@@ -51,7 +51,7 @@
                 android:hint="@string/num"
                 android:layout_marginTop="@dimen/edittext_margem_dimen"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"/>
+                android:inputType="number"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <Button

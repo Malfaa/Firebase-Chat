@@ -114,7 +114,7 @@ class ConversaFragment : Fragment() {
             uid = companionArguments.uid
             horario = setHorarioMensagem
             mensagem = binding.mensagemEditText.text.toString()
-            myUid = ContatosFragment.meuUid.toString()
+            myUid = meuUid.toString()
             idConversaGerada = conversaId
         }
         referenciaMensagem.push().setValue(mensagem) //fixme talvez tentar pegar o valor por aqui
@@ -122,3 +122,4 @@ class ConversaFragment : Fragment() {
 
     // TODO: 01/12/2021 colocar foto das pessoas nos contatos (ou não)
 }
+// TODO: 08/12/2021 alterar os valores do FRAGMENT p/ VIEWMODEL

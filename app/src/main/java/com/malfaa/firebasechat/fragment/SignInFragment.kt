@@ -2,8 +2,6 @@ package com.malfaa.firebasechat.fragment
 
 import android.app.Activity.RESULT_OK
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +19,6 @@ import com.malfaa.firebasechat.databinding.SignInFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.SignInViewModel
-import com.malfaa.firebasechat.viewmodel.SignInViewModel.Companion.ref
 import com.malfaa.firebasechat.viewmodelfactory.SignInViewModelFactory
 
 class SignInFragment : Fragment() {
@@ -78,16 +75,9 @@ class SignInFragment : Fragment() {
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
-            viewModel.adicaoDeUserAoFDB(user)
             viewModel.adicaoInfosPessoal(user)
-            Log.d("Status", "Antes Antes do handler") //certo
-            Handler(Looper.getMainLooper()).postDelayed({
-                Log.d("Status", "Antes do handler")
-                if(ref.reference.child(viewModel.numero.value.toString()).get().isSuccessful){ // FIXME: 07/12/2021 parando aqui, error
-                    Log.d("Status", "Depois do handler")
-                    this.findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToContatosFragment())
-                }
-            }, 1500)
+            viewModel.adicaoDeUserAoFDB(user)
+            findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToLoadingFragment()) //todo criar um layout de loading enquando faz tudo que precisa, assim navega até lá
         } else {
             Log.d("Erro SignInResult", "Erro")
         }

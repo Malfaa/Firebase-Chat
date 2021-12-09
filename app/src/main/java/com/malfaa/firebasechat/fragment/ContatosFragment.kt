@@ -26,14 +26,16 @@ import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
+import com.malfaa.firebasechat.viewmodel.LoadingViewModel
+import com.malfaa.firebasechat.viewmodel.LoadingViewModel.Companion.meuNum
 import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
-
 
 class ContatosFragment : Fragment() {
 
     private lateinit var viewModel: ContatosViewModel
     private lateinit var binding: ContatosFragmentBinding
     private lateinit var viewModelFactory: ContatosViewModelFactory
+    private lateinit var loadingViewmodel: LoadingViewModel
 
     companion object{
         val auth = FirebaseAuth.getInstance()
@@ -51,7 +53,7 @@ class ContatosFragment : Fragment() {
         }
         private val referenciaContato = database.getReference(CONTATO_REFERENCIA)
     }
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,15 +78,16 @@ class ContatosFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
         binding.viewModel = viewModel
 
-        viewModel.retornaMeuNumero()
+        loadingViewmodel = LoadingViewModel(dataSource)
+
+        loadingViewmodel.retornaMeuNumero()
 
         val mAdapter = ContatosAdapter()
         binding.RVContatos.adapter = mAdapter
 
-
         viewModel.taskContatos()
 
-        viewModel.meuNum.observe(viewLifecycleOwner,{
+        meuNum.observe(viewLifecycleOwner,{
                 valor ->
             if (valor != null){
                 binding.numero.text = valor
@@ -98,6 +101,7 @@ class ContatosFragment : Fragment() {
         })
 
         binding.adicaoNovoContato.setOnClickListener {
+            Log.d("ClickListener", "Antes da fun")
             alertDialogAdicionarContato()
         }
 
@@ -137,6 +141,7 @@ class ContatosFragment : Fragment() {
         ContatosAdapter.deletarUsuario.value = false
     }
 
+    // FIXME: 08/12/2021 COLOCAR APENAS O NUM P/ O CONTATO, ASSIM RETORNA TODAS AS INFOS NECESSÁRIAS
     // FIXME: 02/12/2021 Trocar o ID para ID_CONVERSA_GERADA (talvez n precise, é necessário um teste quando o room estiver atualizado com o firebase db)
     private fun alertDialogDeletarContato(){
         val construtor = AlertDialog.Builder(requireActivity())
@@ -146,13 +151,13 @@ class ContatosFragment : Fragment() {
         construtor.setMessage(R.string.mensagemDeletarContato)
         construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
             viewModel.removeContato(idParaDeletar)
-            referenciaContato.child(viewModel.meuNum.value.toString()).child(idParaDeletar.number).push().removeValue() // FIXME: 07/12/2021 arrumar auqi
+            referenciaContato.child(meuNum.value.toString()).child(idParaDeletar.number).push().removeValue() // FIXME: 07/12/2021 arrumar auqi
             Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
             voltaDeletarValParaNormal()
             dialogInterface.cancel()
         }
         construtor.setNegativeButton("Cancelar"){
-            dialogInterface:DialogInterface, _: Int ->
+                dialogInterface:DialogInterface, _: Int ->
             voltaDeletarValParaNormal()
             dialogInterface.cancel()
         }
@@ -166,44 +171,44 @@ class ContatosFragment : Fragment() {
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
         construtor.setTitle(R.string.tituloAdicionarContato)
         construtor.setView(adicionarContBinding.root)
-
         construtor.setPositiveButton("Adicionar"){
                 dialogo, _ ->
             val num: String = adicionarContBinding.contatoNumero.text.toString()
             val meuContato = ContatosEntidade(meuUid.toString()).apply {
                 nome = auth.currentUser?.displayName.toString()
                 email = auth.currentUser?.email.toString()
-                number =  viewModel.meuNum.toString()
+                number =  meuNum.toString()
             }
+            try{
+                if(referenciaUser.result.child(num).key.toString() == num ){ // TODO: 08/12/2021 colocar pra por o nome tbm pra add
+                    val ref = referenciaUser.result.child(num).getValue(ContatosEntidade::class.java)
 
-            if(referenciaUser.result.child(num).key.toString()== num ){
-                val ref = referenciaUser.result.child(num).getValue(ContatosEntidade::class.java)
+                    val contato = ContatosEntidade(ref?.uid.toString()).apply {
+                        nome = ref?.nome!!
+                        email = ref.email
+                        number = ref.number
+                    }
+// FIXME: 08/12/2021 D/Error: com.google.firebase.database.DatabaseException: Failed to convert value of type java.lang.Long to String
+                    referenciaContato.child(meuNum.value.toString()).child(num).setValue(contato)
+                    referenciaContato.child(num).child(meuNum.value.toString()).setValue(meuContato)
 
-                val contato = ContatosEntidade(ref?.uid.toString()).apply {
-                    nome = ref?.nome.toString()
-                    email = ref?.email.toString()
-                    number = ref?.number.toString()
+                    AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referenciaUser.result.child(num).child(
+                        UID_REFERENCIA).value.toString()).apply {
+                        nome = adicionarContBinding.contatoNome.text.toString()
+                        email = referenciaUser.result.child(num).child(EMAIL_REFERENCIA).value.toString()
+                        number = num
+                    })
+                    dialogo.cancel()
+                    Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
+
+                }else{
+                    Toast.makeText(context, "Contato Inválido. Tente novamente.", Toast.LENGTH_SHORT).show()
+                    adicionarContBinding.contatoNumero.text.clear()
                 }
-
-                referenciaContato.child(viewModel.meuNum.value.toString()).child(num).push().setValue(contato)
-                referenciaContato.child(num).child(viewModel.meuNum.value.toString()).push().setValue(meuContato)
-
-                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referenciaUser.result.child(num).child(
-                    UID_REFERENCIA).value.toString()).apply {
-                    nome = adicionarContBinding.contatoNome.text.toString()
-                    email = referenciaUser.result.child(num).child(EMAIL_REFERENCIA).value.toString()
-                    number = num
-                })
-
-                dialogo.cancel()
-                Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
-
-            }else{
-                Toast.makeText(context, "Contato Inválido. Tente novamente.", Toast.LENGTH_SHORT).show()
-                adicionarContBinding.contatoNumero.text.clear()
+            }catch (e: Exception){
+                Log.d("Error", e.toString())
             }
         }
-
         val alerta = construtor.create()
         alerta.show()
     }
