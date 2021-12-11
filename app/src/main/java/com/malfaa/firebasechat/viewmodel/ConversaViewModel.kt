@@ -8,65 +8,46 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.malfaa.firebasechat.fragment.ConversaFragment
-import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaUser
-import kotlinx.coroutines.*
+import com.malfaa.firebasechat.viewmodel.LoadingViewModel.Companion.meuNum
 import java.util.*
 
-class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
+class ConversaViewModel : ViewModel() {
 
     companion object{
         lateinit var conversaId:String
         const val CONVERSA_REFERENCIA = "Conversas"
         lateinit var setHorarioMensagem:String
     }
-    private val args = ConversaFragment.companionArguments.uid
+    private val args = ConversaFragment.companionArguments.contato
 
     val conversa = MutableLiveData<List<ConversaEntidade>>()
     private lateinit var conversaValueEventListener: ValueEventListener
 
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-    private val _num = MutableLiveData<String>()
 
     private val _horario = MutableLiveData<Long>()
     val horario: LiveData<Long>
         get() = _horario
 
-    fun retornaHorario(): Long {
+    private fun retornaHorario(): Long {
         _horario.value = Date().time
         return _horario.value!!
     }
-/*
-    fun retornaNumeroUser(){
-        uiScope.launch {
-            _num.value = numero(args).toString()
-        }
-    }
 
-    private suspend fun numero(uid: String): Long {
-        return withContext(Dispatchers.IO){
-            val num = referenciaUser.result.children.mapNotNull {
-                it.getVa
-            }//meuDao.retornaNumero(uid).number
-            num
-        }
-    }*/
 
-    fun conversaUid(iUid: String, fUid: String): String {
-        return if (iUid. > fUid.length){
-            iUid + fUid
+    private fun conversaKeyNumber(iNum: Long?, fNum: Long): String{
+        val conversaUm = iNum.toString() + fNum.toString() // 100 + 200 = 100200
+        val conversaDois = fNum.toString() + iNum.toString() // 200 + 100 = 200100
+        return if(conversaUm > conversaDois){
+            conversaUm
         }else{
-            fUid + iUid
+            conversaDois
         }
     }
 
     fun taskConversa() {
-        conversaId = conversaUid(meuUid.toString(), args)
+        conversaId = conversaKeyNumber(meuNum.value, args.number)
 
         conversaValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -84,28 +65,22 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
         database.getReference(CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
     }
 
-    // FIXME: 06/12/2021 Problema é que as variáveis não estão recebendo seus devidos valores, com isso não está sendo adicionado ao Room function.
-    /*fun adcAoRoom(){
-        try {
-            uiScope.launch {
-                conversa.value?.forEach { index ->
-                    meuDao.inserirMensagem(ConversaEntidade().apply { //mudei aqui
-                        uid = index.uid
-                        mensagem = index.mensagem
-                        myUid = index.myUid
-                        horario = index.horario
-                        idConversaGerada = conversaId
-                    })
-                }
-            }
-            Log.d("AdcAoRoom", "Adicionado com sucesso")
-        }catch (e: Exception){
-            Log.d("AdcAoRoom", "Falha ao adicionar")
-        }
-    }*/
+    fun adicionaMensagemAoFirebase(){ // TODO: 07/12/2021 colocar essa fun no viewmodel
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+        retornaHorario()
+
+        val conversaId = conversaKeyNumber(meuNum.value, args.number)
+
+        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
+
+        val mensagem = ConversaEntidade().apply {
+            uid = ConversaFragment.companionArguments.contato.uid
+            horario = setHorarioMensagem
+            mensagem = ConversaFragment().binding.mensagemEditText.text.toString() //aqui ta diferente
+            myUid = ContatosViewModel.meuUid.toString()
+            idConversaGerada = conversaId
+        }
+        referenciaMensagem.push().setValue(mensagem)
     }
+
 }

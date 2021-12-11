@@ -86,11 +86,7 @@ class ContatosFragment : Fragment() {
                 valor ->
             if (valor != null){
                 binding.numero.text = valor.toString()
-                meuContato = ContatosEntidade(meuUid.toString()).apply {
-                    nome = auth.currentUser?.displayName.toString()
-                    email = auth.currentUser?.email.toString()
-                    number = valor
-                }
+                meuContato = ContatosEntidade(meuUid.toString(), auth.currentUser?.displayName.toString(),auth.currentUser?.email.toString(), valor)
                 numeroRef = valor.toString()
 
             }else{
@@ -104,7 +100,6 @@ class ContatosFragment : Fragment() {
 
         viewModel.contatos.observe(viewLifecycleOwner, { // TODO: 10/12/2021 talvez substituir o UI resgatado pelo firebase pelo do Room, sem ideias ainda
             mAdapter.submitList(it.toMutableList())
-            //viewModel.adicionaAosContatos() // TODO: 10/12/2021 talvez solucione problema do getNumber() = null
         })
 
         viewModel.status.observe(viewLifecycleOwner,{
@@ -145,7 +140,7 @@ class ContatosFragment : Fragment() {
         usuarioDestino.observe(viewLifecycleOwner, {
                 condicao ->
             if (condicao){
-                val argumento = //uidItem.uid // TODO: 07/12/2021 arrumar aqui
+                val argumento = uidItem
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )
@@ -160,8 +155,6 @@ class ContatosFragment : Fragment() {
         deletarUsuario.value = false
     }
 
-    // FIXME: 08/12/2021 COLOCAR APENAS O NUM P/ O CONTATO, ASSIM RETORNA TODAS AS INFOS NECESSÁRIAS
-    // FIXME: 02/12/2021 Trocar o ID para ID_CONVERSA_GERADA (talvez n precise, é necessário um teste quando o room estiver atualizado com o firebase db)
     private fun alertDialogDeletarContato(){
         val construtor = AlertDialog.Builder(requireActivity())
         val idParaDeletar = uidItem
@@ -170,7 +163,7 @@ class ContatosFragment : Fragment() {
         construtor.setMessage(R.string.mensagemDeletarContato)
         construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
             viewModel.removeContato(idParaDeletar)
-            referenciaContato.child(meuNum.value.toString()).child(idParaDeletar.number.toString()).removeValue() // FIXME: 07/12/2021 arrumar auqi
+            referenciaContato.child(meuNum.value.toString()).child(idParaDeletar.number.toString()).removeValue()
             Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
             voltaDeletarValParaNormal()
             dialogInterface.cancel()
@@ -195,23 +188,18 @@ class ContatosFragment : Fragment() {
             val num: EditText = adicionarContBinding.contatoNumero
             val reference = referenciaUser.result.child(num.text.toString())
             try{
-                if(reference.key.toString() == num.text.toString() ){ // TODO: 08/12/2021 colocar pra por o nome tbm pra add
+                if(reference.key.toString() == num.text.toString() ){
                     val ref = reference.getValue(ContatosEntidade::class.java)
 
-                    val contato = ContatosEntidade(ref?.uid.toString()).apply {
-                        nome = ref?.nome!!
-                        email = ref.email
-                        number = ref.number
-                    }
+                    val contato = ContatosEntidade(ref?.uid.toString(), ref?.nome!!, ref.email,  ref.number)
                     referenciaContato.child(meuNum.value.toString()).child(num.text.toString()).setValue(contato)
                     referenciaContato.child(num.text.toString()).child(meuNum.value.toString()).setValue(meuContato)
 
-                    AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(referenciaUser.result.child(num.text.toString()).child(
-                        UID_REFERENCIA).value.toString()).apply {
-                        nome = adicionarContBinding.contatoNome.text.toString()
-                        email = referenciaUser.result.child(num.text.toString()).child(EMAIL_REFERENCIA).value.toString()
-                        number = num.text.toString().toLong()
-                    })
+                    AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(
+                        referenciaUser.result.child(num.text.toString()).child(UID_REFERENCIA).value.toString(),
+                        adicionarContBinding.contatoNome.text.toString(),
+                        referenciaUser.result.child(num.text.toString()).child(EMAIL_REFERENCIA).value.toString()
+                        ,num.text.toString().toLong()))
                     dialogo.cancel()
                     Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
 
@@ -226,6 +214,5 @@ class ContatosFragment : Fragment() {
         val alerta = construtor.create()
         alerta.show()
     }
-    // FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida
 }
-// TODO: 06/12/2021 quando receber mensagem de um user que n tenha salvo, aparecer nos contatos
+// FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida

@@ -32,8 +32,8 @@
             app:enterAnim="@anim/side_slide_esquerda"
             app:exitAnim="@anim/side_slide_out_direita" />
         <argument
-            android:name="num"
-            app:argType="Long" />
+            android:name="contato"
+            app:argType="com.malfaa.firebasechat.room.entidades.ContatosEntidade" />
     </fragment>
 
     <fragment

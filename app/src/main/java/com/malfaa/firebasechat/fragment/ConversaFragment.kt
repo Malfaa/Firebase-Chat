@@ -16,20 +16,16 @@ import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.dataFormato
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
-import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.usuarioDestino
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
-import com.malfaa.firebasechat.viewmodel.ConversaViewModel.Companion.CONVERSA_REFERENCIA
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel.Companion.setHorarioMensagem
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
 
 class ConversaFragment : Fragment() {
 
     private lateinit var viewModel: ConversaViewModel
-    private lateinit var binding: ConversaFragmentBinding
+    lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
     private val args : ConversaFragmentArgs by navArgs()
 
@@ -58,7 +54,6 @@ class ConversaFragment : Fragment() {
         viewModelFactory = ConversaViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[ConversaViewModel::class.java]
         binding.viewModel = viewModel
-        //viewModel.retornaNumeroUser()
 
         val mAdapter = ConversaAdapter()
         binding.conversaRecyclerView.adapter = mAdapter
@@ -68,13 +63,6 @@ class ConversaFragment : Fragment() {
         viewModel.conversa.observe(viewLifecycleOwner,{
             mAdapter.submitList(it.asReversed().toMutableList())
         })
-
-
-//        //Esse funfa pelo ROOM FIXME ta quebrado usar o room junto ao Firebase
-//        viewModel.recebeConversaRoom.observe(viewLifecycleOwner, {
-//            mAdapter.submitList(it.toMutableList())
-//
-//        })
 
         viewModel.horario.observe(viewLifecycleOwner,{
             horario -> setHorarioMensagem = dataFormato(horario)
@@ -87,7 +75,7 @@ class ConversaFragment : Fragment() {
 
         binding.enviarBtn.setOnClickListener{
             try{
-                adicionaMensagemAoFirebase()
+                viewModel.adicionaMensagemAoFirebase()
                 Log.d("Firebase", "Enviado")
             //aqui
 
@@ -103,23 +91,23 @@ class ConversaFragment : Fragment() {
         usuarioDestino.value = false
     }
 
-    private fun adicionaMensagemAoFirebase(){ // TODO: 07/12/2021 colocar essa fun no viewmodel
-
-        viewModel.retornaHorario()
-
-        val conversaId = viewModel.conversaUid(meuUid.toString(), args.uid)
-
-        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
-
-        val mensagem = ConversaEntidade().apply {
-            uid = companionArguments.uid
-            horario = setHorarioMensagem
-            mensagem = binding.mensagemEditText.text.toString()
-            myUid = meuUid.toString()
-            idConversaGerada = conversaId
-        }
-        referenciaMensagem.push().setValue(mensagem) //fixme talvez tentar pegar o valor por aqui
-    }
+//    private fun adicionaMensagemAoFirebase(){ // TODO: 07/12/2021 colocar essa fun no viewmodel
+//
+//        viewModel.retornaHorario()
+//
+//        val conversaId = viewModel.testeConversaUid(LoadingViewModel.meuNum.value, args.contato.number)
+//
+//        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
+//
+//        val mensagem = ConversaEntidade().apply {
+//            uid = companionArguments.contato.uid
+//            horario = setHorarioMensagem
+//            mensagem = binding.mensagemEditText.text.toString()
+//            myUid = meuUid.toString()
+//            idConversaGerada = conversaId
+//        }
+//        referenciaMensagem.push().setValue(mensagem)
+//    }
 
     // TODO: 01/12/2021 colocar foto das pessoas nos contatos (ou não)
 }

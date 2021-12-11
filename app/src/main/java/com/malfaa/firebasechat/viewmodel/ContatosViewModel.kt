@@ -12,7 +12,10 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
 
@@ -23,7 +26,7 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
         const val USERS_REFERENCIA = "Users"
         const val UID_REFERENCIA = "uid"
         const val EMAIL_REFERENCIA = "email"
-        const val CONTATO_REFERENCIA = "Contatos"
+        private const val CONTATO_REFERENCIA = "Contatos"
 
         val referenciaUser = database.reference.child(USERS_REFERENCIA).get().addOnSuccessListener {
             Log.d("Ref", "Dados Recuperados")
@@ -76,20 +79,7 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
                 Log.d("error", "no onCancelled")
             }
         }
-        referenciaContato.child(num).addValueEventListener(contatosValueEventListener) // fixme problema aqui
-    }
-
-    fun adicionaAosContatos(){
-        uiScope.launch {
-            adcAoRoom(contatos.value!!.last())
-        }
-    }
-
-    private suspend fun adcAoRoom(contato: ContatosEntidade){
-        withContext(Dispatchers.IO) {
-            val adc = meuDao.novoContato(contato)
-            adc
-        }
+        referenciaContato.child(num).addValueEventListener(contatosValueEventListener)
     }
 
     override fun onCleared() {

@@ -9,7 +9,7 @@ class ConversaViewModelFactory(private val dataSource: MeuDao): ViewModelProvide
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(ConversaViewModel::class.java)){
-            return ConversaViewModel(dataSource) as T
+            return ConversaViewModel() as T
         }
         throw IllegalArgumentException("Viewmodel desconhecido")
     }

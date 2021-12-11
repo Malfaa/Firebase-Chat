@@ -19,7 +19,7 @@ class SignInViewModel(private val meuDao: MeuDao) : ViewModel() {
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
 
-    private var num = (1..1000).random() // FIXME: 07/12/2021 quando tiver um número já no db, regenerar random
+    private var num = (1..1000).random()
 
 
     private val _numero = MutableLiveData<Long>()
@@ -28,7 +28,7 @@ class SignInViewModel(private val meuDao: MeuDao) : ViewModel() {
         if (!database.reference.child(_numero.value.toString()).get().isSuccessful){
             assert(true)
         }else{
-            num = (1..1000).random() // TODO: 07/12/2021 checar usabilidade
+            num = (1..1000).random()
         }
 
     }
@@ -36,12 +36,8 @@ class SignInViewModel(private val meuDao: MeuDao) : ViewModel() {
     fun adicaoDeUserAoFDB(user: FirebaseUser?){
         checarDispNum()
         uiScope.launch {
-            val ref = database.getReference(USERS_REFERENCIA).child(num.toString()) //todo mudei aqui
-            val valores = ContatosEntidade(user?.uid.toString()).apply{
-                nome = user?.displayName.toString()
-                email = user?.email.toString()
-                number = num.toLong()
-            }
+            val ref = database.getReference(USERS_REFERENCIA).child(num.toString())
+            val valores = ContatosEntidade(user?.uid.toString(), user?.displayName.toString(), user?.email.toString(), num.toLong())
             _numero.value = num.toLong()
             ref.setValue(valores)}
     }
