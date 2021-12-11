@@ -3,28 +3,19 @@ package com.malfaa.firebasechat.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 import com.malfaa.firebasechat.databinding.ContatoItemBinding
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.deletarUsuario
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.uidItem
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.usuarioDestino
 
 class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>(MenuConversaDiffCallBack()){
-    companion object {
-        val usuarioDestino = MutableLiveData<Boolean>()
-        lateinit var uidItem : ContatosEntidade
-        val deletarUsuario = MutableLiveData<Boolean>()
-        lateinit var mAuth: FirebaseAuth
-        lateinit var db: FirebaseDatabase
-    }
-
     class ViewHolder private constructor(val binding: ContatoItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item : ContatosEntidade){
             binding.item = item
-
             binding.executePendingBindings()
         }
         companion object{
@@ -62,6 +53,7 @@ class ContatosAdapter: ListAdapter<ContatosEntidade, ContatosAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+
         holder.binding.contatoItem.setOnClickListener{
             uidItem = item
             usuarioDestino.value = true

@@ -1,18 +1,15 @@
 package com.malfaa.firebasechat.fragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.databinding.AdicionaContatoFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
-import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodelfactory.AdicionaContatoViewModelFactory
 
@@ -46,20 +43,5 @@ class AdicionaContatoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         SetupVariaveisIniciais()
-
-        /*binding.adicionarContato.setOnClickListener{
-            if(binding.contatoEmail.text.isNotEmpty()){
-                viewModel.adicionaContato(ContatosEntidade(any).apply {
-                    nome = binding.contatoNome.text.toString()
-                    email = binding.contatoEmail.text.toString()
-                })
-                Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
-                this.findNavController().navigate(AdicionaContatoFragmentDirections.actionAdicionaContatoFragmentToContatosFragment())
-            }else{
-                Toast.makeText(context, "Contato Inválido.\n Tente novamente.", Toast.LENGTH_SHORT).show()
-                binding.contatoEmail.text.clear()
-            }
-        }*/
-
     }
 }

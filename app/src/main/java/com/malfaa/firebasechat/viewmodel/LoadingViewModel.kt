@@ -12,8 +12,8 @@ class LoadingViewModel(private val meuDao: MeuDao):ViewModel() {
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     companion object{
-        private val _meuNum = MutableLiveData<String>()
-        val meuNum : LiveData<String>
+        private val _meuNum = MutableLiveData<Long>()
+        val meuNum : LiveData<Long>
             get() = _meuNum
     }
 
@@ -23,7 +23,7 @@ class LoadingViewModel(private val meuDao: MeuDao):ViewModel() {
         }
     }
 
-    private suspend fun retornaNumeroPessoal():String{
+    private suspend fun retornaNumeroPessoal():Long{
         return withContext(Dispatchers.IO) {
             val resultado = meuDao.myNum().myNum
             resultado

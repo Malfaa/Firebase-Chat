@@ -44,8 +44,6 @@ class LoadingFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         val usuario = mAuth.currentUser
 
-        //fixme binding.loadingBar.setProgress()
-
         Handler(Looper.getMainLooper()).postDelayed({
             if(usuario != null) {
                 viewModel.retornaMeuNumero()

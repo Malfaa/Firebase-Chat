@@ -12,15 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.malfaa.firebasechat.R
-import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.dataFormato
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
-import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.database
-import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.meuUid
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.usuarioDestino
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
 
@@ -99,7 +99,7 @@ class ConversaFragment : Fragment() {
 
     private fun retornaOrdem(){
         this.findNavController().safeNavigate(ConversaFragmentDirections.actionConversaFragmentToContatosFragment())
-        ContatosAdapter.usuarioDestino.value = false
+        usuarioDestino.value = false
     }
 
     private fun adicionaMensagemAoFirebase(){ // TODO: 07/12/2021 colocar essa fun no viewmodel

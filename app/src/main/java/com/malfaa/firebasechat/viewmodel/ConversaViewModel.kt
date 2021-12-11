@@ -7,17 +7,17 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.malfaa.firebasechat.fragment.ContatosFragment
 import com.malfaa.firebasechat.fragment.ConversaFragment
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
 import kotlinx.coroutines.*
 import java.util.*
 
 class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     companion object{
-        lateinit var ID_MENSAGEM_REFERENCIA: String
         lateinit var conversaId:String
     }
     private val args = ConversaFragment.companionArguments.uid
@@ -41,11 +41,11 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     fun retornaNumeroUser(){
         uiScope.launch {
-            _num.value = numero(args)
+            _num.value = numero(args).toString()
         }
     }
 
-    private suspend fun numero(uid: String): String {
+    private suspend fun numero(uid: String): Long {
         return withContext(Dispatchers.IO){
             val num = meuDao.retornaNumero(uid).number
             num
@@ -61,7 +61,7 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
     }
 
     fun taskConversa() {
-        conversaId = conversaUid(ContatosFragment.meuUid.toString(), args)
+        conversaId = conversaUid(meuUid.toString(), args)
 
         conversaValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -69,20 +69,18 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
                     val mensagens = snapshot.children.mapNotNull {
                         it.getValue(ConversaEntidade::class.java)
                     }.toList()
-                    ID_MENSAGEM_REFERENCIA = snapshot.children.toString()
                     conversa.postValue(mensagens)
                 }
-                //adcAoRoom()
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.d("error", "no onCancelled")
             }
         }
-        ContatosFragment.database.getReference(ConversaFragment.CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
+        database.getReference(ConversaFragment.CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
     }
 
     // FIXME: 06/12/2021 Problema é que as variáveis não estão recebendo seus devidos valores, com isso não está sendo adicionado ao Room function.
-    fun adcAoRoom(){
+    /*fun adcAoRoom(){
         try {
             uiScope.launch {
                 conversa.value?.forEach { index ->
@@ -99,7 +97,7 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
         }catch (e: Exception){
             Log.d("AdcAoRoom", "Falha ao adicionar")
         }
-    }
+    }*/
 
     override fun onCleared() {
         super.onCleared()

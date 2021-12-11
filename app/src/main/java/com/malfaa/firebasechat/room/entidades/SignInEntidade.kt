@@ -10,7 +10,7 @@ data class SignInEntidade(
     @ColumnInfo(name = "uid")
     val myUid: String,
     @ColumnInfo(name = "numero")
-    val myNum: String,
+    val myNum: Long,
     @ColumnInfo(name = "nome")
     val myName: String,
     @ColumnInfo(name = "email")

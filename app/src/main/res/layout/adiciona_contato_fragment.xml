@@ -38,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/edittext_margem_dimen"
                 android:hint="@string/nomeConversa"
                 android:inputType="text"

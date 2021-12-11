@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.malfaa.firebasechat.databinding.MensagemBinding
-import com.malfaa.firebasechat.fragment.ContatosFragment.Companion.meuUid
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
 
 class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
