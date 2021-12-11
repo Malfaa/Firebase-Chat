@@ -22,6 +22,8 @@ import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.usuarioDestino
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
+import com.malfaa.firebasechat.viewmodel.ConversaViewModel.Companion.CONVERSA_REFERENCIA
+import com.malfaa.firebasechat.viewmodel.ConversaViewModel.Companion.setHorarioMensagem
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
 
 class ConversaFragment : Fragment() {
@@ -33,8 +35,7 @@ class ConversaFragment : Fragment() {
 
     companion object{
         lateinit var companionArguments : ConversaFragmentArgs
-        const val CONVERSA_REFERENCIA = "Conversas"
-        lateinit var setHorarioMensagem:String
+
     }
 
     override fun onCreateView(
@@ -57,7 +58,7 @@ class ConversaFragment : Fragment() {
         viewModelFactory = ConversaViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory)[ConversaViewModel::class.java]
         binding.viewModel = viewModel
-        viewModel.retornaNumeroUser()
+        //viewModel.retornaNumeroUser()
 
         val mAdapter = ConversaAdapter()
         binding.conversaRecyclerView.adapter = mAdapter

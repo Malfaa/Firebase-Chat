@@ -18,4 +18,8 @@
     <string name="bemvindo">Bem-Vindo</string>
     <string name="logo">Logo</string>
     <string name="carregando">Aguarde…</string>
+    <string name="numeroDisplay">Nº :</string>
+    <string name="onlineDisplay">Online</string>
+    <string name="offlineDisplay">Offline</string>
+    <string name="imageContent">Conteúdo Imagem</string>
 </resources>

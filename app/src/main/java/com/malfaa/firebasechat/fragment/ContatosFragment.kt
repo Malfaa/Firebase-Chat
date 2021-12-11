@@ -49,6 +49,8 @@ class ContatosFragment : Fragment() {
     companion object{
         private lateinit var meuContato: ContatosEntidade
         private lateinit var numeroRef: String
+        private const val online = "Online"
+        private const val offline = "Offline"
     }
 
     override fun onCreateView(
@@ -102,7 +104,19 @@ class ContatosFragment : Fragment() {
 
         viewModel.contatos.observe(viewLifecycleOwner, { // TODO: 10/12/2021 talvez substituir o UI resgatado pelo firebase pelo do Room, sem ideias ainda
             mAdapter.submitList(it.toMutableList())
-            viewModel.adicionaAosContatos() // TODO: 10/12/2021 talvez solucione problema do getNumber() = null
+            //viewModel.adicionaAosContatos() // TODO: 10/12/2021 talvez solucione problema do getNumber() = null
+        })
+
+        viewModel.status.observe(viewLifecycleOwner,{
+            estado ->
+            if (estado){
+                binding.status.text = online
+                binding.statusIcone.setImageResource(R.drawable.ic_status_online)
+            }else{
+                binding.status.text = offline
+                binding.statusIcone.setImageResource(R.drawable.ic_status_offline)
+                Toast.makeText(context, "Reinicie o Aplicativo.",Toast.LENGTH_LONG).show()
+            }
         })
 
         binding.adicaoNovoContato.setOnClickListener {
@@ -131,7 +145,7 @@ class ContatosFragment : Fragment() {
         usuarioDestino.observe(viewLifecycleOwner, {
                 condicao ->
             if (condicao){
-                val argumento = uidItem.uid // TODO: 07/12/2021 arrumar aqui
+                val argumento = //uidItem.uid // TODO: 07/12/2021 arrumar aqui
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )

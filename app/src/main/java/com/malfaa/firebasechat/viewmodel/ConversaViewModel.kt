@@ -12,6 +12,7 @@ import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaUser
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -19,6 +20,8 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     companion object{
         lateinit var conversaId:String
+        const val CONVERSA_REFERENCIA = "Conversas"
+        lateinit var setHorarioMensagem:String
     }
     private val args = ConversaFragment.companionArguments.uid
 
@@ -38,7 +41,7 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
         _horario.value = Date().time
         return _horario.value!!
     }
-
+/*
     fun retornaNumeroUser(){
         uiScope.launch {
             _num.value = numero(args).toString()
@@ -47,13 +50,15 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     private suspend fun numero(uid: String): Long {
         return withContext(Dispatchers.IO){
-            val num = meuDao.retornaNumero(uid).number
+            val num = referenciaUser.result.children.mapNotNull {
+                it.getVa
+            }//meuDao.retornaNumero(uid).number
             num
         }
-    }
+    }*/
 
     fun conversaUid(iUid: String, fUid: String): String {
-        return if (iUid.length > fUid.length){
+        return if (iUid. > fUid.length){
             iUid + fUid
         }else{
             fUid + iUid
@@ -76,7 +81,7 @@ class ConversaViewModel(private val meuDao: MeuDao) : ViewModel() {
                 Log.d("error", "no onCancelled")
             }
         }
-        database.getReference(ConversaFragment.CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
+        database.getReference(CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
     }
 
     // FIXME: 06/12/2021 Problema é que as variáveis não estão recebendo seus devidos valores, com isso não está sendo adicionado ao Room function.

@@ -1,6 +1,7 @@
 package com.malfaa.firebasechat.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -26,18 +27,25 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
 
         val referenciaUser = database.reference.child(USERS_REFERENCIA).get().addOnSuccessListener {
             Log.d("Ref", "Dados Recuperados")
+            _status.value = true
         }.addOnFailureListener{
             Log.d("Ref", "Falha em recuperar os dados")
+            _status.value = false
         }
         val referenciaContato = database.getReference(CONTATO_REFERENCIA)
 
         val usuarioDestino = MutableLiveData<Boolean>()
         lateinit var uidItem : ContatosEntidade
         val deletarUsuario = MutableLiveData<Boolean>()
+        private val _status = MutableLiveData<Boolean>()
+
     }
 
     val contatos = MutableLiveData<List<ContatosEntidade>>()
     private lateinit var contatosValueEventListener: ValueEventListener
+
+    val status: LiveData<Boolean>
+        get() = _status
 
     //Coroutine ----------------------------------------------------------------------------------
     private var viewModelJob = Job()

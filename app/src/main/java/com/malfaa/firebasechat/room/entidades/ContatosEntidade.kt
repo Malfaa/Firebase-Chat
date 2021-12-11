@@ -10,6 +10,6 @@ data class ContatosEntidade(
 ){
     var nome: String = ""
     var email: String = ""
-    var number: Long = 0
+    var number: String = ""
     constructor():this("")
 }

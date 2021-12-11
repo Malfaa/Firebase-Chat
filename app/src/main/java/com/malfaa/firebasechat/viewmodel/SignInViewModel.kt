@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.SignInEntidade
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.USERS_REFERENCIA
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +36,7 @@ class SignInViewModel(private val meuDao: MeuDao) : ViewModel() {
     fun adicaoDeUserAoFDB(user: FirebaseUser?){
         checarDispNum()
         uiScope.launch {
-            val ref = database.getReference("Users").child(num.toString())
+            val ref = database.getReference(USERS_REFERENCIA).child(num.toString()) //todo mudei aqui
             val valores = ContatosEntidade(user?.uid.toString()).apply{
                 nome = user?.displayName.toString()
                 email = user?.email.toString()

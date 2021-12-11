@@ -20,17 +20,17 @@
             android:id="@+id/numero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:height="50dp"
             android:gravity="center"
             android:hint="@string/meuNum"
             android:textColor="@color/white"
             android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/statusIcone"
+            app:layout_constraintStart_toEndOf="@+id/numeroDisp"
             app:layout_constraintTop_toTopOf="parent">
 
         </TextView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVContatos"
             android:layout_width="0dp"
@@ -54,6 +54,40 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/numeroDisp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/raio_cantos_btn"
+            android:text="@string/numeroDisplay"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/numero"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/raio_cantos_btn"
+            android:text="@string/onlineDisplay"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/numero"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/numero" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/statusIcone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/fundo_color"
+            app:layout_constraintBottom_toBottomOf="@+id/status"
+            app:layout_constraintEnd_toStartOf="@+id/status"
+            app:layout_constraintTop_toTopOf="@+id/status"
+            app:srcCompat="@drawable/ic_status_online"
+            android:contentDescription="@string/imageContent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
