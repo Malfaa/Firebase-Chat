@@ -25,7 +25,6 @@ class ConversaViewModel : ViewModel() {
     val conversa = MutableLiveData<List<ConversaEntidade>>()
     private lateinit var conversaValueEventListener: ValueEventListener
 
-
     private val _horario = MutableLiveData<Long>()
     val horario: LiveData<Long>
         get() = _horario
@@ -37,8 +36,8 @@ class ConversaViewModel : ViewModel() {
 
 
     private fun conversaKeyNumber(iNum: Long?, fNum: Long): String{
-        val conversaUm = iNum.toString() + fNum.toString() // 100 + 200 = 100200
-        val conversaDois = fNum.toString() + iNum.toString() // 200 + 100 = 200100
+        val conversaUm = iNum.toString() + fNum.toString()
+        val conversaDois = fNum.toString() + iNum.toString()
         return if(conversaUm > conversaDois){
             conversaUm
         }else{
@@ -65,7 +64,7 @@ class ConversaViewModel : ViewModel() {
         database.getReference(CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
     }
 
-    fun adicionaMensagemAoFirebase(){ // TODO: 07/12/2021 colocar essa fun no viewmodel
+    fun adicionaMensagemAoFirebase(){
 
         retornaHorario()
 

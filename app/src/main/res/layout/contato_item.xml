@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -22,8 +23,22 @@
 
         <TextView
             android:id="@+id/contatoItemNome"
-            android:textColor="@color/white"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/contato_item_dimen"
+            android:layout_marginTop="@dimen/contato_item_dimen"
+            android:layout_marginBottom="@dimen/contato_item_dimen"
+            android:textColor="@color/white"
+            android:hint="@string/avatar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:setNome="@{item}" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/contato_item_dimen"
             android:layout_marginTop="@dimen/contato_item_dimen"
@@ -31,7 +46,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setNome="@{item}" />
+            app:srcCompat="@drawable/fui_ic_anonymous_white_24dp"
+            android:contentDescription="@string/avatar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

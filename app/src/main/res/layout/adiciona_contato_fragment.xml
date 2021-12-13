@@ -26,23 +26,13 @@
             android:layout_marginEnd="@dimen/edittext_margem_dimen"
             android:layout_marginBottom="@dimen/edittext_margem_dimen"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/adicionarContato"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
-            <EditText
-                android:id="@+id/contatoNome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/edittext_margem_dimen"
-                android:hint="@string/nomeConversa"
-                android:inputType="text"
-                android:importantForAutofill="no" />
+
 
             <EditText
                 android:id="@+id/contatoNumero"
@@ -50,23 +40,12 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/num"
-                android:layout_marginTop="@dimen/edittext_margem_dimen"
                 android:importantForAutofill="no"
+                android:layout_marginBottom="@dimen/raw_mensagem_margem_dimen"
                 android:inputType="number"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <Button
-            android:id="@+id/adicionarContato"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginEnd="@dimen/edittext_margem_dimen"
-            android:layout_marginBottom="@dimen/distancia_elementos_globais"
-            android:text="@string/adicionar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/areaContato"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/areaContato" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

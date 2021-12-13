@@ -70,6 +70,7 @@ class SignInFragment : Fragment() {
         // [END auth_fui_create_intent]
     }
 
+    // FIXME: 13/12/2021 Como colocar foto dos users
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         result.idpResponse
         if (result.resultCode == RESULT_OK) {
@@ -77,7 +78,7 @@ class SignInFragment : Fragment() {
             val user = FirebaseAuth.getInstance().currentUser
             viewModel.adicaoInfosPessoal(user)
             viewModel.adicaoDeUserAoFDB(user)
-            findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToLoadingFragment()) //todo criar um layout de loading enquando faz tudo que precisa, assim navega até lá
+            findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToLoadingFragment())
         } else {
             Log.d("Erro SignInResult", "Erro")
         }

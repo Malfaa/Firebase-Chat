@@ -77,8 +77,6 @@ class ConversaFragment : Fragment() {
             try{
                 viewModel.adicionaMensagemAoFirebase()
                 Log.d("Firebase", "Enviado")
-            //aqui
-
             }catch (e: Exception){
                 Log.d("Error", e.toString())
             }
@@ -91,23 +89,6 @@ class ConversaFragment : Fragment() {
         usuarioDestino.value = false
     }
 
-//    private fun adicionaMensagemAoFirebase(){ // TODO: 07/12/2021 colocar essa fun no viewmodel
-//
-//        viewModel.retornaHorario()
-//
-//        val conversaId = viewModel.testeConversaUid(LoadingViewModel.meuNum.value, args.contato.number)
-//
-//        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
-//
-//        val mensagem = ConversaEntidade().apply {
-//            uid = companionArguments.contato.uid
-//            horario = setHorarioMensagem
-//            mensagem = binding.mensagemEditText.text.toString()
-//            myUid = meuUid.toString()
-//            idConversaGerada = conversaId
-//        }
-//        referenciaMensagem.push().setValue(mensagem)
-//    }
 
     // TODO: 01/12/2021 colocar foto das pessoas nos contatos (ou não)
 }

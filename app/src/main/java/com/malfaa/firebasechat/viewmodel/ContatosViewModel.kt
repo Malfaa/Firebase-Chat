@@ -26,6 +26,7 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
         const val USERS_REFERENCIA = "Users"
         const val UID_REFERENCIA = "uid"
         const val EMAIL_REFERENCIA = "email"
+        const val NOME_REFERENCIA = "nome"
         private const val CONTATO_REFERENCIA = "Contatos"
 
         val referenciaUser = database.reference.child(USERS_REFERENCIA).get().addOnSuccessListener {
@@ -50,7 +51,6 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
     val status: LiveData<Boolean>
         get() = _status
 
-    //Coroutine ----------------------------------------------------------------------------------
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -80,6 +80,25 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
             }
         }
         referenciaContato.child(num).addValueEventListener(contatosValueEventListener)
+    }
+
+    fun conexao(){
+        val connectedRef = database.getReference(".info/connected")
+        connectedRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val connected = snapshot.getValue(Boolean::class.java) ?: false
+                if (connected) {
+                    Log.d("Conectividade", "conectado")
+                    _status.value = true
+                } else {
+                    Log.d("Conectividade", "não conectado")
+                    _status.value = false
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("Listener", "Listener was cancelled")
+            }
+        })
     }
 
     override fun onCleared() {

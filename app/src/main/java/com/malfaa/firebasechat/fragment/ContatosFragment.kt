@@ -27,8 +27,10 @@ import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.EMAIL_REFERENCIA
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.NOME_REFERENCIA
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.UID_REFERENCIA
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.auth
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.deletarUsuario
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaContato
@@ -67,6 +69,9 @@ class ContatosFragment : Fragment() {
         return MeuDatabase.recebaDatabase(application).meuDao()
     }
 
+    private fun ativarPesistencia(){
+        database.setPersistenceEnabled(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,10 +103,11 @@ class ContatosFragment : Fragment() {
             viewModel.taskContatos(numeroRef)
         }, 300)
 
-        viewModel.contatos.observe(viewLifecycleOwner, { // TODO: 10/12/2021 talvez substituir o UI resgatado pelo firebase pelo do Room, sem ideias ainda
+        viewModel.contatos.observe(viewLifecycleOwner, {
             mAdapter.submitList(it.toMutableList())
         })
 
+        viewModel.conexao()
         viewModel.status.observe(viewLifecycleOwner,{
             estado ->
             if (estado){
@@ -110,12 +116,10 @@ class ContatosFragment : Fragment() {
             }else{
                 binding.status.text = offline
                 binding.statusIcone.setImageResource(R.drawable.ic_status_offline)
-                Toast.makeText(context, "Reinicie o Aplicativo.",Toast.LENGTH_LONG).show()
             }
         })
 
         binding.adicaoNovoContato.setOnClickListener {
-            Log.d("teste", viewModel.contatos.value.toString()) // resultado = null
             alertDialogAdicionarContato()
         }
 
@@ -154,7 +158,6 @@ class ContatosFragment : Fragment() {
     private fun voltaDeletarValParaNormal(){
         deletarUsuario.value = false
     }
-
     private fun alertDialogDeletarContato(){
         val construtor = AlertDialog.Builder(requireActivity())
         val idParaDeletar = uidItem
@@ -197,7 +200,7 @@ class ContatosFragment : Fragment() {
 
                     AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(
                         referenciaUser.result.child(num.text.toString()).child(UID_REFERENCIA).value.toString(),
-                        adicionarContBinding.contatoNome.text.toString(),
+                        referenciaUser.result.child(num.text.toString()).child(NOME_REFERENCIA).value.toString(),
                         referenciaUser.result.child(num.text.toString()).child(EMAIL_REFERENCIA).value.toString()
                         ,num.text.toString().toLong()))
                     dialogo.cancel()
@@ -214,5 +217,5 @@ class ContatosFragment : Fragment() {
         val alerta = construtor.create()
         alerta.show()
     }
+
 }
-// FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida

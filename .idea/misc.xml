@@ -14,11 +14,11 @@
         <entry key="app/src/main/res/layout/adiciona_contato_fragment.xml" value="0.463855421686747" />
         <entry key="app/src/main/res/layout/confirma_deletar_contato.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/contato_conversa.xml" value="0.34791666666666665" />
-        <entry key="app/src/main/res/layout/contato_item.xml" value="0.34791666666666665" />
+        <entry key="app/src/main/res/layout/contato_item.xml" value="0.67" />
         <entry key="app/src/main/res/layout/contatos_fragment.xml" value="0.5" />
         <entry key="app/src/main/res/layout/conversa_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/conversas_fragment.xml" value="0.34791666666666665" />
-        <entry key="app/src/main/res/layout/mensagem.xml" value="0.6002766251728907" />
+        <entry key="app/src/main/res/layout/mensagem.xml" value="0.33" />
         <entry key="app/src/main/res/layout/mensagem_propria.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/mensagem_teste.xml" value="0.45925925925925926" />
         <entry key="app/src/main/res/layout/menu_conversas_fragment.xml" value="0.34791666666666665" />
