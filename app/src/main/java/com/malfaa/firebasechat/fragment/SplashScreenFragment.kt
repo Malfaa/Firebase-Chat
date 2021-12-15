@@ -26,7 +26,7 @@ class SplashScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.splash_screen_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.splash_screen_fragment_main, container, false)
         return binding.root
     }
 

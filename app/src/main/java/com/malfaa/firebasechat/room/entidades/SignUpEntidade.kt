@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "info_pessoal")
-data class SignInEntidade(
+data class SignUpEntidade(
     @PrimaryKey
     @ColumnInfo(name = "uid")
     val myUid: String,

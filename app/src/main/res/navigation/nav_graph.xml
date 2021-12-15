@@ -38,9 +38,9 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.malfaa.firebasechat.fragment.SignInFragment"
+        android:name="com.malfaa.firebasechat.fragment.SignUpFragment"
         android:label="sign_up_fragment"
-        tools:layout="@layout/sign_in_fragment" >
+        tools:layout="@layout/sign_up_fragment_main" >
         <action
             android:id="@+id/action_signUpFragment_to_loadingFragment"
             app:destination="@id/loadingFragment" />
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
-        tools:layout="@layout/splash_screen_fragment"
+        tools:layout="@layout/splash_screen_fragment_main"
         android:name="com.malfaa.firebasechat.fragment.SplashScreenFragment"
         android:label="SplashScreenFragment" >
         <action

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
-import com.malfaa.firebasechat.room.entidades.SignInEntidade
+import com.malfaa.firebasechat.room.entidades.SignUpEntidade
 
 @Dao
 interface MeuDao {
@@ -38,9 +38,9 @@ interface MeuDao {
 
     //Pessoal
     @Query("SELECT * FROM info_pessoal")
-    fun myNum(): SignInEntidade
+    fun myNum(): SignUpEntidade
 
     @Insert
-    suspend fun inserirInfos(infos: SignInEntidade)
+    suspend fun inserirInfos(infos: SignUpEntidade)
 
 }

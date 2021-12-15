@@ -23,4 +23,7 @@
     <string name="offlineDisplay">Offline</string>
     <string name="imageContent">Conteúdo Imagem</string>
     <string name="avatar">Avatar do Usuário</string>
+
+    <string name="fc">FC</string>
+    <string name="barra">Barra Layout</string>
 </resources>

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import com.malfaa.firebasechat.room.entidades.SignInEntidade
+import com.malfaa.firebasechat.room.entidades.SignUpEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.USERS_REFERENCIA
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SignInViewModel(private val meuDao: MeuDao) : ViewModel() {
+class SignUpViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -45,7 +45,7 @@ class SignInViewModel(private val meuDao: MeuDao) : ViewModel() {
     fun adicaoInfosPessoal(user: FirebaseUser?){
         uiScope.launch {
             if (user != null) {
-                meuDao.inserirInfos(SignInEntidade(user.uid, num.toLong(), user.displayName.toString(), user.email.toString()))
+                meuDao.inserirInfos(SignUpEntidade(user.uid, num.toLong(), user.displayName.toString(), user.email.toString()))
             }
         }
     }

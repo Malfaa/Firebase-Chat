@@ -23,11 +23,10 @@ class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder
                 WRAP_CONTENT
             ).apply {
                 gravity = Gravity.END
-                marginEnd = 10
+                //marginEnd = 10
+                rightMargin = 10
                 bottomMargin = 20
             }
-
-            //receberMensagensFirebase(user!!)
 
             if (item.myUid == meuUid.toString()){
                 binding.conteudoDaMensagem.text = item.mensagem

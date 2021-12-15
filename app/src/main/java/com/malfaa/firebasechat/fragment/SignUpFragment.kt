@@ -15,17 +15,17 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.malfaa.firebasechat.R
-import com.malfaa.firebasechat.databinding.SignInFragmentBinding
+import com.malfaa.firebasechat.databinding.SignUpFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.safeNavigate
-import com.malfaa.firebasechat.viewmodel.SignInViewModel
-import com.malfaa.firebasechat.viewmodelfactory.SignInViewModelFactory
+import com.malfaa.firebasechat.viewmodel.SignUpViewModel
+import com.malfaa.firebasechat.viewmodelfactory.SignUpViewModelFactory
 
-class SignInFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private lateinit var viewModel: SignInViewModel
-    private lateinit var binding: SignInFragmentBinding
-    private lateinit var viewModelFactory: SignInViewModelFactory
+    private lateinit var viewModel: SignUpViewModel
+    private lateinit var binding: SignUpFragmentBinding
+    private lateinit var viewModelFactory: SignUpViewModelFactory
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -38,7 +38,7 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.sign_in_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.sign_up_fragment_main, container, false)
 
         return binding.root
     }
@@ -48,8 +48,8 @@ class SignInFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
-        viewModelFactory = SignInViewModelFactory(dataSource)
-        viewModel = ViewModelProvider(this, viewModelFactory)[SignInViewModel::class.java]
+        viewModelFactory = SignUpViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory)[SignUpViewModel::class.java]
 
         binding.signIn.setOnClickListener {
             createSignInIntent()
@@ -75,12 +75,13 @@ class SignInFragment : Fragment() {
         result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
+            // TODO: 15/12/2021 Adicionar no signUp a imagem própria e tbm pelo os contatos, que a imagem será disponibilizada pelos Contatos
             val user = FirebaseAuth.getInstance().currentUser
             viewModel.adicaoInfosPessoal(user)
             viewModel.adicaoDeUserAoFDB(user)
-            findNavController().safeNavigate(SignInFragmentDirections.actionSignUpFragmentToLoadingFragment())
+            findNavController().safeNavigate(SignUpFragmentDirections.actionSignUpFragmentToLoadingFragment())
         } else {
-            Log.d("Erro SignInResult", "Erro")
+            Log.d("Erro SignUpResult", "Erro")
         }
     }
 }

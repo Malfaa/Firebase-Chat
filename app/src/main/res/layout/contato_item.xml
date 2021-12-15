@@ -25,11 +25,11 @@
             android:id="@+id/contatoItemNome"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/contato_item_dimen"
             android:layout_marginTop="@dimen/contato_item_dimen"
             android:layout_marginBottom="@dimen/contato_item_dimen"
+            android:layout_marginStart="@dimen/float_dimen"
+            android:hint="@string/nomeConversa"
             android:textColor="@color/white"
-            android:hint="@string/avatar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,16 +38,14 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginStart="@dimen/contato_item_dimen"
-            android:layout_marginTop="@dimen/contato_item_dimen"
-            android:layout_marginBottom="@dimen/contato_item_dimen"
+            android:contentDescription="@string/avatar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/fui_ic_anonymous_white_24dp"
-            android:contentDescription="@string/avatar" />
+            app:srcCompat="@drawable/fui_ic_anonymous_white_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
