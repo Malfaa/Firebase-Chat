@@ -18,7 +18,6 @@ class AdicionaContatoFragment : Fragment() {
     private lateinit var viewModel: AdicionaContatoViewModel
     private lateinit var binding: AdicionaContatoFragmentBinding
     private lateinit var viewModelFactory: AdicionaContatoViewModelFactory
-    var any: Int = 0
 
 
     override fun onCreateView(

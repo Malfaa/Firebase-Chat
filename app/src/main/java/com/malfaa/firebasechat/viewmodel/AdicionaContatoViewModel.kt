@@ -3,26 +3,24 @@ package com.malfaa.firebasechat.viewmodel
 import androidx.lifecycle.ViewModel
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class AdicionaContatoViewModel(private val meuDao: MeuDao) : ViewModel() {
 
-    //Coroutine ----------------------------------------------------------------------------------
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    //Testa Database
-    fun recebeContatos() = uiScope.launch { meuDao.retornarContatos() }
-
-
-
     fun adicionaContato(contato: ContatosEntidade){
         uiScope.launch {
-            meuDao.novoContato(contato)
+            adicionaContatoContext(contato)
             onCleared()
+        }
+    }
+
+    private suspend fun adicionaContatoContext(contato: ContatosEntidade){
+        withContext(Dispatchers.IO){
+            val novoContato = meuDao.novoContato(contato)
+            return@withContext novoContato
         }
     }
 

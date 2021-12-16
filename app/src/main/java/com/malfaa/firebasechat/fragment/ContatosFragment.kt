@@ -75,6 +75,7 @@ class ContatosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val application = requireNotNull(this.activity).application
         val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
 
@@ -148,6 +149,11 @@ class ContatosFragment : Fragment() {
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )
+                if(viewModel.contatoRoom.value!!.contains(argumento)){
+                    assert(true)
+                }else{
+                    AdicionaContatoViewModel(retornaDao()).adicionaContato(argumento)
+                }
                 Log.d("Condicao", "foi até destino, $argumento")
             }else{
                 Log.d("Condicao", "Retido")
@@ -202,7 +208,8 @@ class ContatosFragment : Fragment() {
                         referenciaUser.result.child(num.text.toString()).child(UID_REFERENCIA).value.toString(),
                         referenciaUser.result.child(num.text.toString()).child(NOME_REFERENCIA).value.toString(),
                         referenciaUser.result.child(num.text.toString()).child(EMAIL_REFERENCIA).value.toString()
-                        ,num.text.toString().toLong()))
+                        ,num.text.toString().toLong()
+                    ))
                     dialogo.cancel()
                     Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
 
@@ -217,5 +224,4 @@ class ContatosFragment : Fragment() {
         val alerta = construtor.create()
         alerta.show()
     }
-
 }

@@ -65,13 +65,9 @@ class ConversaViewModel : ViewModel() {
     }
 
     fun adicionaMensagemAoFirebase(){
-
         retornaHorario()
-
         val conversaId = conversaKeyNumber(meuNum.value, args.number)
-
         val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
-
         val mensagem = ConversaEntidade().apply {
             uid = ConversaFragment.companionArguments.contato.uid
             horario = setHorarioMensagem

@@ -26,7 +26,7 @@ class SplashScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.splash_screen_fragment_main, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.splash_screen_fragment, container, false)
         return binding.root
     }
 
@@ -37,12 +37,20 @@ class SplashScreenFragment : Fragment() {
         val usuario = mAuth.currentUser
 
         val animacao = AnimationUtils.loadAnimation(requireActivity(), R.anim.fade_in)
-        binding.fcLogo.startAnimation(animacao)
+        binding.let {
+            it.logo.startAnimation(animacao)
+            it.baixoB.startAnimation(animacao)
+            it.cimaB.startAnimation(animacao)
+            it.dirB.startAnimation(animacao)
+            it.dirC.startAnimation(animacao)
+            it.esqB.startAnimation(animacao)
+            it.esqC.startAnimation(animacao)
+        }
 
 
         Handler(Looper.getMainLooper()).postDelayed({
             if(usuario == null) {
-               this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToSignUpFragment())
+                this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToSignUpFragment())
             }else{
                 this.findNavController().safeNavigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToContatosFragment())
             }

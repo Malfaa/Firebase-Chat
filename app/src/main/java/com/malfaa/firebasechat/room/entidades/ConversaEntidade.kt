@@ -12,14 +12,11 @@ data class ConversaEntidade(
 ) {
 
     var uid: String = ""
-
     var mensagem: String = ""
-
     var horario: String = ""
 
     @ColumnInfo(name = "my_uid")
     var myUid: String = ""
-
     @ColumnInfo(name = "conversa_id")
     var idConversaGerada: String = ""
 

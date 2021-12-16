@@ -38,7 +38,7 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.sign_up_fragment_main, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.sign_up_fragment, container, false)
 
         return binding.root
     }
@@ -56,26 +56,20 @@ class SignUpFragment : Fragment() {
         }
     }
     private fun createSignInIntent() {
-        // [START auth_fui_create_intent]
-        // Choose authentication providers
         val providers = arrayListOf(
             AuthUI.IdpConfig.GoogleBuilder().build())
 
-        // Create and launch sign-in intent
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .build()
         signInLauncher.launch(signInIntent)
-        // [END auth_fui_create_intent]
     }
 
     // FIXME: 13/12/2021 Como colocar foto dos users
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         result.idpResponse
         if (result.resultCode == RESULT_OK) {
-            // Successfully signed in
-            // TODO: 15/12/2021 Adicionar no signUp a imagem própria e tbm pelo os contatos, que a imagem será disponibilizada pelos Contatos
             val user = FirebaseAuth.getInstance().currentUser
             viewModel.adicaoInfosPessoal(user)
             viewModel.adicaoDeUserAoFDB(user)

@@ -23,7 +23,6 @@ class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder
                 WRAP_CONTENT
             ).apply {
                 gravity = Gravity.END
-                //marginEnd = 10
                 rightMargin = 10
                 bottomMargin = 20
             }

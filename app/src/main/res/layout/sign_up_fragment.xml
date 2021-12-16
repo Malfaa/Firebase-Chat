@@ -10,45 +10,96 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/fundo_color"
+        android:background="@color/logo_fundo_color_t"
         tools:context=".fragment.SignUpFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bloco"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/main_de_elementos_layout"
+            android:backgroundTint="@color/logo_fundo_color_d"
+            app:cardCornerRadius="@dimen/main_de_elementos_layout"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+            app:layout_constraintEnd_toStartOf="@+id/cardView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bloco_d"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/main_de_elementos_layout"
+            android:backgroundTint="@color/logo_fundo_color_d"
+            app:cardCornerRadius="@dimen/main_de_elementos_layout"
+            app:layout_constraintBottom_toBottomOf="@+id/bloco_t"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bloco_t"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/logo_fundo_color"
+            app:cardCornerRadius="@dimen/main_de_elementos_layout"
+            app:layout_constraintBottom_toBottomOf="@+id/signIn"
+            app:layout_constraintEnd_toEndOf="@+id/bloco_d"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/signIn" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bloco_q"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/main_de_elementos_layout"
+            android:layout_marginBottom="@dimen/main_de_elementos_layout"
+            android:backgroundTint="@color/logo_fundo_color"
+            app:cardCornerRadius="@dimen/main_de_elementos_layout"
+            app:layout_constraintBottom_toTopOf="@+id/signIn"
+            app:layout_constraintEnd_toEndOf="@+id/cardView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
         <Button
             android:id="@+id/signIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_google"
-            android:layout_marginBottom="147dp"
+            android:layout_marginBottom="@dimen/main_de_elementos_layout"
             android:backgroundTint="@color/white"
-            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_google"
             android:text="@string/inscrever"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/bemvindo"
-            app:layout_constraintStart_toStartOf="@+id/bemvindo"
+            app:layout_constraintEnd_toEndOf="@+id/cardView2"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/cardView2"
             tools:ignore="RtlHardcoded" />
 
-        <TextView
-            android:id="@+id/bemvindo"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bemvindo"
-            android:textColor="@color/white"
-            android:textSize="@dimen/bemvindoFont"
-            app:layout_constraintBottom_toTopOf="@+id/signIn"
+            android:backgroundTint="@color/logo_fundo_color_t"
+            app:layout_constraintBottom_toTopOf="@+id/bloco_t"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.259" />
+            app:layout_constraintVertical_bias="0.26">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:src="@mipmap/ic_splash_logo"
-            app:layout_constraintBottom_toTopOf="@+id/signIn"
-            app:layout_constraintEnd_toEndOf="@+id/bemvindo"
-            app:layout_constraintStart_toStartOf="@+id/bemvindo"
-            app:layout_constraintTop_toBottomOf="@+id/bemvindo" />
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/ic_logo"
+                app:layout_constraintBottom_toTopOf="@+id/signIn"
+                app:layout_constraintEnd_toEndOf="@+id/bemvindo"
+                app:layout_constraintStart_toStartOf="@+id/bemvindo"
+                app:layout_constraintTop_toBottomOf="@+id/bemvindo" />
+
+        </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

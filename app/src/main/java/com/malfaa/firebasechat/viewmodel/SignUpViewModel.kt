@@ -18,9 +18,7 @@ class SignUpViewModel(private val meuDao: MeuDao) : ViewModel() {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-
     private var num = (1..1000).random()
-
 
     private val _numero = MutableLiveData<Long>()
 
@@ -30,7 +28,6 @@ class SignUpViewModel(private val meuDao: MeuDao) : ViewModel() {
         }else{
             num = (1..1000).random()
         }
-
     }
 
     fun adicaoDeUserAoFDB(user: FirebaseUser?){

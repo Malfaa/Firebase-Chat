@@ -15,5 +15,5 @@ data class ContatosEntidade(
     var number: Long
 ): Parcelable {
 
-    constructor():this("","","",0)
+    constructor():this("","","",0 )
 }
