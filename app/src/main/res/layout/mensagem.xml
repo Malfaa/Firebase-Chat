@@ -13,7 +13,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/layout_mensagem"
         android:orientation="vertical"
-        android:backgroundTint="@color/fundo_color"
+        android:backgroundTint="@color/primary_color_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/edittext_margem_dimen"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:hint="@string/mensagem_hint"
                     android:maxWidth="280dp"
                     app:layout_constraintEnd_toEndOf="parent"

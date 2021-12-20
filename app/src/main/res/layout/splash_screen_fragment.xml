@@ -10,13 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/area_edittext">
+        android:background="@color/primary_color_dark">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/area_edittext"
+            android:backgroundTint="@color/primary_color_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/logo"
-                app:srcCompat="@drawable/ic_logo" />
+                app:srcCompat="@drawable/ic_logo_dois" />
 
         </androidx.cardview.widget.CardView>
 
@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/raio_cantos_btn"
-            android:backgroundTint="@color/logo_fundo_color"
+            android:backgroundTint="@color/secondary_color_dark"
             app:cardCornerRadius="@dimen/main_de_elementos_layout"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
@@ -51,7 +51,7 @@
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/raio_cantos_btn"
             android:layout_marginTop="@dimen/main_de_elementos_layout"
-            android:backgroundTint="@color/logo_fundo_color_t"
+            android:backgroundTint="@color/secondary_color"
             app:cardCornerRadius="@dimen/main_de_elementos_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
@@ -66,7 +66,7 @@
             android:layout_marginStart="@dimen/raio_cantos_btn"
             android:layout_marginTop="@dimen/raio_cantos_btn"
             android:layout_marginBottom="@dimen/raio_cantos_btn"
-            android:backgroundTint="@color/logo_fundo_color_d"
+            android:backgroundTint="@color/secondary_color_light"
             app:cardCornerRadius="@dimen/main_de_elementos_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/raio_cantos_btn"
-            android:backgroundTint="@color/logo_fundo_color_t"
+            android:backgroundTint="@color/secondary_color"
             app:cardCornerRadius="@dimen/main_de_elementos_layout"
             app:layout_constraintBottom_toTopOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/raio_cantos_btn"
             android:layout_marginTop="@dimen/raio_cantos_btn"
-            android:backgroundTint="@color/logo_fundo_color_d"
+            android:backgroundTint="@color/secondary_color_light"
             app:cardCornerRadius="@dimen/main_de_elementos_layout"
             app:layout_constraintBottom_toTopOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="@+id/cardView"
@@ -102,7 +102,7 @@
             android:id="@+id/baixo_b"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:backgroundTint="@color/logo_fundo_color"
+            android:backgroundTint="@color/secondary_color_dark"
             android:layout_marginTop="@dimen/raio_cantos_btn"
             app:cardCornerRadius="@dimen/main_de_elementos_layout"
             app:layout_constraintBottom_toBottomOf="parent"

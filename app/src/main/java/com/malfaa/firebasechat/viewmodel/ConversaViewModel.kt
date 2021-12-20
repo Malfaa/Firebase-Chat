@@ -29,13 +29,13 @@ class ConversaViewModel : ViewModel() {
     val horario: LiveData<Long>
         get() = _horario
 
-    private fun retornaHorario(): Long {
+    fun retornaHorario(): Long {
         _horario.value = Date().time
         return _horario.value!!
     }
 
 
-    private fun conversaKeyNumber(iNum: Long?, fNum: Long): String{
+    fun conversaKeyNumber(iNum: Long?, fNum: Long): String{
         val conversaUm = iNum.toString() + fNum.toString()
         val conversaDois = fNum.toString() + iNum.toString()
         return if(conversaUm > conversaDois){
@@ -47,7 +47,6 @@ class ConversaViewModel : ViewModel() {
 
     fun taskConversa() {
         conversaId = conversaKeyNumber(meuNum.value, args.number)
-
         conversaValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
@@ -64,18 +63,18 @@ class ConversaViewModel : ViewModel() {
         database.getReference(CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
     }
 
-    fun adicionaMensagemAoFirebase(){
-        retornaHorario()
-        val conversaId = conversaKeyNumber(meuNum.value, args.number)
-        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
-        val mensagem = ConversaEntidade().apply {
-            uid = ConversaFragment.companionArguments.contato.uid
-            horario = setHorarioMensagem
-            mensagem = ConversaFragment().binding.mensagemEditText.text.toString() //aqui ta diferente
-            myUid = ContatosViewModel.meuUid.toString()
-            idConversaGerada = conversaId
-        }
-        referenciaMensagem.push().setValue(mensagem)
-    }
+//    fun adicionaMensagemAoFirebase(){ fixme esse buga por causa linha 74
+//        retornaHorario()
+//        val conversaId = conversaKeyNumber(meuNum.value, args.number)
+//        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
+//        val mensagem = ConversaEntidade(conversaId).apply {
+//            uid = ConversaFragment.companionArguments.contato.uid
+//            horario = setHorarioMensagem
+//            mensagem = ConversaFragment().binding.mensagemEditText.text.toString() //aqui ta diferente
+//            myUid = ContatosViewModel.meuUid.toString()
+//            idConversaGerada = conversaId
+//        }
+//        referenciaMensagem.push().setValue(mensagem)
+//    }
 
 }

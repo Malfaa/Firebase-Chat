@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/fundo_color"
+        android:background="@color/primary_color_light"
         tools:context=".fragment.ChatFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -35,6 +35,7 @@
             android:layout_marginEnd="@dimen/edittext_margem_dimen"
             android:layout_marginBottom="@dimen/edittext_margem_dimen"
             android:textColor="@color/white"
+            android:backgroundTint="@color/secondary_color_dark"
             android:text="@string/enviar"
             app:cornerRadius="@dimen/raio_cantos_btn"
             app:layout_constraintBottom_toBottomOf="parent"
