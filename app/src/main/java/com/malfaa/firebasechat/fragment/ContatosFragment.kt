@@ -149,12 +149,6 @@ class ContatosFragment : Fragment() {
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )
-                // FIXME: 17/12/2021 aqui defeito
-//                if(viewModel.contatoRoom.value!!.contains(argumento)){
-//                    assert(true)
-//                }else{
-//                    AdicionaContatoViewModel(retornaDao()).adicionaContato(argumento)
-//                }
                 Log.d("Condicao", "foi até destino, $argumento")
             }else{
                 Log.d("Condicao", "Retido")

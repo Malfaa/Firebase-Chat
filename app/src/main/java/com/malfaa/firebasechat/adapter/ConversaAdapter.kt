@@ -30,13 +30,13 @@ class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder
             if (item.myUid == meuUid.toString()){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
-                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#49cbbe"))// FIXME: 20/12/2021 aqui
+                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#49cbbe"))
                 binding.cardViewDoConteudoMensagem.layoutParams = params
 
             }else{
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
-                //binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#8a9bd7"))// FIXME: 20/12/2021 aqui
+                binding.cardViewDoConteudoMensagem.setCardBackgroundColor(Color.parseColor("#666660"))//#8a9bd7
             }
         }
         companion object{

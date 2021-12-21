@@ -12,58 +12,66 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_color_light"
+        android:background="@color/primary_color_dark"
         tools:context=".fragment.ChatFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/conversaRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/distancia_recyclerview_mensagem"
             tools:listitem="@layout/mensagem"
             app:reverseLayout="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/enviarBtn"
+            app:layout_constraintBottom_toTopOf="@+id/blocoMensagem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/enviarBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/edittext_margem_dimen"
-            android:layout_marginBottom="@dimen/edittext_margem_dimen"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/secondary_color_dark"
-            android:text="@string/enviar"
-            app:cornerRadius="@dimen/raio_cantos_btn"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/blocoMensagem"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@color/primary_color_light"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/mensagemBox"
-            android:layout_width="0dp"
-            app:cardCornerRadius="10dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
-            android:layout_marginEnd="@dimen/edittext_margem_dimen"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/enviarBtn"
-            app:layout_constraintEnd_toStartOf="@+id/enviarBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/enviarBtn">
-
-            <EditText
-                android:id="@+id/mensagemEditText"
-                android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/mensagemBox"
+                android:layout_width="0dp"
+                app:cardCornerRadius="10dp"
                 android:layout_height="wrap_content"
-                android:maxWidth="260dp"
-                android:ems="10"
-                android:hint="@string/mensagem_hint"
-                android:importantForAutofill="no"
-                android:inputType="text" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
+                android:layout_marginEnd="@dimen/edittext_margem_dimen"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/enviarBtn"
+                app:layout_constraintEnd_toStartOf="@+id/enviarBtn"
+                app:layout_constraintStart_toStartOf="@id/blocoMensagem"
+                app:layout_constraintTop_toTopOf="@+id/enviarBtn">
+
+                <EditText
+                    android:id="@+id/mensagemEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="260dp"
+                    android:ems="10"
+                    android:hint="@string/mensagem_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enviarBtn"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/edittext_margem_dimen"
+                android:layout_marginBottom="@dimen/edittext_margem_dimen"
+                app:cornerRadius="@dimen/raio_cantos_btn"
+                app:icon="@drawable/ic_enviar"
+                app:iconGravity="end"
+                app:iconTint="@color/cinza"
+                app:layout_constraintBottom_toBottomOf="@id/blocoMensagem"
+                app:layout_constraintEnd_toEndOf="@id/blocoMensagem" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

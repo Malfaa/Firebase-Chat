@@ -42,12 +42,11 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
         lateinit var uidItem : ContatosEntidade
         val deletarUsuario = MutableLiveData<Boolean>()
         private val _status = MutableLiveData<Boolean>()
+
     }
 
     val contatos = MutableLiveData<List<ContatosEntidade>>()
     private lateinit var contatosValueEventListener: ValueEventListener
-
-    val contatoRoom = meuDao.retornarContatos()
 
     val status: LiveData<Boolean>
         get() = _status
@@ -58,11 +57,12 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
     fun removeContato(contato: ContatosEntidade){
         uiScope.launch {
             meuDao.removerContato(contato)
-            //meuDao.removeContato(contato.uid)
             onCleared()
         }
     }
 
+    // TODO: 21/12/2021 arrumar adapter e contatosroom
+    // FIXME: 21/12/2021 Bugs Reconhecidos: Adapter não altera posição quando tem novo input. Quando removido contato, nã́o é atualizado em tempo real
     fun taskContatos(num: String) {
         contatosValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

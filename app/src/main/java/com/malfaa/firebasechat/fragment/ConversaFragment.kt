@@ -16,24 +16,21 @@ import com.malfaa.firebasechat.adapter.ConversaAdapter
 import com.malfaa.firebasechat.dataFormato
 import com.malfaa.firebasechat.databinding.ConversaFragmentBinding
 import com.malfaa.firebasechat.room.MeuDatabase
-import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.safeNavigate
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.usuarioDestino
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel
 import com.malfaa.firebasechat.viewmodel.ConversaViewModel.Companion.setHorarioMensagem
-import com.malfaa.firebasechat.viewmodel.LoadingViewModel
 import com.malfaa.firebasechat.viewmodelfactory.ConversaViewModelFactory
 
 class ConversaFragment : Fragment() {
 
     private lateinit var viewModel: ConversaViewModel
-    lateinit var binding: ConversaFragmentBinding
     private lateinit var viewModelFactory: ConversaViewModelFactory
     private val args : ConversaFragmentArgs by navArgs()
 
     companion object{
         lateinit var companionArguments : ConversaFragmentArgs
+        lateinit var binding: ConversaFragmentBinding
 
     }
 
@@ -79,7 +76,7 @@ class ConversaFragment : Fragment() {
         binding.enviarBtn.setOnClickListener{
             try {
                 if(binding.mensagemEditText.text.isNotEmpty()){
-                    adicionaMensagemAoFirebase()
+                    viewModel.adicionaMensagemAoFirebase()
                     Log.d("Firebase", "Enviado")
                 }
             }
@@ -89,23 +86,8 @@ class ConversaFragment : Fragment() {
             binding.mensagemEditText.setText("")
         }
     }
-
     private fun retornaOrdem(){
         this.findNavController().safeNavigate(ConversaFragmentDirections.actionConversaFragmentToContatosFragment())
         usuarioDestino.value = false
-    }
-
-    fun adicionaMensagemAoFirebase(){
-        viewModel.retornaHorario()
-        val conversaId = viewModel.conversaKeyNumber(LoadingViewModel.meuNum.value, args.contato.number)
-        val referenciaMensagem = ContatosViewModel.database.getReference(ConversaViewModel.CONVERSA_REFERENCIA).child(conversaId)
-        val mensagem = ConversaEntidade(conversaId).apply {
-            uid = ConversaFragment.companionArguments.contato.uid
-            horario = setHorarioMensagem
-            mensagem = binding.mensagemEditText.text.toString()
-            myUid = ContatosViewModel.meuUid.toString()
-            idConversaGerada = conversaId
-        }
-        referenciaMensagem.push().setValue(mensagem)
     }
 }

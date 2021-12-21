@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <color name="fundo_color">#37474f</color>-->
-<!--    <color name="logo_fundo_color">#506B77</color>-->
-<!--    <color name="logo_fundo_color_d">#425057</color>-->
-<!--    <color name="logo_fundo_color_t">#2A3439</color>-->
-
-<!--    <color name="main_color">#819ca9</color>-->
-<!--    <color name="secondary_color">#546e7a</color>-->
-
-
-
-
 <!--    <color name="fundo_color">#9c7ed7</color>-->
 <!--    <color name="logo_fundo_color">#7B63AA</color>-->
 <!--    <color name="logo_fundo_color_d">#625183</color>-->
@@ -36,5 +25,5 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="cinza">#9A9999</color>
+    <color name="cinza">#E2E1E1</color>
 </resources>

@@ -27,22 +27,3 @@ fun TextView.setNome(item: ContatosEntidade){
 fun NavController.safeNavigate(direction: NavDirections) {
     currentDestination?.getAction(direction.actionId)?.run { navigate(direction) }
 }
-
-//fun checaInternet():Boolean{
-//    val gerenciadorConectividade = ContatosFragment().context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//        val network = gerenciadorConectividade.activeNetwork ?: return false
-//        val conexaoAtiva = gerenciadorConectividade.getNetworkCapabilities(network) ?: return false
-//
-//        return when {
-//            conexaoAtiva.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-//            conexaoAtiva.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-//            else -> false
-//        }
-//    } else {
-//        @Suppress("DEPRECATION")
-//        val networkInfo = gerenciadorConectividade.activeNetworkInfo ?: return false
-//        @Suppress("DEPRECATION")
-//        return networkInfo.isConnected
-//    }
-//}

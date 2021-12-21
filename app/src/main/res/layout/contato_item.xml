@@ -14,7 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contatoItem"
-        android:background="@color/secondary_color_dark"
+        android:background="@color/primary_color_light"
         android:layout_marginTop="@dimen/mensagem_margem_start_dimensao"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -29,7 +29,7 @@
             android:layout_marginBottom="@dimen/contato_item_dimen"
             android:layout_marginStart="@dimen/float_dimen"
             android:hint="@string/nomeConversa"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"

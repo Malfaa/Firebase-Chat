@@ -8,6 +8,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.malfaa.firebasechat.fragment.ConversaFragment
+import com.malfaa.firebasechat.fragment.ConversaFragment.Companion.binding
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import com.malfaa.firebasechat.viewmodel.LoadingViewModel.Companion.meuNum
@@ -63,18 +64,18 @@ class ConversaViewModel : ViewModel() {
         database.getReference(CONVERSA_REFERENCIA).child(conversaId).addValueEventListener(conversaValueEventListener)
     }
 
-//    fun adicionaMensagemAoFirebase(){ fixme esse buga por causa linha 74
-//        retornaHorario()
-//        val conversaId = conversaKeyNumber(meuNum.value, args.number)
-//        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
-//        val mensagem = ConversaEntidade(conversaId).apply {
-//            uid = ConversaFragment.companionArguments.contato.uid
-//            horario = setHorarioMensagem
-//            mensagem = ConversaFragment().binding.mensagemEditText.text.toString() //aqui ta diferente
-//            myUid = ContatosViewModel.meuUid.toString()
-//            idConversaGerada = conversaId
-//        }
-//        referenciaMensagem.push().setValue(mensagem)
-//    }
+    fun adicionaMensagemAoFirebase(){
+        retornaHorario()
+        val conversaId = conversaKeyNumber(meuNum.value, args.number)
+        val referenciaMensagem = database.getReference(CONVERSA_REFERENCIA).child(conversaId)
+        val mensagem = ConversaEntidade(conversaId).apply {
+            uid = ConversaFragment.companionArguments.contato.uid
+            horario = setHorarioMensagem
+            mensagem = binding.mensagemEditText.text.toString()
+            myUid = ContatosViewModel.meuUid.toString()
+            idConversaGerada = conversaId
+        }
+        referenciaMensagem.push().setValue(mensagem)
+    }
 
 }

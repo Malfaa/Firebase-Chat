@@ -66,7 +66,6 @@ class SignUpFragment : Fragment() {
         signInLauncher.launch(signInIntent)
     }
 
-    // FIXME: 13/12/2021 Como colocar foto dos users
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         result.idpResponse
         if (result.resultCode == RESULT_OK) {
