@@ -32,7 +32,7 @@ import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.UID_REFEREN
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.auth
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.deletarUsuario
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.meuUid
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.uid
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaContato
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaUser
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.uidItem
@@ -92,7 +92,7 @@ class ContatosFragment : Fragment() {
                 valor ->
             if (valor != null){
                 binding.numero.text = valor.toString()
-                meuContato = ContatosEntidade(meuUid.toString(), auth.currentUser?.displayName.toString(),auth.currentUser?.email.toString(), valor)
+                meuContato = ContatosEntidade(uid.toString(), auth.currentUser?.displayName.toString(),auth.currentUser?.email.toString(), valor)
                 numeroRef = valor.toString()
 
             }else{
@@ -128,6 +128,7 @@ class ContatosFragment : Fragment() {
                 condicao ->
             if (condicao){
                 alertDialogDeletarContato()
+                mAdapter.currentList
             }else{
                 Log.d("Del", "Sem usuario p/ deletar")
             }
@@ -166,11 +167,16 @@ class ContatosFragment : Fragment() {
         construtor.setTitle(R.string.tituloDeletarContato)
         construtor.setMessage(R.string.mensagemDeletarContato)
         construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
-            viewModel.removeContato(idParaDeletar)
-            referenciaContato.child(meuNum.value.toString()).child(idParaDeletar.number.toString()).removeValue()
-            Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
-            voltaDeletarValParaNormal()
-            dialogInterface.cancel()
+            try{
+                viewModel.removeContato(idParaDeletar)
+                referenciaContato.child(meuNum.value.toString()).child(idParaDeletar.number.toString()).removeValue()
+                Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
+                voltaDeletarValParaNormal()
+                dialogInterface.cancel()
+            }catch (e: Exception){
+                Log.d("Error Del", e.toString())
+            }
+
         }
         construtor.setNegativeButton("Cancelar"){
                 dialogInterface:DialogInterface, _: Int ->

@@ -72,8 +72,7 @@ class ConversaViewModel : ViewModel() {
             uid = ConversaFragment.companionArguments.contato.uid
             horario = setHorarioMensagem
             mensagem = binding.mensagemEditText.text.toString()
-            myUid = ContatosViewModel.meuUid.toString()
-            idConversaGerada = conversaId
+            meuUid = uid
         }
         referenciaMensagem.push().setValue(mensagem)
     }

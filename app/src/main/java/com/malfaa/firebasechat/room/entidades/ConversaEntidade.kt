@@ -10,15 +10,12 @@ data class ConversaEntidade(
     @ColumnInfo(name = "id_mensagem")
     val idMensagem: String
 ) {
-
     var uid: String = ""
     var mensagem: String = ""
     var horario: String = ""
 
-    @ColumnInfo(name = "my_uid")
-    var myUid: String = ""
-    @ColumnInfo(name = "conversa_id")
-    var idConversaGerada: String = ""
+    @ColumnInfo(name = "meu_uid")
+    var meuUid: String = ""
 
     constructor(): this("")
 }
