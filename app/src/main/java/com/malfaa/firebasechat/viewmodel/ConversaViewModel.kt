@@ -11,6 +11,7 @@ import com.malfaa.firebasechat.fragment.ConversaFragment
 import com.malfaa.firebasechat.fragment.ConversaFragment.Companion.binding
 import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.myUid
 import com.malfaa.firebasechat.viewmodel.LoadingViewModel.Companion.meuNum
 import java.util.*
 
@@ -72,7 +73,7 @@ class ConversaViewModel : ViewModel() {
             uid = ConversaFragment.companionArguments.contato.uid
             horario = setHorarioMensagem
             mensagem = binding.mensagemEditText.text.toString()
-            meuUid = uid
+            meuUid = myUid!!
         }
         referenciaMensagem.push().setValue(mensagem)
     }

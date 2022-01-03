@@ -21,7 +21,7 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
 
     companion object{
         val auth = FirebaseAuth.getInstance()
-        val uid = FirebaseAuth.getInstance().uid
+        val myUid = FirebaseAuth.getInstance().uid
         val database = Firebase.database
         const val USERS_REFERENCIA = "Users"
         const val UID_REFERENCIA = "uid"

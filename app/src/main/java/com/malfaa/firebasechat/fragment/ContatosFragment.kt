@@ -32,7 +32,7 @@ import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.UID_REFEREN
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.auth
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.deletarUsuario
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.uid
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.myUid
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaContato
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaUser
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.uidItem
@@ -92,7 +92,7 @@ class ContatosFragment : Fragment() {
                 valor ->
             if (valor != null){
                 binding.numero.text = valor.toString()
-                meuContato = ContatosEntidade(uid.toString(), auth.currentUser?.displayName.toString(),auth.currentUser?.email.toString(), valor)
+                meuContato = ContatosEntidade(myUid.toString(), auth.currentUser?.displayName.toString(),auth.currentUser?.email.toString(), valor)
                 numeroRef = valor.toString()
 
             }else{
