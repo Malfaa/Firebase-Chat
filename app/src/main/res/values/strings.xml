@@ -24,6 +24,8 @@
     <string name="imageContent">Conteúdo Imagem</string>
     <string name="avatar">Avatar do Usuário</string>
 
+    <string name="signOut">Sign Out</string>
+
     <string name="fc">FC</string>
     <string name="barra">Barra Layout</string>
 </resources>

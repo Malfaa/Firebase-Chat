@@ -61,8 +61,6 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
         }
     }
 
-    // TODO: 21/12/2021 arrumar adapter e contatosroom
-    // FIXME: 21/12/2021 Bugs Reconhecidos: Adapter não altera posição quando tem novo input. Quando removido contato, nã́o é atualizado em tempo real
     fun taskContatos(num: String) {
         contatosValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

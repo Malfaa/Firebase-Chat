@@ -1,7 +1,6 @@
 package com.malfaa.firebasechat.adapter
 
 import android.annotation.SuppressLint
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -14,24 +13,16 @@ import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.myUid
 
 class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
     class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
-
         fun bind(item: ConversaEntidade){
-//            val params = LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.WRAP_CONTENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT
-//            )
-//            params.setMargins(0,0,10,20)
-
             if (item.meuUid == myUid){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
                 binding.cardViewDoConteudoMensagem.setBackgroundResource(R.drawable.corner_raio_sender)
-                binding.cardViewDoConteudoMensagem.setHorizontalGravity(Gravity.END)
-
+                // TODO: 03/01/2022 lado buga
             }else{
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
-                binding.cardViewDoConteudoMensagem.setBackgroundResource(R.drawable.corner_raio_receiver)//#8a9bd7
+                binding.cardViewDoConteudoMensagem.setBackgroundResource(R.drawable.corner_raio_receiver)
             }
         }
         companion object{

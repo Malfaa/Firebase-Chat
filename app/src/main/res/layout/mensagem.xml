@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -19,23 +18,28 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/cardViewDoConteudoMensagem"
             android:background="@drawable/corner_raio_receiver"
+            android:layout_gravity="start"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/mensagem_margem_start_dimensao"
+            android:layout_marginRight="@dimen/raw_mensagem_margem_dimen"
+            android:layout_marginLeft="@dimen/raw_mensagem_margem_dimen"
+            android:layout_marginTop="@dimen/mensagem_margem_start_dimensao"
             android:layout_marginBottom="@dimen/distancia_elementos_globais">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/caixaDaMensagem"
                 android:layout_marginStart="@dimen/edittext_margem_dimen"
                 android:layout_marginEnd="@dimen/edittext_margem_dimen"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/conteudoDaMensagem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/edittext_margem_dimen"
                     android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/distancia_hora_chat"
                     android:hint="@string/mensagem_hint"
                     android:maxWidth="280dp"
                     app:layout_constraintEnd_toEndOf="parent"
