@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_contatosFragment_to_adicionaContatoFragment"
             app:destination="@id/adicionaContatoFragment" />
+        <action
+            android:id="@+id/action_contatosFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
 
     </fragment>
 
@@ -32,18 +35,18 @@
             app:enterAnim="@anim/side_slide_esquerda"
             app:exitAnim="@anim/side_slide_out_direita" />
         <argument
-            android:name="contato_id"
-            app:argType="integer" />
+            android:name="contato"
+            app:argType="com.malfaa.firebasechat.room.entidades.ContatosEntidade" />
     </fragment>
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.malfaa.firebasechat.fragment.SignInFragment"
+        android:name="com.malfaa.firebasechat.fragment.SignUpFragment"
         android:label="sign_up_fragment"
-        tools:layout="@layout/sign_in_fragment" >
+        tools:layout="@layout/sign_up_fragment" >
         <action
-            android:id="@+id/action_signUpFragment_to_contatosFragment"
-            app:destination="@id/contatosFragment" />
+            android:id="@+id/action_signUpFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/adicionaContatoFragment"
@@ -64,6 +67,15 @@
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_splashScreenFragment_to_contatosFragment"
+            app:destination="@id/contatosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loadingFragment"
+        tools:layout="@layout/fragment_loading"
+        android:name="com.malfaa.firebasechat.fragment.LoadingFragment"
+        android:label="LoadingFragment" >
+        <action
+            android:id="@+id/action_loadingFragment_to_contatosFragment"
             app:destination="@id/contatosFragment" />
     </fragment>
 

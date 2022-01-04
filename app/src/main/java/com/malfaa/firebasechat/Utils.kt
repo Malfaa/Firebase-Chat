@@ -7,17 +7,17 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.util.*
+
 
 @SuppressLint("SimpleDateFormat")
-fun converteLongParaString(horaSistema: Date): String {
-    return SimpleDateFormat("h:mm a")//"h:mm a '||' dd.MM.yyyy"
-        .format(horaSistema).toString()
+fun dataFormato(horaSistema: Long): String {
+    return try {
+        val formato = SimpleDateFormat("HH:mm'\n'dd.MM")
+        formato.format(horaSistema)
+    }catch (e: Exception) {
+        e.toString()
+    }
 }
-
-// se tal horario é igual a tal, mostrar dia junto com a hora, caso contrário só a hora
-//"EEEE DD-mmm-yyyy' Time: 'HH:mm"
 
 @BindingAdapter("setNome")
 fun TextView.setNome(item: ContatosEntidade){

@@ -1,16 +1,19 @@
 package com.malfaa.firebasechat.room.entidades
 
-import androidx.room.ColumnInfo
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "contatos")
 data class ContatosEntidade(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "contato_id")
-    val id: Int
+    @PrimaryKey()
+    val uid: String,
+    var nome: String,
+    var email: String,
+    var number: Long
+): Parcelable {
 
-){
-    var nome: String = ""
-    var email: String = ""
+    constructor():this("","","",0 )
 }

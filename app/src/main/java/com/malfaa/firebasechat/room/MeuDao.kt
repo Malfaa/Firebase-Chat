@@ -1,16 +1,18 @@
 package com.malfaa.firebasechat.room
 
-import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import com.malfaa.firebasechat.room.entidades.ConversaEntidade
+import com.malfaa.firebasechat.room.entidades.SignUpEntidade
 
 @Dao
 interface MeuDao {
     //Contatos
     @Query("SELECT * FROM contatos")
     fun retornarContatos(): LiveData<List<ContatosEntidade>>
+
+    @Query("SELECT * FROM contatos WHERE uid = :uid")
+    suspend fun retornaNumero(uid: String): ContatosEntidade
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun novoContato(nome: ContatosEntidade)
@@ -21,18 +23,17 @@ interface MeuDao {
     @Delete
     suspend fun removerContato(id: ContatosEntidade)
 
-    @Query("DELETE FROM conversa WHERE contatosConversaIds = :id")
-    suspend fun removeContato(id: Int)
-
-    @Query("SELECT * FROM conversa WHERE contatosConversaIds = :id ORDER BY mensagem_id DESC")
-    fun receberConversa(id: Int): LiveData<List<ConversaEntidade>>
+    //Pessoal
+    @Query("SELECT * FROM info_pessoal")
+    fun myNum(): SignUpEntidade
 
     @Insert
-    suspend fun inserirMensagem(id: ConversaEntidade)
+    suspend fun inserirInfos(infos: SignUpEntidade)
 
-    @Delete
-    suspend fun deleterMensagem(id: ConversaEntidade)
+    @Query("DELETE FROM info_pessoal")
+    suspend fun apagarInfos()
+
+    @Query("DELETE FROM contatos")
+    suspend fun apagarContatos()
 
 }
-
-// MUDAR OS SUSPEND LIST PARA LIVEDATA E REMOVER SUSPEND

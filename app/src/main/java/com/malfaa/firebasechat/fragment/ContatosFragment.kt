@@ -1,11 +1,13 @@
 package com.malfaa.firebasechat.fragment
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +15,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.malfaa.firebasechat.R
 import com.malfaa.firebasechat.adapter.ContatosAdapter
 import com.malfaa.firebasechat.databinding.AdicionaContatoFragmentBinding
@@ -20,68 +24,128 @@ import com.malfaa.firebasechat.databinding.ContatosFragmentBinding
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
-import com.malfaa.firebasechat.viewmodel.ContatosViewModel
-import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
-import android.content.Intent
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.malfaa.firebasechat.DialogFragment
+import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
-
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.EMAIL_REFERENCIA
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.NOME_REFERENCIA
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.UID_REFERENCIA
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.auth
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.database
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.deletarUsuario
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.myUid
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaContato
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.referenciaUser
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.uidItem
+import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.usuarioDestino
+import com.malfaa.firebasechat.viewmodel.LoadingViewModel
+import com.malfaa.firebasechat.viewmodel.LoadingViewModel.Companion.meuNum
+import com.malfaa.firebasechat.viewmodelfactory.ContatosViewModelFactory
 
 class ContatosFragment : Fragment() {
 
     private lateinit var viewModel: ContatosViewModel
     private lateinit var binding: ContatosFragmentBinding
     private lateinit var viewModelFactory: ContatosViewModelFactory
-    private lateinit var mAuth: FirebaseAuth
-    private val database = Firebase.database
+    private lateinit var loadingViewmodel: LoadingViewModel
+
+    companion object{
+        private lateinit var meuContato: ContatosEntidade
+        private lateinit var numeroRef: String
+        private const val online = "Online"
+        private const val offline = "Offline"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.contatos_fragment, container, false)
-
+        setHasOptionsMenu(true)
         return binding.root
     }
 
-    private fun SetupVariaveisIniciais() {
-        val application = requireNotNull(this.activity).application
-        val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
-        viewModelFactory = ContatosViewModelFactory(dataSource)
-        viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
-        binding.viewModel = viewModel
-    }
-
-    private fun retornaDao():MeuDao{
+    private fun retornaDao():MeuDao {
         val application = requireNotNull(this.activity).application
         return MeuDatabase.recebaDatabase(application).meuDao()
+    }
 
+    private fun ativarPesistencia(){
+        database.setPersistenceEnabled(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.signOut -> {
+                alertaSignOut()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetupVariaveisIniciais()
+
+        val application = requireNotNull(this.activity).application
+        val dataSource = MeuDatabase.recebaDatabase(application).meuDao()
+
+        viewModelFactory = ContatosViewModelFactory(dataSource)
+        viewModel = ViewModelProvider(this, viewModelFactory)[ContatosViewModel::class.java]
+        binding.viewModel = viewModel
+        loadingViewmodel = LoadingViewModel(dataSource)
+        loadingViewmodel.retornaMeuNumero()
 
         val mAdapter = ContatosAdapter()
         binding.RVContatos.adapter = mAdapter
 
-        viewModel.verificaRecyclerView.observe(viewLifecycleOwner, {
+        meuNum.observe(viewLifecycleOwner,{
+                valor ->
+            if (valor != null){
+                binding.numero.text = valor.toString()
+                meuContato = ContatosEntidade(myUid.toString(), auth.currentUser?.displayName.toString(),auth.currentUser?.email.toString(), valor)
+                numeroRef = valor.toString()
+
+            }else{
+                Log.d("Error", "Não foi possível resgatar número")
+            }
+        })
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            viewModel.taskContatos(numeroRef)
+        }, 300)
+
+        viewModel.contatos.observe(viewLifecycleOwner, {
             mAdapter.submitList(it.toMutableList())
+            binding.RVContatos.refreshDrawableState()
+        })
+
+        viewModel.conexao()
+        viewModel.status.observe(viewLifecycleOwner,{
+            estado ->
+            if (estado){
+                binding.status.text = online
+                binding.statusIcone.setImageResource(R.drawable.ic_status_online)
+            }else{
+                binding.status.text = offline
+                binding.statusIcone.setImageResource(R.drawable.ic_status_offline)
+            }
         })
 
         binding.adicaoNovoContato.setOnClickListener {
-            //findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToAdicionaContatoFragment())
             alertDialogAdicionarContato()
         }
 
-        ContatosAdapter.deletarUsuario.observe(viewLifecycleOwner, {
+        deletarUsuario.observe(viewLifecycleOwner, {
                 condicao ->
             if (condicao){
                 alertDialogDeletarContato()
+                mAdapter.currentList
             }else{
                 Log.d("Del", "Sem usuario p/ deletar")
             }
@@ -96,14 +160,14 @@ class ContatosFragment : Fragment() {
         }
         callback.isEnabled
 
-        ContatosAdapter.usuarioDestino.observe(viewLifecycleOwner, {
+        usuarioDestino.observe(viewLifecycleOwner, {
                 condicao ->
             if (condicao){
-                val argumento = ContatosAdapter.idItem.id
+                val argumento = uidItem
                 findNavController().navigate(
                     ContatosFragmentDirections.actionContatosFragmentToConversaFragment(argumento)
                 )
-                Log.d("Condicao", "foi até destino")
+                Log.d("Condicao", "foi até destino, $argumento")
             }else{
                 Log.d("Condicao", "Retido")
             }
@@ -111,22 +175,28 @@ class ContatosFragment : Fragment() {
     }
 
     private fun voltaDeletarValParaNormal(){
-        ContatosAdapter.deletarUsuario.value = false
+        deletarUsuario.value = false
     }
     private fun alertDialogDeletarContato(){
         val construtor = AlertDialog.Builder(requireActivity())
-        val idParaDeletar = ContatosAdapter.idItem
+        val idParaDeletar = uidItem
 
         construtor.setTitle(R.string.tituloDeletarContato)
         construtor.setMessage(R.string.mensagemDeletarContato)
         construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
-            viewModel.removeContato(idParaDeletar)
-            Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
-            voltaDeletarValParaNormal()
-            dialogInterface.cancel()
+            try{
+                viewModel.removeContato(idParaDeletar)
+                referenciaContato.child(meuNum.value.toString()).child(idParaDeletar.number.toString()).removeValue()
+                Toast.makeText(context, "Contato Deletado.", Toast.LENGTH_SHORT).show()
+                voltaDeletarValParaNormal()
+                dialogInterface.cancel()
+            }catch (e: Exception){
+                Log.d("Error Del", e.toString())
+            }
+
         }
         construtor.setNegativeButton("Cancelar"){
-            dialogInterface:DialogInterface, _: Int ->
+                dialogInterface:DialogInterface, _: Int ->
             voltaDeletarValParaNormal()
             dialogInterface.cancel()
         }
@@ -135,48 +205,64 @@ class ContatosFragment : Fragment() {
         alerta.show()
     }
     private fun alertDialogAdicionarContato(){
-        Log.d("Status", "Função sendo chamada")
-        //Firebase
-        val referencia = database.getReference("Contatos")
-        //-------
         val construtor = AlertDialog.Builder(requireActivity())
-        var any: Int = 0
+
         val adicionarContBinding = DataBindingUtil.inflate<AdicionaContatoFragmentBinding>(layoutInflater,R.layout.adiciona_contato_fragment,null,false)
         construtor.setTitle(R.string.tituloAdicionarContato)
         construtor.setView(adicionarContBinding.root)
-// TODO: 19/11/2021 Quando for adicionar o contato, adicionar via email ou UID, de alguma forma tem que retornar o UID do contato que deseja conversar
-        // TODO: 19/11/2021 Usar o UID p/ navegar entre os fragmentos, como se fosse o padrão id usado até o momento
-        // TODO: 19/11/2021 Talvez o adicionar na verdade só usa o UID para poder comunicar com ele, o receiver só atualiza e tem a conversa feita
         construtor.setPositiveButton("Adicionar"){
                 dialogo, _ ->
-            if(adicionarContBinding.contatoEmail.text.isNotEmpty()){
-                AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(any).apply {
-                    nome = adicionarContBinding.contatoNome.text.toString()
-                    email = adicionarContBinding.contatoEmail.text.toString()
-                })
-                //Firebase
-                val contatoVar = ContatosEntidade(any).apply { nome = adicionarContBinding.contatoNome.text.toString()
-                    email = adicionarContBinding.contatoEmail.text.toString() }
+            val num: EditText = adicionarContBinding.contatoNumero
+            val reference = referenciaUser.result.child(num.text.toString())
+            try{
+                if(reference.key.toString() == num.text.toString() ){
+                    val ref = reference.getValue(ContatosEntidade::class.java)
 
-                referencia.setValue(contatoVar)
+                    val contato = ContatosEntidade(ref?.uid.toString(), ref?.nome!!, ref.email,  ref.number)
+                    referenciaContato.child(meuNum.value.toString()).child(num.text.toString()).setValue(contato)
+                    referenciaContato.child(num.text.toString()).child(meuNum.value.toString()).setValue(meuContato)
 
-                Log.d("teste", referencia.toString())
-                // TODO: 17/11/2021 Pesquisa um contato e o adiciona. Envia para o firebase que retornará o valor do email e usará assim p/ conversar
+                    AdicionaContatoViewModel(retornaDao()).adicionaContato(ContatosEntidade(
+                        referenciaUser.result.child(num.text.toString()).child(UID_REFERENCIA).value.toString(),
+                        referenciaUser.result.child(num.text.toString()).child(NOME_REFERENCIA).value.toString(),
+                        referenciaUser.result.child(num.text.toString()).child(EMAIL_REFERENCIA).value.toString()
+                        ,num.text.toString().toLong()
+                    ))
+                    dialogo.cancel()
+                    Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
 
-                dialogo.cancel()
-                Toast.makeText(context, "Contato Adicionado!", Toast.LENGTH_SHORT).show()
-
-            }else{
-                Toast.makeText(context, "Contato Inválido. Tente novamente.", Toast.LENGTH_SHORT).show()
-                adicionarContBinding.contatoEmail.text.clear()
+                }else{
+                    Toast.makeText(context, "Contato Inválido. Tente novamente.", Toast.LENGTH_SHORT).show()
+                    adicionarContBinding.contatoNumero.text.clear()
+                }
+            }catch (e: Exception){
+                Log.d("Error", e.toString())
             }
+        }
+        val alerta = construtor.create()
+        alerta.show()
+    }
+    private fun alertaSignOut(){
+        val construtor = AlertDialog.Builder(requireActivity())
+
+        construtor.setTitle(R.string.signOut)
+        construtor.setMessage(R.string.signOutText)
+        construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
+            try{
+                Firebase.auth.signOut()
+                viewModel.apagarInfos()
+                findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToSignUpFragment())
+                dialogInterface.cancel()
+            }catch (e: Exception){
+                Log.d("Error:", e.toString())
+            }
+        }
+        construtor.setNegativeButton("Cancelar"){
+                dialogInterface:DialogInterface, _: Int ->
+            dialogInterface.cancel()
         }
 
         val alerta = construtor.create()
         alerta.show()
-
     }
-
-    // TODO: 03/11/2021 escolher entre usar o novo modo de adicionar contato ou o antigo que é por navegação
-    // FIXME: 04/11/2021 corrigir bug de apagar vários contatos em seguida
 }

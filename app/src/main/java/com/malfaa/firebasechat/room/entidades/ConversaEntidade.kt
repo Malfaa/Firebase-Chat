@@ -1,19 +1,22 @@
 package com.malfaa.firebasechat.room.entidades
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "conversa")
 data class ConversaEntidade(
-
-    val contatosConversaIds : Int
+    @PrimaryKey
+    @ColumnInfo(name = "id_mensagem")
+    val idMensagem: String
 ) {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "mensagem_id")
-    var id: Long = 0
-
+    var uid: String = ""
     var mensagem: String = ""
-
     var horario: String = ""
 
-    var souEu: Boolean = false  //retrieve self UID from firebase
+    @ColumnInfo(name = "meu_uid")
+    var meuUid: String = ""
+
+    constructor(): this("")
 }
+

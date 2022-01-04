@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="fundo_color">#37474f</color>
-    <color name="main_color">#819ca9</color>
-    <color name="asd">#62727b</color>
-    <color name="secondary_color">#546e7a</color>
+<!--    <color name="fundo_color">#9c7ed7</color>-->
+<!--    <color name="logo_fundo_color">#7B63AA</color>-->
+<!--    <color name="logo_fundo_color_d">#625183</color>-->
+<!--    <color name="logo_fundo_color_t">#443367</color>-->
+
+<!--    <color name="main_color">#6b51a5</color>-->
+<!--    <color name="secondary_color">#5a6da5</color>-->
+
+<!--    <color name="secondary_color_dark">#2a4276</color>-->
+<!--    <color name="secondary_color_light">#8a9bd7</color>-->
+<!--    -->
+<!--    <color name="fundo_edittext">#3c2776</color>-->
+
+    <color name="primary_color">#666660</color>
+    <color name="primary_color_light">#94948d</color>
+    <color name="primary_color_dark">#3c3c36</color>
+
+    <color name="secondary_color">#82fff0</color>
+    <color name="secondary_color_light">#b8ffff</color>
+    <color name="secondary_color_dark">#49cbbe</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="area_edittext">#102027</color>
-    <color name="cinza">#9A9999</color>
-</resources>
 
-<!-- fundo color ->#3E234F
-     sender purple->#9499B7
-     asd -> #9575cd
-     main purple -> #C5CAE9
--->
+
+    <color name="cinza">#E2E1E1</color>
+</resources>

@@ -11,6 +11,7 @@
     <dimen name="distancia_hora_chat">2dp</dimen>
     <dimen name="raio_cantos_btn">12dp</dimen>
     <dimen name="raio_cantos_mensagem">18dp</dimen>
+    <dimen name="main_de_elementos_layout">30dp</dimen>
 
     <!-- Font -->
     <dimen name="bemvindoFont">44sp</dimen>
