@@ -24,6 +24,7 @@ import com.malfaa.firebasechat.databinding.ContatosFragmentBinding
 import com.malfaa.firebasechat.room.MeuDao
 import com.malfaa.firebasechat.room.MeuDatabase
 import com.malfaa.firebasechat.room.entidades.ContatosEntidade
+import com.malfaa.firebasechat.safeNavigate
 import com.malfaa.firebasechat.viewmodel.AdicionaContatoViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.EMAIL_REFERENCIA
@@ -60,7 +61,7 @@ class ContatosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.contatos_fragment, container, false)
-
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -74,12 +75,16 @@ class ContatosFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Firebase.auth.signOut()
+        when(item.itemId){
+            R.id.signOut -> {
+                alertaSignOut()
+            }
+        }
 
         return super.onOptionsItemSelected(item)
     }
@@ -117,6 +122,7 @@ class ContatosFragment : Fragment() {
 
         viewModel.contatos.observe(viewLifecycleOwner, {
             mAdapter.submitList(it.toMutableList())
+            binding.RVContatos.refreshDrawableState()
         })
 
         viewModel.conexao()
@@ -233,6 +239,29 @@ class ContatosFragment : Fragment() {
                 Log.d("Error", e.toString())
             }
         }
+        val alerta = construtor.create()
+        alerta.show()
+    }
+    private fun alertaSignOut(){
+        val construtor = AlertDialog.Builder(requireActivity())
+
+        construtor.setTitle(R.string.signOut)
+        construtor.setMessage(R.string.signOutText)
+        construtor.setPositiveButton("Confirmar") { dialogInterface: DialogInterface, _: Int ->
+            try{
+                Firebase.auth.signOut()
+                viewModel.apagarInfos()
+                findNavController().safeNavigate(ContatosFragmentDirections.actionContatosFragmentToSignUpFragment())
+                dialogInterface.cancel()
+            }catch (e: Exception){
+                Log.d("Error:", e.toString())
+            }
+        }
+        construtor.setNegativeButton("Cancelar"){
+                dialogInterface:DialogInterface, _: Int ->
+            dialogInterface.cancel()
+        }
+
         val alerta = construtor.create()
         alerta.show()
     }

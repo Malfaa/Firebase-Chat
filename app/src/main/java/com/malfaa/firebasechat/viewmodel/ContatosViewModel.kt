@@ -61,6 +61,13 @@ class ContatosViewModel(private val meuDao: MeuDao) : ViewModel() {
         }
     }
 
+    fun apagarInfos(){
+        uiScope.launch {
+            meuDao.apagarInfos()
+            meuDao.apagarContatos()
+        }
+    }
+
     fun taskContatos(num: String) {
         contatosValueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

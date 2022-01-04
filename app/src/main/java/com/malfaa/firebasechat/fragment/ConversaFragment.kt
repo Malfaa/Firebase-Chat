@@ -61,7 +61,8 @@ class ConversaFragment : Fragment() {
         viewModel.taskConversa()
 
         viewModel.conversa.observe(viewLifecycleOwner,{
-            mAdapter.submitList(it.toMutableList())
+            mAdapter.submitList(it.asReversed().toMutableList())
+            binding.conversaRecyclerView.smoothScrollToPosition(0)
         })
 
         viewModel.horario.observe(viewLifecycleOwner,{

@@ -30,4 +30,10 @@ interface MeuDao {
     @Insert
     suspend fun inserirInfos(infos: SignUpEntidade)
 
+    @Query("DELETE FROM info_pessoal")
+    suspend fun apagarInfos()
+
+    @Query("DELETE FROM contatos")
+    suspend fun apagarContatos()
+
 }

@@ -19,6 +19,7 @@
             android:id="@+id/conversaRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:reverseLayout="true"
             tools:listitem="@layout/mensagem"
 
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

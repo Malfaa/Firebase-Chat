@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_contatosFragment_to_adicionaContatoFragment"
             app:destination="@id/adicionaContatoFragment" />
+        <action
+            android:id="@+id/action_contatosFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
 
     </fragment>
 

@@ -12,13 +12,12 @@ import com.malfaa.firebasechat.room.entidades.ConversaEntidade
 import com.malfaa.firebasechat.viewmodel.ContatosViewModel.Companion.myUid
 
 class ConversaAdapter : ListAdapter<ConversaEntidade, ConversaAdapter.ViewHolder>(ConversaDiffCallBack()) {
-    class ViewHolder private constructor(val binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
+    class ViewHolder private constructor(var binding : MensagemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: ConversaEntidade){
             if (item.meuUid == myUid){
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
                 binding.cardViewDoConteudoMensagem.setBackgroundResource(R.drawable.corner_raio_sender)
-                // TODO: 03/01/2022 lado buga
             }else{
                 binding.conteudoDaMensagem.text = item.mensagem
                 binding.horaDisplay.text = item.horario
