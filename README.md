@@ -2,6 +2,8 @@
 
 Firebase Chat é um aplicativo de comunicação por texto online, que utiliza o Firebase do Google como Back-End.
 
+-------
+
 *SplashScreen* :
 
 ![](gitImages/splashscreen.png)
@@ -59,15 +61,15 @@ Firebase Chat é um aplicativo de comunicação por texto online, que utiliza o 
 <h3>Ferramentas:</h3>
 
 - **Arquitetura MVVM**;
-- 
+
 - **Room**;
-- 
+
 - **RecyclerView / DiffUtil**;
-- 
+
 - **Navigation Fragment**;
-- 
+
 - **Coroutine**;
-- 
+
 - **Data Binding**;
-- 
+
 - **Firebase**;
