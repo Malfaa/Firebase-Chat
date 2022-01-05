@@ -1,11 +1,13 @@
 package com.malfaa.firebasechat.fragment
 
 import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -54,6 +56,16 @@ class SignUpFragment : Fragment() {
         binding.signIn.setOnClickListener {
             createSignInIntent()
         }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            Log.d("status", "apertou back")
+            val a = Intent(Intent.ACTION_MAIN)
+            a.addCategory(Intent.CATEGORY_HOME)
+            a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(a)
+        }
+        callback.isEnabled
+
     }
     private fun createSignInIntent() {
         val providers = arrayListOf(
